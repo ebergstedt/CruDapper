@@ -78,6 +78,46 @@ namespace CruDapper.Test
         }
 
         [TestMethod]
+        public void GetByColumns()
+        {
+            DoBaseline();
+
+            var entries = new List<TestTable>();
+            for (var i = 0; i < 1000; i++)
+            {
+                entries.Add(new TestTable
+                {
+                    SomeData = i.ToString()
+                });
+            }
+
+            _crudService
+                .Put(entries);
+
+            var result = _crudService
+                .GetByColumns<TestTable>(new List<WhereArgument>(){
+                    new WhereArgument(){
+                        Key = "SomeData",
+                        Operator = Operator.Equals,
+                        Value = "500"
+                    }
+                });
+
+            Assert.IsTrue(result.Count() == 1);
+
+            var result2 = _crudService
+                .GetByColumns<TestTable>(new List<WhereArgument>(){
+                    new WhereArgument(){
+                        Key = "CreatedAt",
+                        Operator = Operator.LessThan,
+                        Value = DateTime.UtcNow
+                    }
+                });
+
+            Assert.IsTrue(result2.Count() == entries.Count());
+        }
+
+        [TestMethod]
         public void GetNondeleted()
         {
             var entry = BaseLineAndPutAndReturnEntry();
