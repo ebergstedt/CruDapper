@@ -106,6 +106,11 @@ void Delete<T>(object obj) where T : IDeletable;
 void DeletePermanently(object obj);
 ```
 
+# Testing setup
+Change your connectionstring in CruDapper.Test App.config and alter the BaseService accordingly.
+
+Apply the PostgresBaseLine.sql or SqlServerBaseLine.sql to your testing database to setup the needed tables.
+
 # License
 
 MIT
