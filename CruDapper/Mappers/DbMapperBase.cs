@@ -17,16 +17,13 @@ namespace CruDapper.Mappers
         }
 
         protected ConnectionBridge _connectionBridge;
-        protected string _activeConnectionString;
         protected string _activeConnectionName;
         public string ConnectionName
         {
             set
             {
                 _activeConnectionName = value;
-                _activeConnectionString = ConfigurationManager.ConnectionStrings[_activeConnectionName].ConnectionString;
-
-                _connectionBridge = new ConnectionBridge(provider, _activeConnectionString);
+                _connectionBridge = new ConnectionBridge(provider, ConfigurationManager.ConnectionStrings[_activeConnectionName].ConnectionString);
             }
 
             get { return _activeConnectionName; }
