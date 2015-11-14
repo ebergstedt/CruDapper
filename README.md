@@ -55,7 +55,7 @@ _crudService
 #### Get all rows in a table
 ```c#
 IEnumerable<TestTable> allRows = _crudService
-    .Get<TestTable>();
+    .GetAll<TestTable>();
 ```
 
 #### Update
@@ -93,11 +93,10 @@ Assert.IsTrue(identifiableTables.All(t => t.Id > 0)); //evalutes to true
 # Complete method list
 Will update this with more details. Until then, you may check the provided Test project in the repo.
 ```c#
-IEnumerable<T> Get<T>();
+IEnumerable<T> GetAll<T>();
 T GetByPrimaryKey<T>(object id);
 T Get<T>(int id) where T : IDapperable;
-IEnumerable<T> GetByColumn<T>(string column, int value);
-IEnumerable<T> GetByColumn<T>(string column, string value);
+IEnumerable<T> GetByColumn<T>(string column, object value);
 IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos);
 T GetNondeleted<T>(int id) where T : IDapperable, IDeletable;
 void Put(object obj);
