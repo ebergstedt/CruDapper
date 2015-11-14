@@ -73,6 +73,22 @@ _crudService
 CruDapper also provides some unusual methods too, which might prove useful.
 
 #### PutIdentifiable
+PutIdentifiable makes you able to insert any number of rows, and get their Ids assigned automatically on the return list. This is useful if it's difficult to sort your inserted rows in a table from other unwanted rows.
+```c#
+var entries = new List<TestIdentifiableTable>();
+for (var i = 0; i < 1000; i++)
+{
+entries.Add(new TestIdentifiableTable
+{
+    SomeData = i.ToString() + 1
+});
+}
+
+identifiableTables = _crudService
+.PutIdentifiable<TestIdentifiableTable>(entries);
+
+Assert.IsTrue(identifiableTables.All(t => t.Id > 0)); //evalutes to true
+```
 
 # Complete method list
 Will update this with more details. Until then, you may check the provided Test project in the repo.
