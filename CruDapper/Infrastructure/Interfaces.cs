@@ -23,11 +23,10 @@ namespace CruDapper
 
     public interface ICrudService
     {
-        IEnumerable<T> Get<T>();
+        IEnumerable<T> GetAll<T>();
         T GetByPrimaryKey<T>(object id);
         T Get<T>(int id) where T : IDapperable;
-        IEnumerable<T> GetByColumn<T>(string column, int value);
-        IEnumerable<T> GetByColumn<T>(string column, string value);
+        IEnumerable<T> GetByColumn<T>(string column, object value);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos);
         T GetNondeleted<T>(int id) where T : IDapperable, IDeletable;
         void Put(object obj);

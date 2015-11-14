@@ -39,7 +39,7 @@ namespace CruDapper.Services
         /// <summary>
         /// Gets all rows in a table
         /// </summary>
-        public IEnumerable<T> Get<T>()
+        public IEnumerable<T> GetAll<T>()
         {
             return dbHelper.GetAll<T>();
         }
@@ -57,12 +57,7 @@ namespace CruDapper.Services
             return dbHelper.Get<T>(id);
         }
 
-        public IEnumerable<T> GetByColumn<T>(string column, int value)
-        {
-            return dbHelper.GetByColumn<T>(column, value);
-        }
-
-        public IEnumerable<T> GetByColumn<T>(string column, string value)
+        public IEnumerable<T> GetByColumn<T>(string column, object value)
         {
             return dbHelper.GetByColumn<T>(column, value);
         }

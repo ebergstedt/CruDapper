@@ -46,7 +46,7 @@ namespace CruDapper.Test
                 .Put(entries);
 
             var testTables = _crudService
-                .Get<TestTable>();
+                .GetAll<TestTable>();
 
             Assert.IsTrue(testTables.Count() == entries.Count);
 
