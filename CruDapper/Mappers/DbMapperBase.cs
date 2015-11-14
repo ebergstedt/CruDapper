@@ -12,8 +12,8 @@ namespace CruDapper.Mappers
         Provider provider;
         public DbMapperBase(string ConnectionName, Provider provider)
         {
-            this.ConnectionName = ConnectionName;
             this.provider = provider;
+            this.ConnectionName = ConnectionName;            
         }
 
         protected ConnectionBridge _connectionBridge;
