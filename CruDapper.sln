@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruDapper", "CruDapper\CruDapper.csproj", "{E597DC33-1E00-43D0-A6E1-A3285392839E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruDapper.Test", "CruDapper.Test\CruDapper.Test.csproj", "{D66F5950-4AC6-449F-908B-1647A934D2ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruDapper.BackofficeTest", "CruDapper.BackofficeTest\CruDapper.BackofficeTest.csproj", "{F8E1B4C0-5FF7-4B22-AF4B-D981EBA2835F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E597DC33-1E00-43D0-A6E1-A3285392839E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E597DC33-1E00-43D0-A6E1-A3285392839E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E597DC33-1E00-43D0-A6E1-A3285392839E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E597DC33-1E00-43D0-A6E1-A3285392839E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D66F5950-4AC6-449F-908B-1647A934D2ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D66F5950-4AC6-449F-908B-1647A934D2ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D66F5950-4AC6-449F-908B-1647A934D2ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D66F5950-4AC6-449F-908B-1647A934D2ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8E1B4C0-5FF7-4B22-AF4B-D981EBA2835F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8E1B4C0-5FF7-4B22-AF4B-D981EBA2835F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8E1B4C0-5FF7-4B22-AF4B-D981EBA2835F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8E1B4C0-5FF7-4B22-AF4B-D981EBA2835F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

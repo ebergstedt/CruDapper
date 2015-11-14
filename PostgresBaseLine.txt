@@ -1,0 +1,27 @@
+CREATE SCHEMA CruDapperSchema;
+
+CREATE TABLE CruDapperSchema.testtable
+(
+  id serial NOT NULL,
+  somedata text,
+  isdeleted boolean NOT NULL,
+  createdat timestamp NOT NULL,
+  updatedat timestamp NOT NULL,
+  createdby integer NOT NULL,
+  updatedby integer NOT NULL,
+  CONSTRAINT testtable_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE CruDapperSchema.testidentifiabletable
+(
+  id serial NOT NULL,
+  somedata text,
+  rowguid uuid NOT NULL,
+  CONSTRAINT testidentifiabletable_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
