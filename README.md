@@ -55,7 +55,7 @@ _crudService
 #### Get all rows in a table
 ```c#
 IEnumerable<TestTable> allRows = _crudService
-                .Get<TestTable>();
+    .Get<TestTable>();
 ```
 
 #### Update
@@ -78,14 +78,14 @@ PutIdentifiable makes you able to insert any number of rows, and get their Ids a
 var entries = new List<TestIdentifiableTable>();
 for (var i = 0; i < 1000; i++)
 {
-entries.Add(new TestIdentifiableTable
-{
-    SomeData = i.ToString() + 1
-});
+    entries.Add(new TestIdentifiableTable
+    {
+        SomeData = i.ToString() + 1
+    });
 }
 
 identifiableTables = _crudService
-.PutIdentifiable<TestIdentifiableTable>(entries);
+    .PutIdentifiable<TestIdentifiableTable>(entries);
 
 Assert.IsTrue(identifiableTables.All(t => t.Id > 0)); //evalutes to true
 ```
