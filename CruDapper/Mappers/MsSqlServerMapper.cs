@@ -123,7 +123,7 @@ namespace CruDapper.Mappers
             query.Length -= 2;
             query.Append(");");
 
-            _connectionBridge.BulkExecute(query.ToString(), entities);
+            _connectionBridge.Execute(query.ToString(), entities);
 
             var resultList = new List<T>();
             foreach (var batch in guidList.Batch(2000)) //SQL server maximum parameter for IN
@@ -182,7 +182,7 @@ namespace CruDapper.Mappers
             }
             else
             {
-                _connectionBridge.BulkExecute(query.ToString(), entities);
+                _connectionBridge.Execute(query.ToString(), entities);
             }
         }
 
@@ -218,7 +218,7 @@ namespace CruDapper.Mappers
             query.Length -= 5;
             query.Append(";");
 
-            _connectionBridge.BulkExecute(query.ToString(), entities);
+            _connectionBridge.Execute(query.ToString(), entities);
         }
 
         public void DeleteMultiple(IEnumerable<object> entities)
@@ -247,7 +247,7 @@ namespace CruDapper.Mappers
             query.Length -= 5;
             query.Append(";");
 
-            _connectionBridge.BulkExecute(query.ToString(), entities);
+            _connectionBridge.Execute(query.ToString(), entities);
         }
     }
 }

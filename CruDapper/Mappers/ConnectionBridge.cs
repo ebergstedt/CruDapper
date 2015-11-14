@@ -35,34 +35,32 @@ namespace CruDapper.Mappers
             throw new ArgumentException("Provider not implemented");
         }
 
-        public void Query(string sqlQuery, object parameters = null)
-        {
-            using (var connection = GetDbConnection())
-            {
-                connection.Open();
-                connection.Query(sqlQuery, parameters);
-            }
-        }
-
         public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null)
         {
             IEnumerable<dynamic> result;
-            using (var connection = GetDbConnection())
+            using (var scope = new TransactionScope())
             {
-                connection.Open();
-                result = connection.Query(sqlQuery, parameters);
+                using (var connection = GetDbConnection())
+                {
+                    connection.Open();
+                    result = connection.Query(sqlQuery, parameters);
+                }
+                scope.Complete();
             }
-
             return result;
         }
 
         public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null)
         {
             IEnumerable<T> result;
-            using (var connection = GetDbConnection())
+            using (var scope = new TransactionScope())
             {
-                connection.Open();
-                result = connection.Query<T>(sqlQuery, parameters);
+                using (var connection = GetDbConnection())
+                {
+                    connection.Open();
+                    result = connection.Query<T>(sqlQuery, parameters);
+                }
+                scope.Complete();
             }
             return result;
         }
@@ -70,23 +68,18 @@ namespace CruDapper.Mappers
         public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null)
         {
             SqlMapper.GridReader result;
-            using (var connection = GetDbConnection())
+            using (var scope = new TransactionScope())
             {
-                result = connection.QueryMultiple(sqlQuery, parameters);
+                using (var connection = GetDbConnection())
+                {
+                    result = connection.QueryMultiple(sqlQuery, parameters);
+                }
+                scope.Complete();
             }
             return result;
         }
 
         public void Execute(string sqlQuery, object parameters)
-        {
-            using (var connection = GetDbConnection())
-            {
-                connection.Open();
-                connection.Execute(sqlQuery, parameters);
-            }
-        }
-
-        public void BulkExecute(string sqlQuery, object parameters)
         {
             using (var scope = new TransactionScope())
             {
@@ -94,8 +87,8 @@ namespace CruDapper.Mappers
                 {
                     connection.Open();
                     connection.Execute(sqlQuery, parameters);
-                    scope.Complete();
                 }
+                scope.Complete();
             }
         }
     }
