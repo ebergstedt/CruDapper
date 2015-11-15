@@ -111,6 +111,11 @@ Change your connectionstring in CruDapper.Test App.config and alter the BaseServ
 
 Apply the PostgresBaseLine.sql or SqlServerBaseLine.sql to your testing database to setup the needed tables.
 
+# TODO
+
+* Cache reflection for performance.
+* More functionality?
+
 # License
 
 The MIT License (MIT)
