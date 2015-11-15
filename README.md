@@ -1,13 +1,13 @@
 # CruDapper
 Dapper extension with CRUD functionality (and some more)
 
-# Features
-
 Based on **Dapper** https://github.com/StackExchange/dapper-dot-net
+
+# Features
 
 Currently supports **MS Sql Server** and **Postgres**. You can create extensions for other databases.
 
-CruDapper uses SQL autogeneration and parameterized queries, together with reflection to provide CRUD functionality to the fast and excellent .NET ORM Dapper. All basic CRUD methods support both single and multiple object execution and reading.
+CruDapper uses SQL autogeneration and parameterized queries, together with reflection to provide CRUD functionality to the fast and excellent .NET ORM Dapper. **All basic CRUD methods support both single and multiple object execution and reading**.
 
 Please refer to the provided Test project for detailed examples and syntax.
 
@@ -104,6 +104,11 @@ IEnumerable<T> PutIdentifiable<T>(object obj);
 void Update(object obj);
 void Delete<T>(object obj) where T : IDeletable;
 void DeletePermanently(object obj);
+
+IEnumerable<T> Query<T>(string sqlQuery, object parameters = null);
+IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null);
+SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null);
+void Execute(string sqlQuery, object parameters = null);
 ```
 
 # Testing setup
