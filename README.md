@@ -114,6 +114,7 @@ Apply the PostgresBaseLine.sql or SqlServerBaseLine.sql to your testing database
 # TODO
 
 * Cache reflection for performance.
+* User can specify more Dapper specific parameters such as transactions and timeouts.
 * More functionality?
 
 # License
