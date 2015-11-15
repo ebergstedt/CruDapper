@@ -1,32 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
+using CruDapper.Infrastructure;
 
 namespace CruDapper.Mappers
 {
     public abstract class DbMapperBase
     {
-        Provider provider;
-        public DbMapperBase(string ConnectionName, Provider provider)
+        protected string ActiveConnectionName;
+
+        protected ConnectionBridge ConnectionBridge;
+        private readonly Provider _provider;
+
+        public DbMapperBase(string connectionName, Provider provider)
         {
-            this.provider = provider;
-            this.ConnectionName = ConnectionName;            
+            this._provider = provider;
+            ConnectionName = connectionName;
         }
 
-        protected ConnectionBridge _connectionBridge;
-        protected string _activeConnectionName;
         public string ConnectionName
         {
             set
             {
-                _activeConnectionName = value;
-                _connectionBridge = new ConnectionBridge(provider, ConfigurationManager.ConnectionStrings[_activeConnectionName].ConnectionString);
+                ActiveConnectionName = value;
+                ConnectionBridge = new ConnectionBridge(_provider,
+                    ConfigurationManager.ConnectionStrings[ActiveConnectionName].ConnectionString);
             }
 
-            get { return _activeConnectionName; }
+            get { return ActiveConnectionName; }
         }
     }
 }

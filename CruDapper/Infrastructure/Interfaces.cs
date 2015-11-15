@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using Dapper;
 
-namespace CruDapper
+namespace CruDapper.Infrastructure
 {
     public interface IDbMapper
     {
-        string ConnectionName {get; set; }
-        IEnumerable<T> GetAll<T>();        
+        string ConnectionName { get; set; }
+        IEnumerable<T> GetAll<T>();
         T GetByPrimaryKey<T>(object primaryKeyValue);
         T Get<T>(int id) where T : IDapperable;
-        IEnumerable<T> GetByColumn<T>(string column, object value);        
+        IEnumerable<T> GetByColumn<T>(string column, object value);
         IEnumerable<T> GetByColumn<T>(WhereArgument whereArgument);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments);
         T GetNondeleted<T>(int id) where T : IDapperable, IDeletable;
@@ -34,6 +34,14 @@ namespace CruDapper
         void Update(object obj);
         void Delete<T>(object obj) where T : IDeletable;
         void DeletePermanently(object obj);
+    }
+
+    public interface IDapperConnectable
+    {
+        IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null);
+        IEnumerable<T> Query<T>(string sqlQuery, object parameters = null);
+        SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null);
+        void Execute(string sqlQuery, object parameters);
     }
 
     public interface IServiceFactory

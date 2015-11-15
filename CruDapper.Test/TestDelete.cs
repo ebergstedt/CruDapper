@@ -11,10 +11,10 @@ namespace CruDapper.Test
         {
             var entry = BaseLineAndPutAndReturnEntry();
 
-            _crudService
+            CrudService
                 .Delete<TestTable>(entry);
 
-            var getDeleteFlagged = _crudService
+            var getDeleteFlagged = CrudService
                 .Get<TestTable>(entry.Id);
 
             Assert.IsNotNull(getDeleteFlagged);
@@ -28,10 +28,10 @@ namespace CruDapper.Test
         {
             var entry = BaseLineAndPutAndReturnEntry();
 
-            _crudService
+            CrudService
                 .DeletePermanently(entry);
 
-            var getForceDeleted = _crudService
+            var getForceDeleted = CrudService
                 .Get<TestTable>(entry.Id);
 
             Assert.IsNull(getForceDeleted);

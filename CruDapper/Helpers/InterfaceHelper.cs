@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CruDapper.Infrastructure;
 
 namespace CruDapper.Helpers
 {
     public static class InterfaceHelper
     {
-
         public static void AssignInterfaceData(ref IEnumerable<object> entities)
         {
             foreach (var entity in entities)

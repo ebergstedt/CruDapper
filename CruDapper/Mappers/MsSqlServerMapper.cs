@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Transactions;
 using CruDapper.Helpers;
+using CruDapper.Infrastructure;
 using Dapper;
 using MoreLinq;
 
 namespace CruDapper.Mappers
 {
-    public class MsSqlServerMapper : DbMapperBase, IDbMapper 
+    public class MsSqlServerMapper : DbMapperBase, IDbMapper
     {
-        Provider _provider = Provider.MsSql;
-        public MsSqlServerMapper(string ConnectionName) : base(ConnectionName, Provider.MsSql)
-        {
+        private readonly Provider _provider = Provider.MsSql;
 
+        public MsSqlServerMapper(string connectionName) : base(connectionName, Provider.MsSql)
+        {
         }
 
         public IEnumerable<T> GetAll<T>()
         {
             var tableName = ReflectionHelper.GetTableName(typeof (T), _provider);
             var query = string.Format("SELECT * FROM {0}", tableName);
-            return _connectionBridge.Query<T>(query);
+            return ConnectionBridge.Query<T>(query);
         }
 
         public T GetByPrimaryKey<T>(object primaryKeyValue)
@@ -35,7 +33,7 @@ namespace CruDapper.Mappers
         public T Get<T>(int id) where T : IDapperable
         {
             var query = QueryHelper.GetQuery<T>(id, _provider);
-            return _connectionBridge.Query<T>(query.ToString()).SingleOrDefault();
+            return ConnectionBridge.Query<T>(query.ToString()).SingleOrDefault();
         }
 
         public IEnumerable<T> GetByColumn<T>(string column, object value)
@@ -72,17 +70,17 @@ namespace CruDapper.Mappers
                     1 = 1
             ", tableName);
 
-            QueryHelper.AddWhereArgumentsToQuery(ref query, parameters, whereArguments, typeof(T));
+            QueryHelper.AddWhereArgumentsToQuery(ref query, parameters, whereArguments, typeof (T));
 
-            return _connectionBridge.Query<T>(query.ToString(), parameters);
+            return ConnectionBridge.Query<T>(query.ToString(), parameters);
         }
 
         public T GetNondeleted<T>(int id) where T : IDapperable, IDeletable
         {
             var query = QueryHelper.GetQuery<T>(id, _provider);
             query.Append(" AND IsDeleted = 0 ");
-            return _connectionBridge.Query<T>(query.ToString()).SingleOrDefault();
-        }        
+            return ConnectionBridge.Query<T>(query.ToString()).SingleOrDefault();
+        }
 
         public IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<object> entities)
         {
@@ -123,15 +121,16 @@ namespace CruDapper.Mappers
             query.Length -= 2;
             query.Append(");");
 
-            _connectionBridge.Execute(query.ToString(), entities);
+            ConnectionBridge.Execute(query.ToString(), entities);
 
             var resultList = new List<T>();
             foreach (var batch in guidList.Batch(2000)) //SQL server maximum parameter for IN
             {
-                resultList.AddRange(_connectionBridge.Query<T>(string.Format("SELECT * FROM {0} WHERE RowGuid IN @batch", tableName), new
-                {
-                    batch
-                }));
+                resultList.AddRange(
+                    ConnectionBridge.Query<T>(string.Format("SELECT * FROM {0} WHERE RowGuid IN @batch", tableName), new
+                    {
+                        batch
+                    }));
             }
 
             return resultList;
@@ -174,7 +173,7 @@ namespace CruDapper.Mappers
 
             if (entities.Count() == 1 && keys.Count() == 1 && keys.First().PropertyType != typeof (Guid))
             {
-                var result = _connectionBridge.Query<int?>(query.ToString(), entities.Single())
+                var result = ConnectionBridge.Query<int?>(query.ToString(), entities.Single())
                     .SingleOrDefault();
 
                 if (result != null)
@@ -182,7 +181,7 @@ namespace CruDapper.Mappers
             }
             else
             {
-                _connectionBridge.Execute(query.ToString(), entities);
+                ConnectionBridge.Execute(query.ToString(), entities);
             }
         }
 
@@ -218,7 +217,7 @@ namespace CruDapper.Mappers
             query.Length -= 5;
             query.Append(";");
 
-            _connectionBridge.Execute(query.ToString(), entities);
+            ConnectionBridge.Execute(query.ToString(), entities);
         }
 
         public void DeleteMultiple(IEnumerable<object> entities)
@@ -247,7 +246,7 @@ namespace CruDapper.Mappers
             query.Length -= 5;
             query.Append(";");
 
-            _connectionBridge.Execute(query.ToString(), entities);
+            ConnectionBridge.Execute(query.ToString(), entities);
         }
     }
 }

@@ -1,38 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Common;
 using System.Data.SqlClient;
-using Npgsql;
 using System.Transactions;
+using CruDapper.Infrastructure;
 using Dapper;
+using Npgsql;
 
 namespace CruDapper.Mappers
 {
-    public class ConnectionBridge
+    public class ConnectionBridge : IDapperConnectable
     {
-        private Provider provider;
-        private string connectionString;
+        private readonly string _connectionString;
+        private readonly Provider _provider;
 
         public ConnectionBridge(Provider provider, string connectionString)
         {
-            this.provider = provider;
-            this.connectionString = connectionString;
-        }
-
-        private DbConnection GetDbConnection()
-        {
-            switch (provider)
-            {
-                case Provider.MsSql:
-                    return new SqlConnection(connectionString);
-                case Provider.Postgres:
-                    return new NpgsqlConnection(connectionString);
-            }
-
-            throw new ArgumentException("Provider not implemented");
+            this._provider = provider;
+            this._connectionString = connectionString;
         }
 
         public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null)
@@ -90,6 +75,19 @@ namespace CruDapper.Mappers
                 }
                 scope.Complete();
             }
+        }
+
+        private DbConnection GetDbConnection()
+        {
+            switch (_provider)
+            {
+                case Provider.MsSql:
+                    return new SqlConnection(_connectionString);
+                case Provider.Postgres:
+                    return new NpgsqlConnection(_connectionString);
+            }
+
+            throw new ArgumentException("Provider not implemented");
         }
     }
 }

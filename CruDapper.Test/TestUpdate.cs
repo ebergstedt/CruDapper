@@ -14,10 +14,10 @@ namespace CruDapper.Test
             var originalData = originalEntry.SomeData;
             originalEntry.SomeData = "alteredData";
 
-            _crudService
+            CrudService
                 .Update(originalEntry);
 
-            var updatedEntry = _crudService
+            var updatedEntry = CrudService
                 .Get<TestTable>(originalEntry.Id);
 
             Assert.AreNotEqual(originalData, updatedEntry.SomeData);

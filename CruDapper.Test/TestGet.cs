@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CruDapper.BackofficeTest;
+using CruDapper.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CruDapper.Test
@@ -23,10 +24,10 @@ namespace CruDapper.Test
                 });
             }
 
-            _crudService
+            CrudService
                 .Put(entries);
 
-            var testTables = _crudService
+            var testTables = CrudService
                 .GetAll<TestTable>();
 
             Assert.IsTrue(testTables.Count() == entries.Count);
@@ -40,7 +41,7 @@ namespace CruDapper.Test
         {
             var entry = BaseLineAndPutAndReturnEntry();
 
-            var byPrimaryKey = _crudService
+            var byPrimaryKey = CrudService
                 .GetByPrimaryKey<TestTable>(entry.Id);
 
             Assert.IsNotNull(byPrimaryKey);
@@ -55,7 +56,7 @@ namespace CruDapper.Test
 
             Assert.IsTrue(entry.Id > 0);
 
-            var getEntry = _crudService
+            var getEntry = CrudService
                 .Get<TestTable>(entry.Id);
 
             Assert.IsNotNull(getEntry);
@@ -68,7 +69,7 @@ namespace CruDapper.Test
         {
             var entry = BaseLineAndPutAndReturnEntry();
 
-            var getByColumn = _crudService
+            var getByColumn = CrudService
                 .GetByColumn<TestTable>("SomeData", entry.SomeData)
                 .Single();
 
@@ -91,12 +92,14 @@ namespace CruDapper.Test
                 });
             }
 
-            _crudService
+            CrudService
                 .Put(entries);
 
-            var result = _crudService
-                .GetByColumns<TestTable>(new List<WhereArgument>(){
-                    new WhereArgument(){
+            var result = CrudService
+                .GetByColumns<TestTable>(new List<WhereArgument>
+                {
+                    new WhereArgument
+                    {
                         Key = "SomeData",
                         Operator = Operator.Equals,
                         Value = "500"
@@ -105,9 +108,11 @@ namespace CruDapper.Test
 
             Assert.IsTrue(result.Count() == 1);
 
-            var result2 = _crudService
-                .GetByColumns<TestTable>(new List<WhereArgument>(){
-                    new WhereArgument(){
+            var result2 = CrudService
+                .GetByColumns<TestTable>(new List<WhereArgument>
+                {
+                    new WhereArgument
+                    {
                         Key = "CreatedAt",
                         Operator = Operator.LessThan,
                         Value = DateTime.UtcNow
@@ -122,15 +127,15 @@ namespace CruDapper.Test
         {
             var entry = BaseLineAndPutAndReturnEntry();
 
-            var getNondeleted = _crudService
+            var getNondeleted = CrudService
                 .GetNondeleted<TestTable>(entry.Id);
 
             Assert.IsNotNull(getNondeleted);
 
-            _crudService
+            CrudService
                 .Delete<TestTable>(getNondeleted);
 
-            var deletedEntry = _crudService
+            var deletedEntry = CrudService
                 .GetNondeleted<TestTable>(entry.Id);
 
             Assert.IsNull(deletedEntry);

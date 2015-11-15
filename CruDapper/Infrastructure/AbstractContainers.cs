@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CruDapper
+namespace CruDapper.Infrastructure
 {
     public abstract class DapperableTable : IDapperable
     {

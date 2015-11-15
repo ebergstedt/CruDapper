@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CruDapper.Services
+namespace CruDapper.Infrastructure
 {
     public class ServiceFactory : IServiceFactory
     {

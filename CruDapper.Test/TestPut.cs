@@ -18,10 +18,10 @@ namespace CruDapper.Test
                 SomeData = "data"
             };
 
-            _crudService
+            CrudService
                 .Put(entry);
 
-            var testTable = _crudService.Get<TestTable>(entry.Id);
+            var testTable = CrudService.Get<TestTable>(entry.Id);
 
             Assert.IsNotNull(testTable);
 
@@ -42,10 +42,10 @@ namespace CruDapper.Test
                 });
             }
 
-            _crudService
+            CrudService
                 .Put(entries);
 
-            var testTables = _crudService
+            var testTables = CrudService
                 .GetAll<TestTable>();
 
             Assert.IsTrue(testTables.Count() == entries.Count);
@@ -67,7 +67,7 @@ namespace CruDapper.Test
                 });
             }
 
-            var identifiableTables = _crudService
+            var identifiableTables = CrudService
                 .PutIdentifiable<TestIdentifiableTable>(entries);
 
             entries = new List<TestIdentifiableTable>();
@@ -79,7 +79,7 @@ namespace CruDapper.Test
                 });
             }
 
-            identifiableTables = _crudService
+            identifiableTables = CrudService
                 .PutIdentifiable<TestIdentifiableTable>(entries);
 
             Assert.IsTrue(identifiableTables.All(t => t.Id > 0));

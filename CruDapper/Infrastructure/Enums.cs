@@ -1,4 +1,4 @@
-﻿namespace CruDapper
+﻿namespace CruDapper.Infrastructure
 {
     public enum Operator
     {

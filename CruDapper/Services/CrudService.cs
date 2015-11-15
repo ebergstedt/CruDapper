@@ -1,31 +1,32 @@
 ﻿using System.Collections.Generic;
+using CruDapper.Infrastructure;
 
 namespace CruDapper.Services
 {
     public class CrudService : ICrudService
     {
-        protected readonly IDbMapper dbHelper;
+        protected readonly IDbMapper DbHelper;
 
         public CrudService(IDbMapper dbHelper)
         {
-            this.dbHelper = dbHelper;
+            this.DbHelper = dbHelper;
         }
 
         #region UPDATE
-        
+
         /// <summary>
-        /// Updates object with matching key fields
-        /// </summary>        
+        ///     Updates object with matching key fields
+        /// </summary>
         public void Update(object obj)
         {
             var enumerable = obj as IEnumerable<object>;
             if (enumerable != null)
             {
-                dbHelper.UpdateMultiple(enumerable);
+                DbHelper.UpdateMultiple(enumerable);
             }
             else
             {
-                dbHelper.UpdateMultiple(new List<object>
+                DbHelper.UpdateMultiple(new List<object>
                 {
                     obj
                 });
@@ -37,60 +38,61 @@ namespace CruDapper.Services
         #region GET
 
         /// <summary>
-        /// Gets all rows in a table
+        ///     Gets all rows in a table
         /// </summary>
         public IEnumerable<T> GetAll<T>()
         {
-            return dbHelper.GetAll<T>();
+            return DbHelper.GetAll<T>();
         }
 
         public T GetByPrimaryKey<T>(object id)
         {
-            return dbHelper.GetByPrimaryKey<T>(id);
+            return DbHelper.GetByPrimaryKey<T>(id);
         }
 
         /// <summary>
-        /// Get a row by Dapper Id
+        ///     Get a row by Dapper Id
         /// </summary>
         public T Get<T>(int id) where T : IDapperable
         {
-            return dbHelper.Get<T>(id);
+            return DbHelper.Get<T>(id);
         }
 
         public IEnumerable<T> GetByColumn<T>(string column, object value)
         {
-            return dbHelper.GetByColumn<T>(column, value);
+            return DbHelper.GetByColumn<T>(column, value);
         }
 
         public IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos)
         {
-            return dbHelper.GetByColumns<T>(whereArgumentDtos);
+            return DbHelper.GetByColumns<T>(whereArgumentDtos);
         }
 
         /// <summary>
-        /// Gets an entry where IsDeleted is null or false
+        ///     Gets an entry where IsDeleted is null or false
         /// </summary>
         public T GetNondeleted<T>(int id) where T : IDapperable, IDeletable
         {
-            return dbHelper.GetNondeleted<T>(id);
+            return DbHelper.GetNondeleted<T>(id);
         }
 
         #endregion
 
         #region PUT
+
         /// <summary>
-        /// Will assign IDapperable Id for returning object if it's a single object
-        /// </summary>        
+        ///     Will assign IDapperable Id for returning object if it's a single object
+        /// </summary>
         public void Put(object obj)
         {
             var enumerable = obj as IEnumerable<object>;
             if (enumerable != null)
             {
-                dbHelper.InsertMultiple(enumerable);
+                DbHelper.InsertMultiple(enumerable);
             }
             else
             {
-                dbHelper.InsertMultiple(new List<object>
+                DbHelper.InsertMultiple(new List<object>
                 {
                     obj
                 });
@@ -98,16 +100,16 @@ namespace CruDapper.Services
         }
 
         /// <summary>
-        /// Will assign Dapper Id for all returning objects
+        ///     Will assign Dapper Id for all returning objects
         /// </summary>
         public IEnumerable<T> PutIdentifiable<T>(object obj)
         {
             var enumerable = obj as IEnumerable<object>;
             if (enumerable != null)
             {
-                return dbHelper.InsertMultipleIdentifiable<T>(enumerable);
+                return DbHelper.InsertMultipleIdentifiable<T>(enumerable);
             }
-            return dbHelper.InsertMultipleIdentifiable<T>(new List<object>
+            return DbHelper.InsertMultipleIdentifiable<T>(new List<object>
             {
                 obj
             });
@@ -118,8 +120,8 @@ namespace CruDapper.Services
         #region DELETE
 
         /// <summary>
-        /// Sets IsDeleted to true
-        /// </summary>        
+        ///     Sets IsDeleted to true
+        /// </summary>
         public void Delete<T>(object obj) where T : IDeletable
         {
             var enumerable = obj as IEnumerable<object>;
@@ -148,23 +150,28 @@ namespace CruDapper.Services
         }
 
         /// <summary>
-        /// Deletes row by Id
-        /// </summary>        
+        ///     Deletes row by Id
+        /// </summary>
         public void DeletePermanently(object obj)
         {
             var enumerable = obj as IEnumerable<object>;
             if (enumerable != null)
             {
-                dbHelper.DeleteMultiple(enumerable);
+                DbHelper.DeleteMultiple(enumerable);
             }
             else
             {
-                dbHelper.DeleteMultiple(new List<object>
+                DbHelper.DeleteMultiple(new List<object>
                 {
                     obj
                 });
             }
         }
+
+        #endregion
+
+        #region Dapper specific
+
         #endregion
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
+using CruDapper.Infrastructure;
 
 namespace CruDapper.Helpers
 {
@@ -66,8 +67,8 @@ namespace CruDapper.Helpers
             var tableAttribute = type
                 .GetCustomAttributes(true)
                 .SingleOrDefault(x => x.GetType().Name == "TableAttribute") as TableAttribute;
-            
-            return tableAttribute != null ? tableAttribute.Name : null;            
+
+            return tableAttribute != null ? tableAttribute.Name : null;
         }
 
         public static List<PropertyInfo> GetKeyFields(Type type)
@@ -79,7 +80,7 @@ namespace CruDapper.Helpers
 
         public static string GetPrimaryKeyName<T>()
         {
-            var keys = ReflectionHelper.GetKeyFields(typeof(T));
+            var keys = GetKeyFields(typeof (T));
 
             if (keys.Any() == false || keys.Count() > 1)
             {

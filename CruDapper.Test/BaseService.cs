@@ -1,25 +1,25 @@
 ﻿using CruDapper.BackofficeTest;
-using CruDapper.Helpers;
-using CruDapper.Services;
+using CruDapper.Infrastructure;
 using CruDapper.Mappers;
+using CruDapper.Services;
 
 namespace CruDapper.Test
 {
     public class BaseService
     {
-        protected readonly IServiceFactory _serviceFactory;
-        protected ICrudService _crudService;
+        protected readonly IServiceFactory ServiceFactory;
+        protected ICrudService CrudService;
 
         public BaseService()
         {
-            _serviceFactory = new ServiceFactory(new PostgresMapper("Postgres"));
+            ServiceFactory = new ServiceFactory(new PostgresMapper("Postgres"));
 
-            _crudService = _serviceFactory.Get<CrudService>();
+            CrudService = ServiceFactory.Get<CrudService>();
         }
 
         public void DoBaseline()
         {
-            _serviceFactory
+            ServiceFactory
                 .Get<BaselineService>()
                 .DoBaseline();
         }
@@ -33,7 +33,7 @@ namespace CruDapper.Test
                 SomeData = "data"
             };
 
-            _crudService
+            CrudService
                 .Put(entry);
 
             return entry;

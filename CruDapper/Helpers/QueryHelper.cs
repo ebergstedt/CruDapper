@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using CruDapper.Infrastructure;
 using Dapper;
 
 namespace CruDapper.Helpers
@@ -26,7 +25,7 @@ namespace CruDapper.Helpers
                         else
                         {
                             query.AppendFormat(" AND {0} {1} @{0}", argument.Key,
-                                QueryHelper.GetOperator(argument.Operator, argument.Not));
+                                GetOperator(argument.Operator, argument.Not));
                             parameters.Add(argument.Key, argument.Value);
                         }
                     }
@@ -36,7 +35,7 @@ namespace CruDapper.Helpers
 
         public static StringBuilder GetQuery<T>(int id, Provider provider)
         {
-            var tableName = ReflectionHelper.GetTableName(typeof(T), provider);
+            var tableName = ReflectionHelper.GetTableName(typeof (T), provider);
             var query = new StringBuilder();
             query.AppendFormat(@"
                 SELECT
