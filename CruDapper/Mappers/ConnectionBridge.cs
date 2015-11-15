@@ -64,7 +64,7 @@ namespace CruDapper.Mappers
             return result;
         }
 
-        public void Execute(string sqlQuery, object parameters)
+        public void Execute(string sqlQuery, object parameters = null)
         {
             using (var scope = new TransactionScope())
             {

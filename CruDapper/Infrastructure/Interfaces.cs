@@ -4,7 +4,7 @@ using Dapper;
 
 namespace CruDapper.Infrastructure
 {
-    public interface IDbMapper
+    public interface IDbMapper : IDapperConnectable
     {
         string ConnectionName { get; set; }
         IEnumerable<T> GetAll<T>();
@@ -21,7 +21,7 @@ namespace CruDapper.Infrastructure
         void DeleteMultiple(IEnumerable<object> entities);
     }
 
-    public interface ICrudService
+    public interface ICrudService : IDapperConnectable
     {
         IEnumerable<T> GetAll<T>();
         T GetByPrimaryKey<T>(object id);
@@ -41,7 +41,7 @@ namespace CruDapper.Infrastructure
         IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null);
         IEnumerable<T> Query<T>(string sqlQuery, object parameters = null);
         SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null);
-        void Execute(string sqlQuery, object parameters);
+        void Execute(string sqlQuery, object parameters = null);
     }
 
     public interface IServiceFactory

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using CruDapper.Infrastructure;
+using Dapper;
 
 namespace CruDapper.Services
 {
-    public class CrudService : ICrudService
+    public class CrudService : ICrudService, IDapperConnectable
     {
         protected readonly IDbMapper DbHelper;
 
@@ -173,5 +174,25 @@ namespace CruDapper.Services
         #region Dapper specific
 
         #endregion
+
+        public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null)
+        {
+            return DbHelper.QueryDynamic(sqlQuery, parameters);
+        }
+
+        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null)
+        {
+            return DbHelper.Query<T>(sqlQuery, parameters);
+        }
+
+        public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null)
+        {
+            return DbHelper.QueryMultiple(sqlQuery, parameters);
+        }
+
+        public void Execute(string sqlQuery, object parameters)
+        {
+            DbHelper.Execute(sqlQuery, parameters);
+        }
     }
 }

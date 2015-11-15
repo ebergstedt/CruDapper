@@ -9,10 +9,12 @@ namespace CruDapper.Test
     {
         protected readonly IServiceFactory ServiceFactory;
         protected ICrudService CrudService;
+        protected IDbMapper DbMapper;
 
         public BaseService()
         {
-            ServiceFactory = new ServiceFactory(new PostgresMapper("Postgres"));
+            DbMapper = new PostgresMapper("Postgres");
+            ServiceFactory = new ServiceFactory(DbMapper);
 
             CrudService = ServiceFactory.Get<CrudService>();
         }
