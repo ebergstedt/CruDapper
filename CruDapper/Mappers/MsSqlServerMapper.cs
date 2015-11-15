@@ -13,7 +13,7 @@ namespace CruDapper.Mappers
     {
         private readonly Provider _provider = Provider.MsSql;
 
-        public MsSqlServerMapper(string connectionName) : base(connectionName, Provider.MsSql)
+        public MsSqlServerMapper(string connectionName, int? globalCommandTimeout = null) : base(connectionName, Provider.MsSql, globalCommandTimeout)
         {
         }
 

@@ -5,8 +5,8 @@ namespace CruDapper.BackofficeTest
 {
     public class BaselineService : CrudService
     {
-        public BaselineService(IDbMapper dbHelper)
-            : base(dbHelper)
+        public BaselineService(IDbMapper dbMapper)
+            : base(dbMapper)
         {
         }
 

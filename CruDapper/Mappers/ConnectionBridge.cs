@@ -14,28 +14,15 @@ namespace CruDapper.Mappers
         private readonly string _connectionString;
         private readonly Provider _provider;
 
+        public int? GlobalCommandTimeout;
+
         public ConnectionBridge(Provider provider, string connectionString)
         {
             this._provider = provider;
             this._connectionString = connectionString;
         }
 
-        public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null)
-        {
-            IEnumerable<dynamic> result;
-            using (var scope = new TransactionScope())
-            {
-                using (var connection = GetDbConnection())
-                {
-                    connection.Open();
-                    result = connection.Query(sqlQuery, parameters);
-                }
-                scope.Complete();
-            }
-            return result;
-        }
-
-        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null)
+        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
             IEnumerable<T> result;
             using (var scope = new TransactionScope())
@@ -43,41 +30,56 @@ namespace CruDapper.Mappers
                 using (var connection = GetDbConnection())
                 {
                     connection.Open();
-                    result = connection.Query<T>(sqlQuery, parameters);
+                    result = connection.Query<T>(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
                 }
                 scope.Complete();
             }
             return result;
         }
 
-        public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null)
+        public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            IEnumerable<dynamic> result;
+            using (var scope = new TransactionScope())
+            {
+                using (var connection = GetDbConnection())
+                {
+                    connection.Open();
+                    result = connection.Query(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
+                }
+                scope.Complete();
+            }
+            return result;
+        }
+
+        public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
             SqlMapper.GridReader result;
             using (var scope = new TransactionScope())
             {
                 using (var connection = GetDbConnection())
                 {
-                    result = connection.QueryMultiple(sqlQuery, parameters);
+                    result = connection.QueryMultiple(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
                 }
                 scope.Complete();
             }
             return result;
         }
 
-        public void Execute(string sqlQuery, object parameters = null)
+        public void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
             using (var scope = new TransactionScope())
             {
                 using (var connection = GetDbConnection())
                 {
                     connection.Open();
-                    connection.Execute(sqlQuery, parameters);
+                    connection.Execute(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
                 }
                 scope.Complete();
             }
         }
 
-        private DbConnection GetDbConnection()
+        public DbConnection GetDbConnection()
         {
             switch (_provider)
             {

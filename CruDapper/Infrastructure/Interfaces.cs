@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using Dapper;
 
 namespace CruDapper.Infrastructure
@@ -7,6 +8,8 @@ namespace CruDapper.Infrastructure
     public interface IDbMapper : IDapperConnectable
     {
         string ConnectionName { get; set; }
+        DbConnection DbConnection { get; }
+
         IEnumerable<T> GetAll<T>();
         T GetByPrimaryKey<T>(object primaryKeyValue);
         T Get<T>(int id) where T : IDapperable;
@@ -38,10 +41,10 @@ namespace CruDapper.Infrastructure
 
     public interface IDapperConnectable
     {
-        IEnumerable<T> Query<T>(string sqlQuery, object parameters = null);
-        IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null);        
-        SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null);
-        void Execute(string sqlQuery, object parameters = null);
+        IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
+        IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null);
+        SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null);
+        void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null);
     }
 
     public interface IServiceFactory

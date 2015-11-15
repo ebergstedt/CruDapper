@@ -13,14 +13,14 @@ namespace CruDapper.Mappers
     {
         private readonly Provider _provider = Provider.Postgres;
 
-        public PostgresMapper(string ConnectionName) : base(ConnectionName, Provider.Postgres)
+        public PostgresMapper(string connectionName, int? globalCommandTimeout = null) : base(connectionName, Provider.Postgres, globalCommandTimeout)
         {
         }
 
         public IEnumerable<T> GetAll<T>()
         {
             var tableName = ReflectionHelper.GetTableName(typeof (T), _provider);
-            var query = string.Format("SELECT * FROM {0}", tableName);
+            var query = string.Format("SELECT * FROM {0}", tableName);            
             return ConnectionBridge.Query<T>(query);
         }
 

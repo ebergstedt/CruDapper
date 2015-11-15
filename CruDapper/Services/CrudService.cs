@@ -4,13 +4,13 @@ using Dapper;
 
 namespace CruDapper.Services
 {
-    public class CrudService : ICrudService, IDapperConnectable
+    public class CrudService : ICrudService
     {
-        protected readonly IDbMapper DbHelper;
+        private readonly IDbMapper _dbMapper;
 
-        public CrudService(IDbMapper dbHelper)
+        public CrudService(IDbMapper dbMapper)
         {
-            this.DbHelper = dbHelper;
+            this._dbMapper = dbMapper;
         }
 
         #region UPDATE
@@ -23,11 +23,11 @@ namespace CruDapper.Services
             var enumerable = obj as IEnumerable<object>;
             if (enumerable != null)
             {
-                DbHelper.UpdateMultiple(enumerable);
+                _dbMapper.UpdateMultiple(enumerable);
             }
             else
             {
-                DbHelper.UpdateMultiple(new List<object>
+                _dbMapper.UpdateMultiple(new List<object>
                 {
                     obj
                 });
@@ -43,12 +43,12 @@ namespace CruDapper.Services
         /// </summary>
         public IEnumerable<T> GetAll<T>()
         {
-            return DbHelper.GetAll<T>();
+            return _dbMapper.GetAll<T>();
         }
 
         public T GetByPrimaryKey<T>(object id)
         {
-            return DbHelper.GetByPrimaryKey<T>(id);
+            return _dbMapper.GetByPrimaryKey<T>(id);
         }
 
         /// <summary>
@@ -56,17 +56,17 @@ namespace CruDapper.Services
         /// </summary>
         public T Get<T>(int id) where T : IDapperable
         {
-            return DbHelper.Get<T>(id);
+            return _dbMapper.Get<T>(id);
         }
 
         public IEnumerable<T> GetByColumn<T>(string column, object value)
         {
-            return DbHelper.GetByColumn<T>(column, value);
+            return _dbMapper.GetByColumn<T>(column, value);
         }
 
         public IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos)
         {
-            return DbHelper.GetByColumns<T>(whereArgumentDtos);
+            return _dbMapper.GetByColumns<T>(whereArgumentDtos);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace CruDapper.Services
         /// </summary>
         public T GetNondeleted<T>(int id) where T : IDapperable, IDeletable
         {
-            return DbHelper.GetNondeleted<T>(id);
+            return _dbMapper.GetNondeleted<T>(id);
         }
 
         #endregion
@@ -89,11 +89,11 @@ namespace CruDapper.Services
             var enumerable = obj as IEnumerable<object>;
             if (enumerable != null)
             {
-                DbHelper.InsertMultiple(enumerable);
+                _dbMapper.InsertMultiple(enumerable);
             }
             else
             {
-                DbHelper.InsertMultiple(new List<object>
+                _dbMapper.InsertMultiple(new List<object>
                 {
                     obj
                 });
@@ -108,9 +108,9 @@ namespace CruDapper.Services
             var enumerable = obj as IEnumerable<object>;
             if (enumerable != null)
             {
-                return DbHelper.InsertMultipleIdentifiable<T>(enumerable);
+                return _dbMapper.InsertMultipleIdentifiable<T>(enumerable);
             }
-            return DbHelper.InsertMultipleIdentifiable<T>(new List<object>
+            return _dbMapper.InsertMultipleIdentifiable<T>(new List<object>
             {
                 obj
             });
@@ -158,11 +158,11 @@ namespace CruDapper.Services
             var enumerable = obj as IEnumerable<object>;
             if (enumerable != null)
             {
-                DbHelper.DeleteMultiple(enumerable);
+                _dbMapper.DeleteMultiple(enumerable);
             }
             else
             {
-                DbHelper.DeleteMultiple(new List<object>
+                _dbMapper.DeleteMultiple(new List<object>
                 {
                     obj
                 });
@@ -172,27 +172,25 @@ namespace CruDapper.Services
         #endregion
 
         #region Dapper specific
+        public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            return _dbMapper.QueryDynamic(sqlQuery, parameters, commandTimeout);
+        }
 
+        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            return _dbMapper.Query<T>(sqlQuery, parameters, commandTimeout);
+        }
+
+        public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            return _dbMapper.QueryMultiple(sqlQuery, parameters, commandTimeout);
+        }
+
+        public void Execute(string sqlQuery, object parameters, int? commandTimeout = null)
+        {            
+            _dbMapper.Execute(sqlQuery, parameters, commandTimeout);
+        }
         #endregion
-
-        public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null)
-        {
-            return DbHelper.QueryDynamic(sqlQuery, parameters);
-        }
-
-        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null)
-        {
-            return DbHelper.Query<T>(sqlQuery, parameters);
-        }
-
-        public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null)
-        {
-            return DbHelper.QueryMultiple(sqlQuery, parameters);
-        }
-
-        public void Execute(string sqlQuery, object parameters)
-        {
-            DbHelper.Execute(sqlQuery, parameters);
-        }
     }
 }

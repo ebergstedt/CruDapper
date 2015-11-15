@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Common;
 using CruDapper.Infrastructure;
 using Dapper;
 
@@ -12,10 +13,22 @@ namespace CruDapper.Mappers
         protected ConnectionBridge ConnectionBridge;
         private readonly Provider _provider;
 
-        public DbMapperBase(string connectionName, Provider provider)
+        protected DbMapperBase(string connectionName, Provider provider, int? globalCommandTimeout)
         {
             this._provider = provider;
-            ConnectionName = connectionName;
+            this.ConnectionName = connectionName;
+            this.GlobalCommandTimeout = globalCommandTimeout;
+        }
+
+        private int? _globalCommandTimeout;
+        public int? GlobalCommandTimeout
+        {
+            get { return _globalCommandTimeout; }
+            set
+            {
+                _globalCommandTimeout = value;
+                ConnectionBridge.GlobalCommandTimeout = _globalCommandTimeout;
+            }
         }
 
         public string ConnectionName
@@ -23,31 +36,38 @@ namespace CruDapper.Mappers
             set
             {
                 ActiveConnectionName = value;
-                ConnectionBridge = new ConnectionBridge(_provider,
-                    ConfigurationManager.ConnectionStrings[ActiveConnectionName].ConnectionString);
+                ConnectionBridge = new ConnectionBridge(_provider, ConfigurationManager.ConnectionStrings[ActiveConnectionName].ConnectionString);
             }
 
             get { return ActiveConnectionName; }
         }
 
-        public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null)
+        /// <summary>
+        /// Use to call Dapper methods directly from your service
+        /// </summary>
+        public DbConnection DbConnection
         {
-            return ConnectionBridge.QueryDynamic(sqlQuery, parameters);
+            get { return ConnectionBridge.GetDbConnection(); }            
         }
 
-        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null)
-        {
-            return ConnectionBridge.Query<T>(sqlQuery, parameters);
+        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {            
+            return ConnectionBridge.Query<T>(sqlQuery, parameters, commandTimeout);
         }
 
-        public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null)
+        public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
-            return ConnectionBridge.QueryMultiple(sqlQuery, parameters);
+            return ConnectionBridge.QueryDynamic(sqlQuery, parameters, commandTimeout);
         }
 
-        public void Execute(string sqlQuery, object parameters = null            )
+        public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
-            ConnectionBridge.Execute(sqlQuery, parameters);
+            return ConnectionBridge.QueryMultiple(sqlQuery, parameters, commandTimeout);
+        }
+
+        public void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            ConnectionBridge.Execute(sqlQuery, parameters, commandTimeout);
         }
     }
 }
