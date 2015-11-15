@@ -1,15 +1,21 @@
 # CruDapper
 Dapper extension with CRUD functionality (and some more)
 
-# Features
-
 Based on **Dapper** https://github.com/StackExchange/dapper-dot-net
+
+# Features
 
 Currently supports **MS Sql Server** and **Postgres**. You can create extensions for other databases.
 
 CruDapper uses SQL autogeneration and parameterized queries, together with reflection to provide CRUD functionality to the fast and excellent .NET ORM Dapper. All basic CRUD methods support both single and multiple object execution and reading.
 
 Please refer to the provided Test project for detailed examples and syntax.
+
+# Why use CruDapper over existing CRUD libs to Dapper?
+
+CruDapper supports **multiple inserts/updates/deletes/gets in the same query**, removing unecessary roundtrips when manipulating multiple objects.
+
+CruDapper is designed with DDD in mind, so you may easily switch out any database providers as you see fit in your backoffice implementation. If you write custom SQL you will of course need to be mindful of differences in SQL syntax, as per common sense.
 
 # Example usage
 First initialize your database mapper with your connectionstring in App.config. Afterwards you can initialize the provided CrudService.
