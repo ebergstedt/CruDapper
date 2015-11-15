@@ -66,15 +66,14 @@ namespace CruDapper.Test
         [TestMethod]
         public void Execute()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            BaseLineAndPutAndReturnEntry();
+
+            Assert.IsTrue(CrudService.GetAll<TestTable>().Any());
 
             CrudService
                 .Execute("DELETE FROM CruDapperSchema.TestTable");
 
-            var testTables = CrudService
-                .GetAll<TestTable>();
-
-            Assert.IsTrue(!testTables.Any());
+            Assert.IsFalse(CrudService.GetAll<TestTable>().Any());
         }
     }
 }
