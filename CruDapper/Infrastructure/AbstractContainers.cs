@@ -61,4 +61,20 @@ namespace CruDapper.Infrastructure
         [AutoIncrement]
         public int Id { get; set; }
     }
+
+    public abstract class StandardLogTable : IStandardLogTable
+    {
+        [Required]
+        public bool IsDeleted { get; set; }
+
+        [Required]
+        public DateTime CreatedAt { get; set; }
+
+        [Required]
+        public DateTime UpdatedAt { get; set; }
+
+        [Key]
+        [AutoIncrement]
+        public int Id { get; set; }
+    }
 }

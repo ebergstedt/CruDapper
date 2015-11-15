@@ -38,8 +38,8 @@ namespace CruDapper.Infrastructure
 
     public interface IDapperConnectable
     {
-        IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null);
         IEnumerable<T> Query<T>(string sqlQuery, object parameters = null);
+        IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null);        
         SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null);
         void Execute(string sqlQuery, object parameters = null);
     }
@@ -74,6 +74,10 @@ namespace CruDapper.Infrastructure
     {
         int CreatedBy { get; set; }
         int UpdatedBy { get; set; }
+    }
+
+    public interface IStandardLogTable : IDeletable, IDateLoggable, IDapperable
+    {        
     }
 
     public interface IStandardTable : IDeletable, IDateLoggable, IUserLoggable, IDapperable
