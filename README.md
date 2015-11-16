@@ -118,8 +118,14 @@ Apply the PostgresBaseLine.sql or SqlServerBaseLine.sql to your testing database
 
 # TODO
 
-* Cache reflection for performance.
-* User can specify more Dapper specific parameters such as transactions and timeouts.
+* Cache reflection for performance
+* User can specify more Dapper specific parameters such as transactions and timeouts
+* Method to map dynamic query result to Dictionary<string, object> or object[] if desired
+* Pagination / Skip
+* Lazy loading if desired
+* Get single item by composite primary key
+* Merge result into an existing object by comparing field name and type
+* Templating
 * More functionality?
 
 # License
