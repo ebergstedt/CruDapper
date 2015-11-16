@@ -120,7 +120,7 @@ Apply the PostgresBaseLine.sql or SqlServerBaseLine.sql to your testing database
 
 * Cache reflection for performance
 * User can specify more Dapper specific parameters such as transactions and timeouts
-* Method to map dynamic query result to Dictionary<string, object> or object[] if desired
+* New methods to map dynamic query result to Dictionary<string, object> and object[] 
 * Pagination / Skip
 * Lazy loading if desired
 * Get single item by composite primary key
