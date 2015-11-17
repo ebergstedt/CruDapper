@@ -7,7 +7,7 @@ Based on **Dapper** https://github.com/StackExchange/dapper-dot-net
 
 Currently supports **MS Sql Server** and **Postgres**. You can create extensions for other databases.
 
-CruDapper uses SQL autogeneration and parameterized queries, together with reflection to provide CRUD functionality to the fast and excellent .NET ORM Dapper. **All basic CRUD methods support both single and multiple object execution and reading**.
+CruDapper uses SQL autogeneration and parameterized queries, together with reflection to provide CRUD functionality to the fast and excellent .NET ORM Dapper. **All basic CRUD methods support both single and multiple object execution and reading**. GET methods also support easy filtering on deleted rows (provided the table implements IDeletable).
 
 Please refer to the provided Test project for detailed examples and syntax.
 
@@ -89,6 +89,9 @@ identifiableTables = _crudService
 
 Assert.IsTrue(identifiableTables.All(t => t.Id > 0)); //evalutes to true
 ```
+
+# Sample Service Usage
+
 
 # Complete method list
 Will update this with more details. Until then, you may check the provided Test project in the repo.
