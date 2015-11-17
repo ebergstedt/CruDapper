@@ -90,8 +90,50 @@ identifiableTables = _crudService
 Assert.IsTrue(identifiableTables.All(t => t.Id > 0)); //evalutes to true
 ```
 
-# Sample Service Usage
+# Sample service usage pattern
+CruDapper.Services.CrudService can be used as base for specific services, if you want to write SQL directly for more advanced queries. By using the CruDapper overrides (outlined below) **you do not have to worry about disposing your connection** - CruDapper will take care of it.
 
+```c#
+IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
+IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null);
+SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null);
+void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null);
+```
+
+By using the ActiveDbConnection CruDapper will provide you with a usable DbConnection, if you want to use the original Dapper DbConnection extension methods.
+```c#
+
+public class MyService : CrudService
+{
+    public MyService(IDbMapper dbMapper)
+        : base(dbMapper)
+    {
+    }
+    
+    public IEnumerable<MyTable> MyMethodUsingCruDapper()
+    {
+        //CruDapper automatically manages disposing the connection
+        return connection.Query<MyTable>(@"
+            SELECT * 
+            FROM MyTable AS mt 
+            INNER JOIN AnotherTable AS at 
+                ON mt.Id = at.Id
+        ");
+    }
+    
+    public IEnumerable<MyTable> MyMethodUsingDapperExtensions()
+    {
+        using (DbConnection connection = ActiveDbConnection)
+        {
+            // calls the original Dapper DbConnection extension methods making you able to use Dappers full functionality 
+            return connection.Query(@"
+                SELECT * 
+                FROM MyTable
+            ");
+        }
+    }
+}
+```
 
 # Complete method list
 Will update this with more details. Until then, you may check the provided Test project in the repo.
