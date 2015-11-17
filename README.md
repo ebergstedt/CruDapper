@@ -93,12 +93,11 @@ Assert.IsTrue(identifiableTables.All(t => t.Id > 0)); //evalutes to true
 # Complete method list
 Will update this with more details. Until then, you may check the provided Test project in the repo.
 ```c#
-IEnumerable<T> GetAll<T>();
-T GetByPrimaryKey<T>(object id);
-T Get<T>(int id) where T : IDapperable;
-IEnumerable<T> GetByColumn<T>(string column, object value);
-IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos);
-T GetNondeleted<T>(int id) where T : IDapperable, IDeletable;
+IEnumerable<T> GetAll<T>(bool getDeleted = false);
+T GetByPrimaryKey<T>(object id, bool getDeleted = false);
+T Get<T>(int id, bool getDeleted = false) where T : IDapperable;
+IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
+IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos, bool getDeleted = false);
 void Put(object obj);
 IEnumerable<T> PutIdentifiable<T>(object obj);
 void Update(object obj);
