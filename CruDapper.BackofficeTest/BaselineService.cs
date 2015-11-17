@@ -1,5 +1,8 @@
-﻿using CruDapper.Infrastructure;
+﻿using System.Collections.Generic;
+using System.Data.Common;
+using CruDapper.Infrastructure;
 using CruDapper.Services;
+using Dapper;
 
 namespace CruDapper.BackofficeTest
 {

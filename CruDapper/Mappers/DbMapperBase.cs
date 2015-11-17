@@ -7,16 +7,14 @@ using Dapper;
 namespace CruDapper.Mappers
 {
     public abstract class DbMapperBase : IDapperConnectable
-    {
-        protected string ActiveConnectionName;
-
+    {        
         protected ConnectionBridge ConnectionBridge;
         private readonly Provider _provider;
 
         protected DbMapperBase(string connectionName, Provider provider, int? globalCommandTimeout)
         {
             this._provider = provider;
-            this.ConnectionName = connectionName;
+            this.ActiveConnectionName = connectionName;
             this.GlobalCommandTimeout = globalCommandTimeout;
         }
 
@@ -31,21 +29,25 @@ namespace CruDapper.Mappers
             }
         }
 
-        public string ConnectionName
+        protected string _activeConnectionName;
+        public string ActiveConnectionName
         {
             set
             {
-                ActiveConnectionName = value;
+                _activeConnectionName = value;
                 ConnectionBridge = new ConnectionBridge(_provider, ConfigurationManager.ConnectionStrings[ActiveConnectionName].ConnectionString);
             }
 
-            get { return ActiveConnectionName; }
+            get
+            {
+                return _activeConnectionName;
+            }
         }
 
         /// <summary>
         /// Use to call Dapper methods directly from your service
         /// </summary>
-        public DbConnection DbConnection
+        public DbConnection ActiveDbConnection
         {
             get { return ConnectionBridge.GetDbConnection(); }            
         }

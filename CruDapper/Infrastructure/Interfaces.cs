@@ -7,8 +7,8 @@ namespace CruDapper.Infrastructure
 {
     public interface IDbMapper : IDapperConnectable
     {
-        string ConnectionName { get; set; }
-        DbConnection DbConnection { get; }
+        string ActiveConnectionName { get; set; }
+        DbConnection ActiveDbConnection { get; }
 
         IEnumerable<T> GetAll<T>(bool getDeleted = false);
         T GetByPrimaryKey<T>(object primaryKeyValue, bool getDeleted = false);
@@ -25,6 +25,9 @@ namespace CruDapper.Infrastructure
 
     public interface ICrudService : IDapperConnectable
     {
+        string ActiveConnectionName { get; }
+        DbConnection ActiveDbConnection { get; }
+
         IEnumerable<T> GetAll<T>(bool getDeleted = false);
         T GetByPrimaryKey<T>(object id, bool getDeleted = false);
         T Get<T>(int id, bool getDeleted = false) where T : IDapperable;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Common;
 using CruDapper.Infrastructure;
 using Dapper;
 
@@ -42,7 +43,7 @@ namespace CruDapper.Services
         ///     Gets all rows in a table
         /// </summary>
         public IEnumerable<T> GetAll<T>(bool getDeleted = false)
-        {
+        {            
             return _dbMapper.GetAll<T>(getDeleted);
         }
 
@@ -175,13 +176,26 @@ namespace CruDapper.Services
         }
 
         public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null)
-        {
+        {            
             return _dbMapper.QueryMultiple(sqlQuery, parameters, commandTimeout);
         }
 
         public void Execute(string sqlQuery, object parameters, int? commandTimeout = null)
         {            
             _dbMapper.Execute(sqlQuery, parameters, commandTimeout);
+        }
+        #endregion
+
+        #region Helpers
+
+        public string ActiveConnectionName
+        {
+            get { return _dbMapper.ActiveConnectionName; }
+        }
+
+        public DbConnection ActiveDbConnection
+        {
+            get { return _dbMapper.ActiveDbConnection; }
         }
         #endregion
     }
