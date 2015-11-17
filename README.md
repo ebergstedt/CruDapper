@@ -149,10 +149,10 @@ void Update(object obj);
 void Delete<T>(object obj) where T : IDeletable;
 void DeletePermanently(object obj);
 
-IEnumerable<T> Query<T>(string sqlQuery, object parameters = null);
-IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null);
-SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null);
-void Execute(string sqlQuery, object parameters = null);
+IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
+IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null);
+SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null);
+void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null);
 ```
 
 # Testing setup
