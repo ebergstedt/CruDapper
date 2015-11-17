@@ -10,13 +10,12 @@ namespace CruDapper.Infrastructure
         string ConnectionName { get; set; }
         DbConnection DbConnection { get; }
 
-        IEnumerable<T> GetAll<T>();
-        T GetByPrimaryKey<T>(object primaryKeyValue);
-        T Get<T>(int id) where T : IDapperable;
-        IEnumerable<T> GetByColumn<T>(string column, object value);
-        IEnumerable<T> GetByColumn<T>(WhereArgument whereArgument);
-        IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments);
-        T GetNondeleted<T>(int id) where T : IDapperable, IDeletable;
+        IEnumerable<T> GetAll<T>(bool getDeleted = false);
+        T GetByPrimaryKey<T>(object primaryKeyValue, bool getDeleted = false);
+        T Get<T>(int id, bool getDeleted = false) where T : IDapperable;
+        IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
+        IEnumerable<T> GetByColumn<T>(WhereArgument whereArgument, bool getDeleted = false);
+        IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments, bool getDeleted = false);        
 
         IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<object> entities);
         void InsertMultiple(IEnumerable<object> entities);
@@ -26,12 +25,11 @@ namespace CruDapper.Infrastructure
 
     public interface ICrudService : IDapperConnectable
     {
-        IEnumerable<T> GetAll<T>();
-        T GetByPrimaryKey<T>(object id);
-        T Get<T>(int id) where T : IDapperable;
-        IEnumerable<T> GetByColumn<T>(string column, object value);
-        IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos);
-        T GetNondeleted<T>(int id) where T : IDapperable, IDeletable;
+        IEnumerable<T> GetAll<T>(bool getDeleted = false);
+        T GetByPrimaryKey<T>(object id, bool getDeleted = false);
+        T Get<T>(int id, bool getDeleted = false) where T : IDapperable;
+        IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
+        IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos, bool getDeleted = false);
         void Put(object obj);
         IEnumerable<T> PutIdentifiable<T>(object obj);
         void Update(object obj);

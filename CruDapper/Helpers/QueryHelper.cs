@@ -31,9 +31,9 @@ namespace CruDapper.Helpers
                     }
                 }
             }
-        }
+        }        
 
-        public static StringBuilder GetQuery<T>(int id, Provider provider)
+        public static StringBuilder GetQuery<T>(int id, Provider provider, bool getDeleted = false)
         {
             var tableName = ReflectionHelper.GetTableName(typeof (T), provider);
             var query = new StringBuilder();
@@ -45,7 +45,27 @@ namespace CruDapper.Helpers
                 WHERE Id = {1}
             ", tableName, id);
 
+            if (!getDeleted)
+            {
+                query.AppendFormat(" AND {0} ", QueryHelper.GetIsDeletedSQL(provider));
+            }
+
             return query;
+        }
+
+        public static string GetIsDeletedSQL(Provider provider)
+        {
+            switch (provider)
+            {
+                case Provider.MsSql:
+                    return " IsDeleted = 0 ";
+                case Provider.Postgres:
+                    return " IsDeleted = false ";
+                case Provider.Default:
+                    throw new ArgumentException("Provider not implemented");
+            }
+
+            return string.Empty;
         }
 
         public static string GetOperator(Operator? op = null, bool? not = null)

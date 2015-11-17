@@ -26,6 +26,13 @@ namespace CruDapper.Helpers
             }
         }
 
+        public static bool VerifyIDeletable<T>()
+        {
+            if (!typeof (IDeletable).IsAssignableFrom(typeof(T)))
+                return false;
+            return true;
+        }
+
         public static void ValidateList(ref IEnumerable<object> entities)
         {
             foreach (var entity in entities)

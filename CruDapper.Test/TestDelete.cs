@@ -1,4 +1,6 @@
-﻿using CruDapper.BackofficeTest;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CruDapper.BackofficeTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CruDapper.Test
@@ -15,10 +17,15 @@ namespace CruDapper.Test
                 .Delete<TestTable>(entry);
 
             var getDeleteFlagged = CrudService
-                .Get<TestTable>(entry.Id);
+                .Get<TestTable>(entry.Id, true);
 
             Assert.IsNotNull(getDeleteFlagged);
             Assert.IsTrue(getDeleteFlagged.IsDeleted);
+
+            var noDeletedTestTables = CrudService
+                .GetAll<TestTable>();
+
+            Assert.IsTrue(!noDeletedTestTables.Any());
 
             DoBaseline();
         }

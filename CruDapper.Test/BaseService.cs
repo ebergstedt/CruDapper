@@ -13,7 +13,7 @@ namespace CruDapper.Test
 
         public BaseService()
         {
-            DbMapper = new PostgresMapper("Postgres");
+            DbMapper = new MsSqlServerMapper("DefaultConnection");
             ServiceFactory = new ServiceFactory(DbMapper);
 
             CrudService = ServiceFactory.Get<CrudService>();

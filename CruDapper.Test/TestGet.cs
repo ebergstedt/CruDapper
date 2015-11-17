@@ -121,26 +121,5 @@ namespace CruDapper.Test
 
             Assert.IsTrue(result2.Count() == entries.Count());
         }
-
-        [TestMethod]
-        public void GetNondeleted()
-        {
-            var entry = BaseLineAndPutAndReturnEntry();
-
-            var getNondeleted = CrudService
-                .GetNondeleted<TestTable>(entry.Id);
-
-            Assert.IsNotNull(getNondeleted);
-
-            CrudService
-                .Delete<TestTable>(getNondeleted);
-
-            var deletedEntry = CrudService
-                .GetNondeleted<TestTable>(entry.Id);
-
-            Assert.IsNull(deletedEntry);
-
-            DoBaseline();
-        }
     }
 }

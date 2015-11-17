@@ -17,26 +17,31 @@ namespace CruDapper.Mappers
         {
         }
 
-        public IEnumerable<T> GetAll<T>()
+        public IEnumerable<T> GetAll<T>(bool getDeleted = false)
         {
             var tableName = ReflectionHelper.GetTableName(typeof (T), _provider);
-            var query = string.Format("SELECT * FROM {0}", tableName);            
-            return ConnectionBridge.Query<T>(query);
+            StringBuilder query = new StringBuilder();
+            query.AppendFormat("SELECT * FROM {0}", tableName);
+            if (!getDeleted)
+            {
+                query.AppendFormat(" AND {0} ", QueryHelper.GetIsDeletedSQL(_provider));
+            }
+            return ConnectionBridge.Query<T>(query.ToString());
         }
 
-        public T GetByPrimaryKey<T>(object primaryKeyValue)
+        public T GetByPrimaryKey<T>(object primaryKeyValue, bool getDeleted = false)
         {
-            return GetByColumn<T>(ReflectionHelper.GetPrimaryKeyName<T>(), primaryKeyValue)
+            return GetByColumn<T>(ReflectionHelper.GetPrimaryKeyName<T>(), primaryKeyValue, getDeleted)
                 .FirstOrDefault();
         }
 
-        public T Get<T>(int id) where T : IDapperable
+        public T Get<T>(int id, bool getDeleted = false) where T : IDapperable
         {
-            var query = QueryHelper.GetQuery<T>(id, _provider);
+            var query = QueryHelper.GetQuery<T>(id, _provider, getDeleted);
             return ConnectionBridge.Query<T>(query.ToString()).SingleOrDefault();
         }
 
-        public IEnumerable<T> GetByColumn<T>(string column, object value)
+        public IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false)
         {
             return GetByColumn<T>(new WhereArgument
             {
@@ -44,18 +49,18 @@ namespace CruDapper.Mappers
                 Value = value,
                 Operator = Operator.Equals,
                 Not = false
-            });
+            }, getDeleted);
         }
 
-        public IEnumerable<T> GetByColumn<T>(WhereArgument whereArgument)
+        public IEnumerable<T> GetByColumn<T>(WhereArgument whereArgument, bool getDeleted = false)
         {
             return GetByColumns<T>(new List<WhereArgument>
             {
                 whereArgument
-            });
+            }, getDeleted);
         }
 
-        public IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments)
+        public IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments, bool getDeleted = false)
         {
             var tableName = ReflectionHelper.GetTableName(typeof (T), _provider);
             var parameters = new DynamicParameters();
@@ -70,16 +75,14 @@ namespace CruDapper.Mappers
                     1 = 1
             ", tableName);
 
+            if (!getDeleted)
+            {
+                query.AppendFormat(" AND {0} ", QueryHelper.GetIsDeletedSQL(_provider));
+            }
+
             QueryHelper.AddWhereArgumentsToQuery(ref query, parameters, whereArguments, typeof (T));
 
             return ConnectionBridge.Query<T>(query.ToString(), parameters);
-        }
-
-        public T GetNondeleted<T>(int id) where T : IDapperable, IDeletable
-        {
-            var query = QueryHelper.GetQuery<T>(id, _provider);
-            query.Append(" AND IsDeleted = false ");
-            return ConnectionBridge.Query<T>(query.ToString()).SingleOrDefault();
         }
 
         //http://stackoverflow.com/questions/29615445/dapper-bulk-insert-returning-serial-ids/29663184#29663184

@@ -41,40 +41,32 @@ namespace CruDapper.Services
         /// <summary>
         ///     Gets all rows in a table
         /// </summary>
-        public IEnumerable<T> GetAll<T>()
+        public IEnumerable<T> GetAll<T>(bool getDeleted = false)
         {
-            return _dbMapper.GetAll<T>();
+            return _dbMapper.GetAll<T>(getDeleted);
         }
 
-        public T GetByPrimaryKey<T>(object id)
+        public T GetByPrimaryKey<T>(object id, bool getDeleted = false)
         {
-            return _dbMapper.GetByPrimaryKey<T>(id);
+            return _dbMapper.GetByPrimaryKey<T>(id, getDeleted);
         }
 
         /// <summary>
         ///     Get a row by Dapper Id
         /// </summary>
-        public T Get<T>(int id) where T : IDapperable
+        public T Get<T>(int id, bool getDeleted = false) where T : IDapperable
         {
-            return _dbMapper.Get<T>(id);
+            return _dbMapper.Get<T>(id, getDeleted);
         }
 
-        public IEnumerable<T> GetByColumn<T>(string column, object value)
+        public IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false)
         {
-            return _dbMapper.GetByColumn<T>(column, value);
+            return _dbMapper.GetByColumn<T>(column, value, getDeleted);
         }
 
-        public IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos)
+        public IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos, bool getDeleted = false)
         {
-            return _dbMapper.GetByColumns<T>(whereArgumentDtos);
-        }
-
-        /// <summary>
-        ///     Gets an entry where IsDeleted is null or false
-        /// </summary>
-        public T GetNondeleted<T>(int id) where T : IDapperable, IDeletable
-        {
-            return _dbMapper.GetNondeleted<T>(id);
+            return _dbMapper.GetByColumns<T>(whereArgumentDtos, getDeleted);
         }
 
         #endregion
