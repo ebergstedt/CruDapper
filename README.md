@@ -127,7 +127,7 @@ public class MyService : CrudService
         {
             // calls the original Dapper DbConnection extension methods making you able to use Dappers full functionality 
             return connection.Query(@"
-                SELECT * 
+                Delete
                 FROM MyTable
             ");
         }
