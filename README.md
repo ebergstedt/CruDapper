@@ -91,7 +91,7 @@ Assert.IsTrue(identifiableTables.All(t => t.Id > 0)); //evalutes to true
 ```
 
 # Sample service usage pattern
-CruDapper.Services.CrudService can be used as base for specific services, if you want to write SQL directly for more advanced queries. By using the CruDapper overrides (outlined below) **you do not have to worry about disposing your connection** - CruDapper will take care of it.
+CruDapper.Services.CrudService can be used as base for specific services, if you want to write SQL directly for more advanced queries. By using the CruDapper overrides (outlined below) **you do not have to worry about disposing your connection** - CruDapper will take care of it. This will hopefully reduce the amount of boilerplate code you need to write.
 
 ```c#
 IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
