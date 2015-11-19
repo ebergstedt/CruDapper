@@ -158,7 +158,7 @@ void Execute(string sqlQuery, object parameters = null, int? commandTimeout = nu
 # Testing setup
 Change your connectionstring in CruDapper.Test App.config and alter the BaseService accordingly.
 
-Apply the PostgresBaseLine.sql or SqlServerBaseLine.sql to your testing database to setup the needed tables.
+Apply the TestBaslines/TestPostgresBaseLine.sql or TestBaslines/TestSqlServerBaseLine.sql to your testing database to setup the needed tables.
 
 # TODO
 
