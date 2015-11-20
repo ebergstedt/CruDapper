@@ -157,7 +157,7 @@ void DeleteMultiple<T>(IEnumerable<T> entities);
 
 IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
 IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null);
-SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null);
+SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null);
 void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null);
 ```
 
