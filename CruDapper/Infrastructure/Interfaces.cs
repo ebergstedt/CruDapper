@@ -17,10 +17,10 @@ namespace CruDapper.Infrastructure
         IEnumerable<T> GetByColumn<T>(WhereArgument whereArgument, bool getDeleted = false);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments, bool getDeleted = false);        
 
-        IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<object> entities);
-        void InsertMultiple(IEnumerable<object> entities);
-        void UpdateMultiple(IEnumerable<object> entities);
-        void DeleteMultiple(IEnumerable<object> entities);
+        IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<T> entities);
+        void InsertMultiple<T>(IEnumerable<T> entities);
+        void UpdateMultiple<T>(IEnumerable<T> entities);
+        void DeleteMultiple<T>(IEnumerable<T> entities);
     }
 
     public interface ICrudService : IDapperConnectable
@@ -33,11 +33,11 @@ namespace CruDapper.Infrastructure
         T Get<T>(int id, bool getDeleted = false) where T : IDapperable;
         IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos, bool getDeleted = false);
-        void Put(object obj);
+        void Put<T>(object obj);
         IEnumerable<T> PutIdentifiable<T>(object obj);
-        void Update(object obj);
+        void Update<T>(object obj);
         void Delete<T>(object obj) where T : IDeletable;
-        void DeletePermanently(object obj);
+        void DeletePermanently<T>(object obj);
     }
 
     public interface IDapperConnectable

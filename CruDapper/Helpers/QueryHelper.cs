@@ -35,7 +35,7 @@ namespace CruDapper.Helpers
 
         public static StringBuilder GetQuery<T>(int id, Provider provider, bool getDeleted = false)
         {
-            var tableName = ReflectionHelper.GetTableName(typeof (T), provider);
+            var tableName = ReflectionHelper.GetTableName(typeof (T));
             var query = new StringBuilder();
             query.AppendFormat(@"
                 SELECT

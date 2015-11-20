@@ -36,7 +36,7 @@ namespace CruDapper.Test
             var entry = BaseLineAndPutAndReturnEntry();
 
             CrudService
-                .DeletePermanently(entry);
+                .DeletePermanently<TestTable>(entry);
 
             var getForceDeleted = CrudService
                 .Get<TestTable>(entry.Id);

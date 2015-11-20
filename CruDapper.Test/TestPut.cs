@@ -19,7 +19,7 @@ namespace CruDapper.Test
             };
 
             CrudService
-                .Put(entry);
+                .Put<TestTable>(entry);
 
             var testTable = CrudService.Get<TestTable>(entry.Id);            
 
@@ -43,7 +43,7 @@ namespace CruDapper.Test
             }
 
             CrudService
-                .Put(entries);
+                .Put<TestTable>(entries);
 
             var testTables = CrudService
                 .GetAll<TestTable>();

@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Common;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 using CruDapper.Infrastructure;
 using Dapper;
 

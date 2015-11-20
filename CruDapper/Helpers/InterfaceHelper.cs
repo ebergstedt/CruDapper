@@ -6,7 +6,7 @@ namespace CruDapper.Helpers
 {
     public static class InterfaceHelper
     {
-        public static void AssignInterfaceData(ref IEnumerable<object> entities)
+        public static void AssignInterfaceData<T>(ref IEnumerable<T> entities)
         {
             foreach (var entity in entities)
             {
@@ -33,7 +33,7 @@ namespace CruDapper.Helpers
             return true;
         }
 
-        public static void ValidateList(ref IEnumerable<object> entities)
+        public static void ValidateList<T>(ref IEnumerable<T> entities)
         {
             foreach (var entity in entities)
             {

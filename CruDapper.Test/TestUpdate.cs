@@ -15,7 +15,7 @@ namespace CruDapper.Test
             originalEntry.SomeData = "alteredData";
 
             CrudService
-                .Update(originalEntry);
+                .Update<TestTable>(originalEntry);
 
             var updatedEntry = CrudService
                 .Get<TestTable>(originalEntry.Id);

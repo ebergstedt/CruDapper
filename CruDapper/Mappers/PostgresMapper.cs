@@ -19,7 +19,7 @@ namespace CruDapper.Mappers
 
         public IEnumerable<T> GetAll<T>(bool getDeleted = false)
         {
-            var tableName = ReflectionHelper.GetTableName(typeof (T), _provider);
+            var tableName = ReflectionHelper.GetTableName(typeof (T));
             StringBuilder query = new StringBuilder();
             query.AppendFormat("SELECT * FROM {0}", tableName);
             if (!getDeleted)
@@ -31,7 +31,7 @@ namespace CruDapper.Mappers
 
         public T GetByPrimaryKey<T>(object primaryKeyValue, bool getDeleted = false)
         {
-            return GetByColumn<T>(ReflectionHelper.GetPrimaryKeyName<T>(), primaryKeyValue, getDeleted)
+            return GetByColumn<T>(ReflectionHelper.GetPrimaryKeyName(typeof(T)), primaryKeyValue, getDeleted)
                 .FirstOrDefault();
         }
 
@@ -62,7 +62,7 @@ namespace CruDapper.Mappers
 
         public IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments, bool getDeleted = false)
         {
-            var tableName = ReflectionHelper.GetTableName(typeof (T), _provider);
+            var tableName = ReflectionHelper.GetTableName(typeof (T));
             var parameters = new DynamicParameters();
 
             var query = new StringBuilder();
@@ -86,7 +86,7 @@ namespace CruDapper.Mappers
         }
 
         //http://stackoverflow.com/questions/29615445/dapper-bulk-insert-returning-serial-ids/29663184#29663184
-        public IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<object> entities)
+        public IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<T> entities)
         {
             if (!entities.Any())
                 return null;
@@ -103,8 +103,8 @@ namespace CruDapper.Mappers
                 guidList.Add(identifiable.RowGuid);
             }
 
-            var tableName = ReflectionHelper.GetTableName(entities.First().GetType(), _provider);
-            var editableFields = ReflectionHelper.GetEditableFields(entities.First().GetType());
+            var tableName = ReflectionHelper.GetTableName(typeof(T));
+            var editableFields = ReflectionHelper.GetEditableFields(typeof(T));
 
             var query = new StringBuilder();
             query.AppendFormat("INSERT INTO {0} (", tableName);
@@ -142,7 +142,7 @@ namespace CruDapper.Mappers
             return resultList;
         }
 
-        public void InsertMultiple(IEnumerable<object> entities)
+        public void InsertMultiple<T>(IEnumerable<T> entities)
         {
             if (!entities.Any())
                 return;
@@ -150,9 +150,9 @@ namespace CruDapper.Mappers
             InterfaceHelper.AssignInterfaceData(ref entities);
             InterfaceHelper.ValidateList(ref entities);
 
-            var tableName = ReflectionHelper.GetTableName(entities.First().GetType(), _provider);
-            var keys = ReflectionHelper.GetKeyFields(entities.First().GetType());
-            var editableFields = ReflectionHelper.GetEditableFields(entities.First().GetType());
+            var tableName = ReflectionHelper.GetTableName(typeof(T));
+            var keys = ReflectionHelper.GetKeyFields(typeof(T));
+            var editableFields = ReflectionHelper.GetEditableFields(typeof(T));
 
             var query = new StringBuilder();
             query.AppendFormat("INSERT INTO {0} (", tableName);
@@ -187,7 +187,7 @@ namespace CruDapper.Mappers
             }
         }
 
-        public void UpdateMultiple(IEnumerable<object> entities)
+        public void UpdateMultiple<T>(IEnumerable<T> entities)
         {
             if (!entities.Any())
                 return;
@@ -195,9 +195,9 @@ namespace CruDapper.Mappers
             InterfaceHelper.AssignInterfaceData(ref entities);
             InterfaceHelper.ValidateList(ref entities);
 
-            var tableName = ReflectionHelper.GetTableName(entities.First().GetType(), _provider);
-            var keys = ReflectionHelper.GetKeyFields(entities.First().GetType());
-            var editableFields = ReflectionHelper.GetEditableFields(entities.First().GetType());
+            var tableName = ReflectionHelper.GetTableName(typeof(T));
+            var keys = ReflectionHelper.GetKeyFields(typeof(T));
+            var editableFields = ReflectionHelper.GetEditableFields(typeof(T));
 
             var query = new StringBuilder();
 
@@ -222,7 +222,7 @@ namespace CruDapper.Mappers
             ConnectionBridge.Execute(query.ToString(), entities);
         }
 
-        public void DeleteMultiple(IEnumerable<object> entities)
+        public void DeleteMultiple<T>(IEnumerable<T> entities)
         {
             if (!entities.Any())
                 return;
@@ -230,8 +230,8 @@ namespace CruDapper.Mappers
             InterfaceHelper.AssignInterfaceData(ref entities);
             InterfaceHelper.ValidateList(ref entities);
 
-            var tableName = ReflectionHelper.GetTableName(entities.First().GetType(), _provider);
-            var keys = ReflectionHelper.GetKeyFields(entities.First().GetType());
+            var tableName = ReflectionHelper.GetTableName(typeof(T));
+            var keys = ReflectionHelper.GetKeyFields(typeof(T));
 
             if (!keys.Any())
                 return;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using CruDapper.Infrastructure;
 using Dapper;
@@ -19,18 +20,18 @@ namespace CruDapper.Services
         /// <summary>
         ///     Updates object with matching key fields
         /// </summary>
-        public void Update(object obj)
+        public void Update<T>(object obj)
         {
-            var enumerable = obj as IEnumerable<object>;
+            var enumerable = obj as IEnumerable<T>;
             if (enumerable != null)
             {
                 _dbMapper.UpdateMultiple(enumerable);
             }
             else
-            {
-                _dbMapper.UpdateMultiple(new List<object>
+            {                                
+                _dbMapper.UpdateMultiple(new List<T>()
                 {
-                    obj
+                    (T)obj
                 });
             }
         }
@@ -77,18 +78,18 @@ namespace CruDapper.Services
         /// <summary>
         ///     Will assign IDapperable Id for returning object if it's a single object
         /// </summary>
-        public void Put(object obj)
+        public void Put<T>(object obj)
         {
-            var enumerable = obj as IEnumerable<object>;
+            var enumerable = obj as IEnumerable<T>;
             if (enumerable != null)
             {
-                _dbMapper.InsertMultiple(enumerable);
+                _dbMapper.InsertMultiple<T>(enumerable);
             }
             else
             {
-                _dbMapper.InsertMultiple(new List<object>
+                _dbMapper.InsertMultiple<T>(new List<T>()
                 {
-                    obj
+                    (T)obj
                 });
             }
         }
@@ -98,14 +99,14 @@ namespace CruDapper.Services
         /// </summary>
         public IEnumerable<T> PutIdentifiable<T>(object obj)
         {
-            var enumerable = obj as IEnumerable<object>;
+            var enumerable = obj as IEnumerable<T>;
             if (enumerable != null)
             {
                 return _dbMapper.InsertMultipleIdentifiable<T>(enumerable);
             }
-            return _dbMapper.InsertMultipleIdentifiable<T>(new List<object>
+            return _dbMapper.InsertMultipleIdentifiable<T>(new List<T>()
             {
-                obj
+                (T)obj
             });
         }
 
@@ -118,7 +119,7 @@ namespace CruDapper.Services
         /// </summary>
         public void Delete<T>(object obj) where T : IDeletable
         {
-            var enumerable = obj as IEnumerable<object>;
+            var enumerable = obj as IEnumerable<T>;
 
             if (enumerable != null)
             {
@@ -140,24 +141,24 @@ namespace CruDapper.Services
                 }
             }
 
-            Update(obj);
+            Update<T>(obj);
         }
 
         /// <summary>
         ///     Deletes row by Id
         /// </summary>
-        public void DeletePermanently(object obj)
+        public void DeletePermanently<T>(object obj)
         {
-            var enumerable = obj as IEnumerable<object>;
+            var enumerable = obj as IEnumerable<T>;
             if (enumerable != null)
             {
                 _dbMapper.DeleteMultiple(enumerable);
             }
             else
             {
-                _dbMapper.DeleteMultiple(new List<object>
+                _dbMapper.DeleteMultiple(new List<T>()
                 {
-                    obj
+                    (T)obj
                 });
             }
         }

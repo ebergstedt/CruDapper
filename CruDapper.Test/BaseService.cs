@@ -49,7 +49,7 @@ namespace CruDapper.Test
             };
 
             CrudService
-                .Put(entry);
+                .Put<TestTable>(entry);
 
             return entry;
         }
