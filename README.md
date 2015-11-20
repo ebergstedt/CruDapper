@@ -139,15 +139,16 @@ public class MyService : CrudService
 Will update this with more details. Until then, you may check the provided Test project in the repo.
 ```c#
 IEnumerable<T> GetAll<T>(bool getDeleted = false);
-T GetByPrimaryKey<T>(object id, bool getDeleted = false);
+T GetByPrimaryKey<T>(object primaryKeyValue, bool getDeleted = false);
 T Get<T>(int id, bool getDeleted = false) where T : IDapperable;
 IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
-IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos, bool getDeleted = false);
-void Put(object obj);
-IEnumerable<T> PutIdentifiable<T>(object obj);
-void Update(object obj);
-void Delete<T>(object obj) where T : IDeletable;
-void DeletePermanently(object obj);
+IEnumerable<T> GetByColumn<T>(WhereArgument whereArgument, bool getDeleted = false);
+IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments, bool getDeleted = false);        
+
+IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<T> entities);
+void InsertMultiple<T>(IEnumerable<T> entities);
+void UpdateMultiple<T>(IEnumerable<T> entities);
+void DeleteMultiple<T>(IEnumerable<T> entities);
 
 IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
 IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null);
