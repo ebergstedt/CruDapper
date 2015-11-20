@@ -61,7 +61,7 @@ IEnumerable<TestTable> allRows = _crudService
 #### Update
 ```c#
 _crudService
-    .Update(entry);
+    .Update<TestTable>(entry);
 ```
 
 #### Delete
