@@ -163,7 +163,6 @@ Apply the TestBaslines/TestPostgresBaseLine.sql or TestBaslines/TestSqlServerBas
 
 # TODO
 
-* Cache reflection for performance
 * User can specify more Dapper specific parameters such as transactions and timeouts
 * New methods to map dynamic query result to Dictionary<string, object> and object[] 
 * Pagination / Skip
