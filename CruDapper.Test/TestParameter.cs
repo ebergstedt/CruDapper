@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CruDapper.BackofficeTest;
 using CruDapper.Helpers;
+using CruDapper.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CruDapper.Test
@@ -16,6 +17,9 @@ namespace CruDapper.Test
         [TestMethod]
         public void TestToIdIntegerTable()
         {
+            if (Provider != Provider.MsSql)
+                return;
+
             DoBaseline();
 
             var entries = new List<TestTable>();

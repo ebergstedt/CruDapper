@@ -10,9 +10,11 @@ namespace CruDapper.Test
         protected readonly IServiceFactory ServiceFactory;
         protected ICrudService CrudService;
         protected IDbMapper DbMapper;
+        protected Provider Provider;
 
         public BaseService()
         {
+            Provider = Provider.MsSql; //for test methods
             DbMapper = new MsSqlServerMapper("DefaultConnection");
             ServiceFactory = new ServiceFactory(DbMapper);
 
