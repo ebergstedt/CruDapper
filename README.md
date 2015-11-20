@@ -9,6 +9,10 @@ Currently supports **MS Sql Server** and **Postgres**. You can create extensions
 
 CruDapper uses SQL autogeneration and parameterized queries, together with reflection to provide CRUD functionality to the fast and excellent .NET ORM Dapper. **All basic CRUD methods support both single and multiple object execution and reading**. GET methods also support easy filtering on deleted rows (provided the table implements IDeletable).
 
+CruDapper features **automatic value assignment of interfaces upon any CRUD execution**, such as setting UpdatedAt to the current date when using Update. Check InterfaceHelper.cs if you wish to implement or change the behavior.
+
+CruDapper **caches reflection results for improved performance**, just like Dapper.
+
 Please refer to the provided Test project for detailed examples and syntax.
 
 # Example usage
