@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ParameterHelpers.cs" />
     <Compile Include="Infrastructure\AbstractContainers.cs" />
     <Compile Include="Infrastructure\Attributes.cs" />
     <Compile Include="Infrastructure\Containers.cs" />
