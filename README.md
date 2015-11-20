@@ -31,7 +31,7 @@ var entry = new TestTable
 };
 
 _crudService
-    .Put(entry);
+    .Put<TestTable>(entry);
 
 TestTable tableById = _crudService
     .Get<TestTable>(entry.Id);
@@ -49,7 +49,7 @@ for (var i = 0; i < 1000; i++)
 }
 
 _crudService
-    .Put(entries);
+    .Put<TestTable>(entries);
 ```
 
 #### Get all rows in a table
