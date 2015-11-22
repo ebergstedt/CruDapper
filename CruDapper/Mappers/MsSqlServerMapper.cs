@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using CruDapper.Code;
 using CruDapper.Helpers;
 using CruDapper.Infrastructure;
 using Dapper;
@@ -142,7 +144,7 @@ namespace CruDapper.Mappers
         public void InsertMultiple<T>(IEnumerable<T> entities)
         {
             if (!entities.Any())
-                return;
+                return;            
 
             InterfaceHelper.AssignInterfaceData(ref entities);
             InterfaceHelper.ValidateList(ref entities);

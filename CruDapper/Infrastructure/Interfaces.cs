@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using CruDapper.Code;
 using Dapper;
 
 namespace CruDapper.Infrastructure
@@ -34,6 +35,7 @@ namespace CruDapper.Infrastructure
         IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos, bool getDeleted = false);
         void Put<T>(object obj);
+
         IEnumerable<T> PutIdentifiable<T>(object obj);
         void Update<T>(object obj);
         void Delete<T>(object obj) where T : IDeletable;
@@ -44,7 +46,7 @@ namespace CruDapper.Infrastructure
     {
         IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
         IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null);
-        SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null);
+        SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null);
         void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null);
     }
 

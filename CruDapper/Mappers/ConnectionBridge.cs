@@ -52,15 +52,12 @@ namespace CruDapper.Mappers
             return result;
         }
 
-        public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
             SqlMapper.GridReader result;
             using (var scope = new TransactionScope())
             {
-                using (var connection = GetDbConnection())
-                {
-                    result = connection.QueryMultiple(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
-                }
+                result = connection.QueryMultiple(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);             
                 scope.Complete();
             }
             return result;

@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ParameterHelpers.cs" />
+    <Compile Include="Code\Snapshotter.cs" />
     <Compile Include="Infrastructure\AbstractContainers.cs" />
     <Compile Include="Infrastructure\Attributes.cs" />
     <Compile Include="Infrastructure\Containers.cs" />

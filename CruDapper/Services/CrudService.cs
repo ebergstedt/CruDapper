@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using CruDapper.Code;
 using CruDapper.Infrastructure;
 using Dapper;
 
@@ -176,9 +177,9 @@ namespace CruDapper.Services
             return _dbMapper.Query<T>(sqlQuery, parameters, commandTimeout);
         }
 
-        public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
         {            
-            return _dbMapper.QueryMultiple(sqlQuery, parameters, commandTimeout);
+            return _dbMapper.QueryMultiple(connection, sqlQuery, parameters, commandTimeout);
         }
 
         public void Execute(string sqlQuery, object parameters, int? commandTimeout = null)

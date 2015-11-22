@@ -67,9 +67,9 @@ namespace CruDapper.Mappers
             return ConnectionBridge.QueryDynamic(sqlQuery, parameters, commandTimeout);
         }
 
-        public SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
-            return ConnectionBridge.QueryMultiple(sqlQuery, parameters, commandTimeout);
+            return ConnectionBridge.QueryMultiple(connection, sqlQuery, parameters, commandTimeout);
         }
 
         public void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null)
