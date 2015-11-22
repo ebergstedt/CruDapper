@@ -23,12 +23,7 @@ namespace CruDapper.Test
             string dataChange = "changed my data";
             entry.SomeData = dataChange;
 
-            //CrudService.UpdateBySnapshot<TestTable>(snapshot);
-
-            var testTable = CrudService
-                .Get<TestTable>(entry.Id);
-
-            Assert.IsTrue(testTable.SomeData == dataChange);
+            Assert.IsTrue(snapshot.memberWiseClone.SomeData == "data");
         }
     }
 }

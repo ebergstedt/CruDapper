@@ -53,6 +53,8 @@ WHERE Id IN (
             });
 
             Assert.IsTrue(testTablesByIdTable.Count() == entries.Count);
+
+            DoBaseline();
         }
     }
 }

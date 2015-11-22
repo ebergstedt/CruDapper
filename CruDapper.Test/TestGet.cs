@@ -120,6 +120,8 @@ namespace CruDapper.Test
                 });
 
             Assert.IsTrue(result2.Count() == entries.Count());
+
+            DoBaseline();
         }
     }
 }

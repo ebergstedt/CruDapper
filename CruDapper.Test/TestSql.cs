@@ -21,13 +21,10 @@ namespace CruDapper.Test
 
             Assert.IsNotNull(entry);
 
-            var testTablesByGetAll = CrudService
-                .GetAll<TestTable>();
-
             var testTablesByQuery = CrudService
                 .Query<TestTable>("SELECT * FROM CruDapperSchema.TestTable");
 
-            Assert.IsTrue(testTablesByGetAll.Count() == testTablesByQuery.Count());
+            Assert.IsTrue(testTablesByQuery.Any());
 
             DoBaseline();
         }
