@@ -13,6 +13,8 @@ CruDapper features **automatic value assignment of interfaces upon any CRUD exec
 
 CruDapper **caches reflection results for improved performance**, just like Dapper.
 
+CruDapper **automatically enlists transactions** - you will not need to worry about partial data corruption if your queries throws an exception midway.
+
 Please refer to the provided Test project for detailed examples and syntax.
 
 # Example usage
