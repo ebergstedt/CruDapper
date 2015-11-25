@@ -25,13 +25,11 @@ namespace CruDapper.Mappers
         public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
             IEnumerable<T> result;
+            using (var connection = GetDbConnection())
             using (var scope = new TransactionScope())
-            {
-                using (var connection = GetDbConnection())
-                {
-                    connection.Open();
-                    result = connection.Query<T>(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
-                }
+            {                             
+                connection.Open();
+                result = connection.Query<T>(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);                
                 scope.Complete();
             }
             return result;
@@ -40,13 +38,11 @@ namespace CruDapper.Mappers
         public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
             IEnumerable<dynamic> result;
+            using (var connection = GetDbConnection())
             using (var scope = new TransactionScope())
-            {
-                using (var connection = GetDbConnection())
-                {
-                    connection.Open();
-                    result = connection.Query(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
-                }
+            {     
+                connection.Open();
+                result = connection.Query(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);                
                 scope.Complete();
             }
             return result;
@@ -65,13 +61,11 @@ namespace CruDapper.Mappers
 
         public void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
+            using (var connection = GetDbConnection())
             using (var scope = new TransactionScope())
-            {
-                using (var connection = GetDbConnection())
-                {
-                    connection.Open();
-                    connection.Execute(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
-                }
+            {                
+                connection.Open();
+                connection.Execute(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);                
                 scope.Complete();
             }
         }
