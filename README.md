@@ -170,6 +170,7 @@ Apply the TestBaslines/TestPostgresBaseLine.sql or TestBaslines/TestSqlServerBas
 
 # TODO
 
+* Merge statement
 * Async
 * User can specify more Dapper specific parameters such as transactions and timeouts
 * New methods to map dynamic query result to Dictionary<string, object> and object[] 
