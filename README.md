@@ -162,6 +162,7 @@ IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<T> entities);
 void InsertMultiple<T>(IEnumerable<T> entities);
 void UpdateMultiple<T>(IEnumerable<T> entities);
 void DeleteMultiple<T>(IEnumerable<T> entities);
+void MergeMultiple<T>(IEnumerable<T> entities);
 
 IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
 IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null);
@@ -176,7 +177,6 @@ Apply the TestBaslines/TestPostgresBaseLine.sql or TestBaslines/TestSqlServerBas
 
 # TODO
 
-* Merge statement
 * Async
 * User can specify more Dapper specific parameters such as transactions and timeouts
 * New methods to map dynamic query result to Dictionary<string, object> and object[] 
