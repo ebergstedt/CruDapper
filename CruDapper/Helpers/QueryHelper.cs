@@ -68,6 +68,11 @@ namespace CruDapper.Helpers
             return string.Empty;
         }
 
+        public static string GetConcurrentConnectionSafeTempTableName<T>()
+        {
+            return string.Format("#{0}{1}", ReflectionHelper.GetTableName(typeof(T), false), Guid.NewGuid().ToString().Replace("-", String.Empty));
+        }
+
         public static string GetOperator(Operator? op = null, bool? not = null)
         {
             not = not ?? false;

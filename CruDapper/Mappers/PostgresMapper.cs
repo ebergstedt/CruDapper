@@ -251,5 +251,10 @@ namespace CruDapper.Mappers
 
             ConnectionBridge.Execute(query.ToString(), entities);
         }
+
+        public void Merge<T>(IEnumerable<T> entities)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

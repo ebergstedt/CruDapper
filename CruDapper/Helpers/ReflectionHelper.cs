@@ -83,7 +83,7 @@ namespace CruDapper.Helpers
         }
 
         static ConcurrentDictionary<Type, string> tableNameMap = new ConcurrentDictionary<Type, string>();
-        public static string GetTableName(Type type)
+        public static string GetTableName(Type type, bool withSchema = true)
         {
             string result;
             if (!tableNameMap.TryGetValue(type, out result))
@@ -95,6 +95,9 @@ namespace CruDapper.Helpers
                 result = tableAttribute != null ? tableAttribute.Name : null;
                 tableNameMap[type] = result;
             }
+
+            if (!withSchema)
+                return result.Split('.').Last();
             return result;
         }
 

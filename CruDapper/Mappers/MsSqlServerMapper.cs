@@ -253,5 +253,72 @@ namespace CruDapper.Mappers
 
             ConnectionBridge.Execute(query.ToString(), entities);
         }
+
+        public void Merge<T>(IEnumerable<T> entities)
+        {
+            InterfaceHelper.AssignInterfaceData(ref entities);
+            InterfaceHelper.ValidateList(ref entities);
+
+            var tableName = ReflectionHelper.GetTableName(typeof(T));
+            var tempTableName = QueryHelper.GetConcurrentConnectionSafeTempTableName<T>();
+            var keys = ReflectionHelper.GetKeyFields(typeof(T));
+            var editableFields = ReflectionHelper.GetEditableFields(typeof(T));            
+
+            var query = new StringBuilder();
+            //temp table will be dropped within transaction scope in Execute
+            query.AppendFormat(@" SELECT TOP 0 * INTO {0} FROM {1} ", tempTableName, tableName);
+            query.AppendFormat(" SET IDENTITY_INSERT {0} ON; ", tempTableName);
+            query.AppendFormat(" INSERT INTO {0} (", tempTableName);
+            foreach (var key in keys)
+            {
+                query.AppendFormat("{0}, ", key.Name);
+            }
+            foreach (var editableField in editableFields)
+            {
+                query.AppendFormat("{0}, ", editableField.Name);
+            }
+            query.Length -= 2;
+            query.Append(") VALUES (");
+            foreach (var key in keys)
+            {
+                query.AppendFormat("@{0}, ", key.Name);
+            }
+            foreach (var editableField in editableFields)
+            {
+                query.AppendFormat("@{0}, ", editableField.Name);
+            }
+            query.Length -= 2;
+            query.Append(");");
+            query.AppendFormat(" MERGE {0} AS TargetTable ", tableName);
+            query.AppendFormat(" USING {0} AS SourceTable ", tempTableName);
+            query.AppendFormat(" ON 1=1 ");
+            foreach (var key in keys)
+            {
+                query.AppendFormat(" AND TargetTable.{0} = SourceTable.{0} ", key.Name);
+            }
+            query.AppendFormat(" WHEN MATCHED THEN UPDATE SET ");
+            foreach (var editableField in editableFields)
+            {
+                query.AppendFormat("TargetTable.{0} = SourceTable.{0}, ", editableField.Name);
+            }
+            query.Length -= 2;
+            query.AppendFormat(" WHEN NOT MATCHED THEN INSERT ");
+            query.Append("(");
+            foreach (var editableField in editableFields)
+            {
+                query.AppendFormat("{0}, ", editableField.Name);
+            }
+            query.Length -= 2;
+            query.Append(") VALUES (");
+            foreach (var editableField in editableFields)
+            {
+                query.AppendFormat("SourceTable.{0}, ", editableField.Name);
+            }
+            query.Length -= 2;
+            query.Append(")");
+            query.Append(";");
+
+            ConnectionBridge.Execute(query.ToString(), entities);
+        }
     }
 }

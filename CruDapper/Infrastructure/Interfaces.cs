@@ -22,6 +22,8 @@ namespace CruDapper.Infrastructure
         void InsertMultiple<T>(IEnumerable<T> entities);
         void UpdateMultiple<T>(IEnumerable<T> entities);
         void DeleteMultiple<T>(IEnumerable<T> entities);
+
+        void Merge<T>(IEnumerable<T> entities);
     }
 
     public interface ICrudService : IDapperConnectable
@@ -40,6 +42,8 @@ namespace CruDapper.Infrastructure
         void Update<T>(object obj);
         void Delete<T>(object obj) where T : IDeletable;
         void DeletePermanently<T>(object obj);
+
+        void Merge<T>(object obj);
     }
 
     public interface IDapperConnectable

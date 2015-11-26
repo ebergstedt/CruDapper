@@ -116,7 +116,7 @@ namespace CruDapper.Services
         #region DELETE
 
         /// <summary>
-        ///     Sets IsDeleted to true
+        ///    Sets IsDeleted to true
         /// </summary>
         public void Delete<T>(object obj) where T : IDeletable
         {
@@ -158,6 +158,22 @@ namespace CruDapper.Services
             else
             {
                 _dbMapper.DeleteMultiple(new List<T>()
+                {
+                    (T)obj
+                });
+            }
+        }
+
+        public void Merge<T>(object obj)
+        {
+            var enumerable = obj as IEnumerable<T>;
+            if (enumerable != null)
+            {
+                _dbMapper.Merge(enumerable);
+            }
+            else
+            {
+                _dbMapper.Merge(new List<T>()
                 {
                     (T)obj
                 });
