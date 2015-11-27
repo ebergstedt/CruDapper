@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Threading.Tasks;
 using CruDapper.Code;
 using Dapper;
 
@@ -22,8 +23,7 @@ namespace CruDapper.Infrastructure
         void InsertMultiple<T>(IEnumerable<T> entities);
         void UpdateMultiple<T>(IEnumerable<T> entities);
         void DeleteMultiple<T>(IEnumerable<T> entities);
-
-        void Merge<T>(IEnumerable<T> entities);
+        void MergeMultiple<T>(IEnumerable<T> entities);
     }
 
     public interface ICrudService : IDapperConnectable
@@ -49,9 +49,13 @@ namespace CruDapper.Infrastructure
     public interface IDapperConnectable
     {
         IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
+        Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
         IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null);
+        Task<IEnumerable<dynamic>> QueryDynamicAsync(string sqlQuery, object parameters = null,int? commandTimeout = null);
         SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null);
+        Task<SqlMapper.GridReader> QueryMultipleAsync(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null);
         void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null);
+        Task<int> ExecuteAsync(string sqlQuery, object parameters = null, int? commandTimeout = null);
     }
 
     public interface IServiceFactory

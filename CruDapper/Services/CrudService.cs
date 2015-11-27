@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Threading.Tasks;
 using CruDapper.Code;
 using CruDapper.Infrastructure;
 using Dapper;
@@ -169,11 +170,11 @@ namespace CruDapper.Services
             var enumerable = obj as IEnumerable<T>;
             if (enumerable != null)
             {
-                _dbMapper.Merge(enumerable);
+                _dbMapper.MergeMultiple(enumerable);
             }
             else
             {
-                _dbMapper.Merge(new List<T>()
+                _dbMapper.MergeMultiple(new List<T>()
                 {
                     (T)obj
                 });
@@ -183,14 +184,25 @@ namespace CruDapper.Services
         #endregion
 
         #region Dapper specific
+
+        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            return _dbMapper.Query<T>(sqlQuery, parameters, commandTimeout);
+        }
+
+        public Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            return _dbMapper.QueryAsync<T>(sqlQuery, parameters, commandTimeout);
+        }
+
         public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
             return _dbMapper.QueryDynamic(sqlQuery, parameters, commandTimeout);
         }
 
-        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public Task<IEnumerable<dynamic>> QueryDynamicAsync(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
-            return _dbMapper.Query<T>(sqlQuery, parameters, commandTimeout);
+            return _dbMapper.QueryDynamicAsync(sqlQuery, parameters, commandTimeout);
         }
 
         public SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
@@ -198,10 +210,21 @@ namespace CruDapper.Services
             return _dbMapper.QueryMultiple(connection, sqlQuery, parameters, commandTimeout);
         }
 
+        public Task<SqlMapper.GridReader> QueryMultipleAsync(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            return _dbMapper.QueryMultipleAsync(connection, sqlQuery, parameters, commandTimeout);
+        }
+
         public void Execute(string sqlQuery, object parameters, int? commandTimeout = null)
         {            
             _dbMapper.Execute(sqlQuery, parameters, commandTimeout);
         }
+
+        public Task<int> ExecuteAsync(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            return _dbMapper.ExecuteAsync(sqlQuery, parameters, commandTimeout);
+        }
+
         #endregion
 
         #region Helpers

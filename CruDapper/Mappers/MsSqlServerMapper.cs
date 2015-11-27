@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using CruDapper.Code;
 using CruDapper.Helpers;
@@ -33,7 +32,7 @@ namespace CruDapper.Mappers
 
         public T GetByPrimaryKey<T>(object primaryKeyValue, bool getDeleted = false)
         {
-            return GetByColumn<T>(ReflectionHelper.GetPrimaryKeyName(typeof (T)), primaryKeyValue, getDeleted)
+            return GetByColumn<T>(ReflectionHelper.GetPrimaryKeyName(typeof(T)), primaryKeyValue, getDeleted)
                 .FirstOrDefault();
         }
 
@@ -254,21 +253,22 @@ namespace CruDapper.Mappers
             ConnectionBridge.Execute(query.ToString(), entities);
         }
 
-        public void Merge<T>(IEnumerable<T> entities)
+        public void MergeMultiple<T>(IEnumerable<T> entities)
         {
             InterfaceHelper.AssignInterfaceData(ref entities);
             InterfaceHelper.ValidateList(ref entities);
 
-            var tableName = ReflectionHelper.GetTableName(typeof(T));
-            var tempTableName = QueryHelper.GetConcurrentConnectionSafeTempTableName<T>();
+            var targetTableName = ReflectionHelper.GetTableName(typeof(T));
+            var tempTableName  = ReflectionHelper.GetConcurrentConnectionSafeTempTableName<T>();
+            var sourceTableName = string.Format("#{0}", tempTableName);
             var keys = ReflectionHelper.GetKeyFields(typeof(T));
             var editableFields = ReflectionHelper.GetEditableFields(typeof(T));            
 
             var query = new StringBuilder();
             //temp table will be dropped within transaction scope in Execute
-            query.AppendFormat(@" SELECT TOP 0 * INTO {0} FROM {1} ", tempTableName, tableName);
-            query.AppendFormat(" SET IDENTITY_INSERT {0} ON; ", tempTableName);
-            query.AppendFormat(" INSERT INTO {0} (", tempTableName);
+            query.AppendFormat(@" SELECT TOP 0 * INTO {0} FROM {1} ", sourceTableName, targetTableName); //generate empty clone
+            query.AppendFormat(" SET IDENTITY_INSERT {0} ON; ", sourceTableName); 
+            query.AppendFormat(" INSERT INTO {0} (", sourceTableName); //seed temp table
             foreach (var key in keys)
             {
                 query.AppendFormat("{0}, ", key.Name);
@@ -289,8 +289,8 @@ namespace CruDapper.Mappers
             }
             query.Length -= 2;
             query.Append(");");
-            query.AppendFormat(" MERGE {0} AS TargetTable ", tableName);
-            query.AppendFormat(" USING {0} AS SourceTable ", tempTableName);
+            query.AppendFormat(" MERGE {0} AS TargetTable ", targetTableName); //merge
+            query.AppendFormat(" USING {0} AS SourceTable ", sourceTableName);
             query.AppendFormat(" ON 1=1 ");
             foreach (var key in keys)
             {

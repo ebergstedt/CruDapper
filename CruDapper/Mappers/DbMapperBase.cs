@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using CruDapper.Infrastructure;
 using Dapper;
 
@@ -62,9 +63,19 @@ namespace CruDapper.Mappers
             return ConnectionBridge.Query<T>(sqlQuery, parameters, commandTimeout);
         }
 
+        public Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            return ConnectionBridge.QueryAsync<T>(sqlQuery, parameters, commandTimeout);
+        }
+
         public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
             return ConnectionBridge.QueryDynamic(sqlQuery, parameters, commandTimeout);
+        }
+
+        public Task<IEnumerable<dynamic>> QueryDynamicAsync(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            return ConnectionBridge.QueryDynamicAsync(sqlQuery, parameters, commandTimeout);
         }
 
         public SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
@@ -72,9 +83,19 @@ namespace CruDapper.Mappers
             return ConnectionBridge.QueryMultiple(connection, sqlQuery, parameters, commandTimeout);
         }
 
+        public Task<SqlMapper.GridReader> QueryMultipleAsync(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            return ConnectionBridge.QueryMultipleAsync(connection, sqlQuery, parameters, commandTimeout);
+        }
+
         public void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
             ConnectionBridge.Execute(sqlQuery, parameters, commandTimeout);
+        }
+
+        public Task<int> ExecuteAsync(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        {
+            return ConnectionBridge.ExecuteAsync(sqlQuery, parameters, commandTimeout);
         }
     }
 }

@@ -23,9 +23,9 @@ namespace CruDapper.Mappers
             var tableName = ReflectionHelper.GetTableName(typeof (T));
             StringBuilder query = new StringBuilder();
             query.AppendFormat("SELECT * FROM {0}", tableName);
-            if (!getDeleted)
+            if (!getDeleted && InterfaceHelper.VerifyIDeletable<T>())
             {
-                query.AppendFormat(" AND {0} ", QueryHelper.GetIsDeletedSQL(_provider));
+                query.AppendFormat(" WHERE {0} ", QueryHelper.GetIsDeletedSQL(_provider));
             }
             return ConnectionBridge.Query<T>(query.ToString());
         }
@@ -252,7 +252,7 @@ namespace CruDapper.Mappers
             ConnectionBridge.Execute(query.ToString(), entities);
         }
 
-        public void Merge<T>(IEnumerable<T> entities)
+        public void MergeMultiple<T>(IEnumerable<T> entities)
         {
             throw new NotImplementedException();
         }

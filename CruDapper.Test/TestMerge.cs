@@ -17,7 +17,7 @@ namespace CruDapper.Test
             DoBaseline();
 
             var entries = new List<TestTable>();
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 1000; i++)
             {
                 entries.Add(new TestTable
                 {
@@ -37,7 +37,7 @@ namespace CruDapper.Test
             }
 
             var entriesToBeMerged = new List<TestTable>();
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 1000; i++)
             {
                 entriesToBeMerged.Add(new TestTable
                 {
@@ -50,7 +50,7 @@ namespace CruDapper.Test
             CrudService
                 .Merge<TestTable>(entriesToBeMerged);
 
-            Assert.IsTrue(CrudService.GetAll<TestTable>().Count() == 20);
+            Assert.IsTrue(CrudService.GetAll<TestTable>().Count() == 2000);
 
             DoBaseline();
         }

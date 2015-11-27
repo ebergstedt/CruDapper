@@ -11,6 +11,11 @@ namespace CruDapper.Helpers
 {
     public static class ReflectionHelper
     {
+        public static string GetConcurrentConnectionSafeTempTableName<T>()
+        {
+            return String.Format("{0}{1}", ReflectionHelper.GetTableName(typeof(T), false), Guid.NewGuid().ToString().Replace("-", String.Empty));
+        }
+
         static ConcurrentDictionary<Type, bool> hasColumnMap = new ConcurrentDictionary<Type, bool>();
         public static bool HasColumn(Type type, string columnName)
         {
