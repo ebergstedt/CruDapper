@@ -30,6 +30,21 @@ namespace CruDapper.Test
         }
 
         [TestMethod]
+        public async Task SelectByQueryAsync()
+        {
+            var entry = BaseLineAndPutAndReturnEntry();
+
+            Assert.IsNotNull(entry);
+
+            var testTablesByQuery = await CrudService
+                .QueryAsync<TestTable>("SELECT * FROM CruDapperSchema.TestTable");
+
+            Assert.IsTrue(testTablesByQuery.Any());
+
+            DoBaseline();
+        }
+
+        [TestMethod]
         public void SelectByQueryDynamic()
         {
             var entry = BaseLineAndPutAndReturnEntry();
@@ -61,6 +76,35 @@ namespace CruDapper.Test
         }
 
         [TestMethod]
+        public async Task SelectByQueryDynamicAsync()
+        {
+            var entry = BaseLineAndPutAndReturnEntry();
+
+            Assert.IsNotNull(entry);
+
+            if (DbMapper.GetType() == typeof(PostgresMapper))
+            {
+                IEnumerable<dynamic> dynamicEntries = await CrudService
+                    .QueryDynamicAsync("SELECT * FROM CruDapperSchema.TestTable LIMIT 1");
+
+                dynamic data = dynamicEntries.Single().somedata;
+
+                Assert.IsNotNull(data);
+            }
+            else if (DbMapper.GetType() == typeof(MsSqlServerMapper))
+            {
+                IEnumerable<dynamic> dynamicEntries = await CrudService
+                    .QueryDynamicAsync("SELECT TOP 1 * FROM CruDapperSchema.TestTable");
+
+                dynamic data = dynamicEntries.Single().SomeData;
+
+                Assert.IsNotNull(data);
+            }
+
+            DoBaseline();
+        }
+
+        [TestMethod]
         public void Execute()
         {
             BaseLineAndPutAndReturnEntry();
@@ -69,6 +113,18 @@ namespace CruDapper.Test
 
             CrudService
                 .Execute("DELETE FROM CruDapperSchema.TestTable");
+
+            Assert.IsFalse(CrudService.GetAll<TestTable>().Any());
+        }
+
+        [TestMethod]
+        public async Task ExecuteAsync()
+        {
+            BaseLineAndPutAndReturnEntry();
+
+            Assert.IsTrue(CrudService.GetAll<TestTable>().Any());
+
+            await CrudService.ExecuteAsync("DELETE FROM CruDapperSchema.TestTable");
 
             Assert.IsFalse(CrudService.GetAll<TestTable>().Any());
         }
