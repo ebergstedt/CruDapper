@@ -40,7 +40,7 @@ namespace CruDapper.Mappers
         {
             IEnumerable<T> result;
             using (var connection = GetDbConnection())
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 await connection.OpenAsync();
                 result = await connection.QueryAsync<T>(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
@@ -66,7 +66,7 @@ namespace CruDapper.Mappers
         {
             IEnumerable<dynamic> result;
             using (var connection = GetDbConnection())
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 await connection.OpenAsync();
                 result = await connection.QueryAsync<dynamic>(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
@@ -89,7 +89,7 @@ namespace CruDapper.Mappers
         public async Task<SqlMapper.GridReader> QueryMultipleAsync(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
         {
             SqlMapper.GridReader result;
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 result = await connection.QueryMultipleAsync(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
                 scope.Complete();
@@ -112,7 +112,7 @@ namespace CruDapper.Mappers
         {
             int result;
             using (var connection = GetDbConnection())
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 await connection.OpenAsync();
                 result = await connection.ExecuteAsync(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
