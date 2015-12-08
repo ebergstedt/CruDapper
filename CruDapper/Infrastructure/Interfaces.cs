@@ -17,7 +17,7 @@ namespace CruDapper.Infrastructure
         T Get<T>(int id, bool getDeleted = false) where T : IDapperable;
         IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
         IEnumerable<T> GetByColumn<T>(WhereArgument whereArgument, bool getDeleted = false);
-        IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments, bool getDeleted = false);        
+        IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments, bool getDeleted = false);
 
         IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<T> entities);
         void InsertMultiple<T>(IEnumerable<T> entities);
@@ -36,12 +36,19 @@ namespace CruDapper.Infrastructure
         T Get<T>(int id, bool getDeleted = false) where T : IDapperable;
         IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos, bool getDeleted = false);
-        void Put<T>(object obj);
 
+        void Put<T>(object obj);
         IEnumerable<T> PutIdentifiable<T>(object obj);
+
         void Update<T>(object obj);
+
         void Delete<T>(object obj) where T : IDeletable;
+        void Delete<T>(int id) where T : IDapperable, IDeletable;
+        void DeleteByPrimaryKey<T>(object id) where T : IDeletable;
+        void DeleteByColumn<T>(string column, object value) where T : IDeletable;
+
         void DeletePermanently<T>(object obj);
+        void DeletePermanentlyByColumn<T>(string column, object value);
 
         void Merge<T>(object obj);
     }

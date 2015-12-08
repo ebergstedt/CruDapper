@@ -146,6 +146,30 @@ namespace CruDapper.Services
             Update<T>(obj);
         }
 
+        public void Delete<T>(int id) where T : IDapperable, IDeletable
+        {
+            var item = Get<T>(id);
+            item.IsDeleted = true;
+            Update<T>(item);
+        }
+
+        public void DeleteByPrimaryKey<T>(object id) where T : IDeletable
+        {
+            var item = GetByPrimaryKey<T>(id);
+            item.IsDeleted = true;            
+            Update<T>(item);
+        }
+
+        public void DeleteByColumn<T>(string column, object value) where T : IDeletable
+        {
+            var byColumn = GetByColumn<T>(column, value);
+            foreach (T item in byColumn)
+            {
+                item.IsDeleted = true;
+            }
+            Update<T>(byColumn);
+        }
+
         /// <summary>
         ///     Deletes row by Id
         /// </summary>
@@ -163,6 +187,11 @@ namespace CruDapper.Services
                     (T)obj
                 });
             }
+        }
+
+        public void DeletePermanentlyByColumn<T>(string column, object value)
+        {
+            DeletePermanently<T>(GetByColumn<T>(column, value));
         }
 
         public void Merge<T>(object obj)
