@@ -1,6 +1,6 @@
 CREATE FUNCTION dbo.SplitString
 (
-	@List NVARCHAR(MAX),
+	@InputString NVARCHAR(MAX),
 	@Delimiter CHAR(1)
 )
 RETURNS @ReturnTbl TABLE 
@@ -20,9 +20,9 @@ BEGIN
 	FROM dbo.Numbers
 	WHERE 
 		(
-			REPLACE(SUBSTRING(@List, Number, 1), ' ', CHAR(255)) = 
+			REPLACE(SUBSTRING(@InputString, Number, 1), ' ', CHAR(255)) = 
 				REPLACE(@Delimiter, ' ', CHAR(255))
-			OR Number = DATALENGTH(@List) + 1
+			OR Number = DATALENGTH(@InputString) + 1
 		)
 		AND Number BETWEEN @SplitStart AND @SplitEnd
 
@@ -30,7 +30,7 @@ BEGIN
 	BEGIN
 		SET @LeftSplit = 
 			@Delimiter + 
-			SUBSTRING(@List, @SplitStart, @SplitEnd - @SplitStart) + 
+			SUBSTRING(@InputString, @SplitStart, @SplitEnd - @SplitStart) + 
 			@Delimiter
 
 		INSERT @ReturnTbl 
@@ -71,9 +71,9 @@ BEGIN
 		FROM dbo.Numbers
 		WHERE 
 			(
-				REPLACE(SUBSTRING(@List, Number + @SplitStart, 1), ' ', CHAR(255)) = 
+				REPLACE(SUBSTRING(@InputString, Number + @SplitStart, 1), ' ', CHAR(255)) = 
 					REPLACE(@Delimiter, ' ', CHAR(255))
-				OR Number + @SplitStart = DATALENGTH(@List) + 1
+				OR Number + @SplitStart = DATALENGTH(@InputString) + 1
 			)
 			AND Number BETWEEN 1 AND @SplitEnd - @SplitStart
 	END
