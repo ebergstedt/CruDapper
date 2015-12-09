@@ -17,4 +17,10 @@
         MsSql,
         Default
     }
+
+    public enum OrderBy
+    {
+        Asc,
+        Desc
+    }
 }

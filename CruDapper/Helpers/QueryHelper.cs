@@ -25,7 +25,7 @@ namespace CruDapper.Helpers
                         else
                         {
                             query.AppendFormat(" AND {0} {1} @{0}", argument.Key,
-                                GetOperator(argument.Operator, argument.Not));
+                                GetOperatorSQL(argument.Operator, argument.Not));
                             parameters.Add(argument.Key, argument.Value);
                         }
                     }
@@ -33,7 +33,7 @@ namespace CruDapper.Helpers
             }
         }        
 
-        public static StringBuilder GetQuery<T>(int id, Provider provider, bool getDeleted = false)
+        public static StringBuilder GetQuery<T>(int id, Provider provider, bool getDeleted = false) where T : IDapperable
         {
             var tableName = ReflectionHelper.GetTableName(typeof (T));
             var query = new StringBuilder();
@@ -68,27 +68,40 @@ namespace CruDapper.Helpers
             return string.Empty;
         }
 
-        public static string GetOperator(Operator? op = null, bool? not = null)
+        public static string GetOperatorSQL(Operator? op = null, bool? not = null)
         {
             not = not ?? false;
 
             switch (op)
             {
                 case Operator.GreaterThan:
-                    return not == true ? "!>" : ">";
+                    return not == true ? " !> " : " > ";
                 case Operator.GreaterThanOrEqual:
-                    return not == true ? "<" : ">=";
+                    return not == true ? " < " : " >= ";
                 case Operator.LessThan:
-                    return not == true ? "!<" : "<";
+                    return not == true ? " !< " : " < ";
                 case Operator.LessThanOrEqual:
-                    return not == true ? ">" : "<=";
+                    return not == true ? " > " : " <= ";
                 case Operator.In:
-                    return not == true ? "NOT IN" : "IN";
+                    return not == true ? " NOT IN " : " IN ";
                 case Operator.Like:
-                    return not == true ? "NOT LIKE" : "LIKE";
+                    return not == true ? " NOT LIKE " : " LIKE ";
                 default:
-                    return not == true ? "!=" : "=";
+                    return not == true ? " != " : " = ";
             }
+        }
+
+        public static string GetSortDirectionSQL(Provider provider, OrderBy orderBy)
+        {
+            switch (orderBy)
+            {
+                case OrderBy.Asc:
+                    return " ASC ";
+                case OrderBy.Desc:
+                    return " DESC ";
+            }
+
+            return String.Empty;
         }
     }
 }

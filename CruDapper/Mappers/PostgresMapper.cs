@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using CruDapper.Code;
 using CruDapper.Helpers;
@@ -85,6 +86,13 @@ namespace CruDapper.Mappers
 
             return ConnectionBridge.Query<T>(query.ToString(), parameters);
         }
+
+        public IEnumerable<T> GetPaginated<T>(string sortColumn, int pageSize = 10, int currentPage = 1,
+            OrderBy sortingDirection = OrderBy.Asc)
+        {
+            throw new NotImplementedException();
+        }
+
 
         //http://stackoverflow.com/questions/29615445/dapper-bulk-insert-returning-serial-ids/29663184#29663184
         public IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<T> entities)

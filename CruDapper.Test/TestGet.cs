@@ -123,5 +123,28 @@ namespace CruDapper.Test
 
             DoBaseline();
         }
+
+        [TestMethod]
+        public void GetPaginated()
+        {
+            DoBaseline();
+
+            var entries = new List<TestTable>();
+            for (var i = 0; i < 1000; i++)
+            {
+                entries.Add(new TestTable
+                {
+                    SomeData = i.ToString()
+                });
+            }
+
+            CrudService
+                .Put<TestTable>(entries);
+
+            var pages = CrudService
+                .GetPaginated<TestTable>("Id", pageSize: 100);
+
+            Assert.IsTrue(pages.Count() == 100);
+        }
     }
 }

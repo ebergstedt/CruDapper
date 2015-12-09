@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CruDapper.Code;
 using Dapper;
@@ -18,7 +19,9 @@ namespace CruDapper.Infrastructure
         IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
         IEnumerable<T> GetByColumn<T>(WhereArgument whereArgument, bool getDeleted = false);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments, bool getDeleted = false);
-
+        IEnumerable<T> GetPaginated<T>(string sortColumn, int pageSize = 10, int currentPage = 1,
+            OrderBy sortingDirection = OrderBy.Asc);
+            
         IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<T> entities);
         void InsertMultiple<T>(IEnumerable<T> entities);
         void UpdateMultiple<T>(IEnumerable<T> entities);
@@ -36,6 +39,8 @@ namespace CruDapper.Infrastructure
         T Get<T>(int id, bool getDeleted = false) where T : IDapperable;
         IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos, bool getDeleted = false);
+        IEnumerable<T> GetPaginated<T>(string sortColumn, int pageSize = 10, int currentPage = 1,
+            OrderBy sortingDirection = OrderBy.Asc);
 
         void Put<T>(object obj);
         IEnumerable<T> PutIdentifiable<T>(object obj);

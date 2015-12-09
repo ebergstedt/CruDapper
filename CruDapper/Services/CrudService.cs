@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CruDapper.Code;
 using CruDapper.Infrastructure;
@@ -62,7 +63,8 @@ namespace CruDapper.Services
         {
             return _dbMapper.Get<T>(id, getDeleted);
         }
-
+                
+        /// <param name="column">Recommended usage is nameof</param>
         public IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false)
         {
             return _dbMapper.GetByColumn<T>(column, value, getDeleted);
@@ -71,6 +73,13 @@ namespace CruDapper.Services
         public IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos, bool getDeleted = false)
         {
             return _dbMapper.GetByColumns<T>(whereArgumentDtos, getDeleted);
+        }
+
+        /// <param name="sortColumn">Recommended usage is nameof</param>
+        public IEnumerable<T> GetPaginated<T>(string sortColumn, int pageSize = 10, int currentPage = 1,
+            OrderBy sortingDirection = OrderBy.Asc)
+        {
+            return _dbMapper.GetPaginated<T>(sortColumn, pageSize, currentPage, sortingDirection);
         }
 
         #endregion
@@ -160,6 +169,7 @@ namespace CruDapper.Services
             Update<T>(item);
         }
 
+        /// <param name="column">Recommended usage is nameof</param>
         public void DeleteByColumn<T>(string column, object value) where T : IDeletable
         {
             var byColumn = GetByColumn<T>(column, value);
@@ -189,6 +199,7 @@ namespace CruDapper.Services
             }
         }
 
+        /// <param name="column">Recommended usage is nameof</param>
         public void DeletePermanentlyByColumn<T>(string column, object value)
         {
             DeletePermanently<T>(GetByColumn<T>(column, value));

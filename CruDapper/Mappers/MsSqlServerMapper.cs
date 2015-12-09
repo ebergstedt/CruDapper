@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using CruDapper.Code;
 using CruDapper.Helpers;
@@ -84,6 +85,33 @@ namespace CruDapper.Mappers
             QueryHelper.AddWhereArgumentsToQuery(ref query, parameters, whereArguments, typeof(T));
 
             return ConnectionBridge.Query<T>(query.ToString(), parameters);
+        }
+
+        public IEnumerable<T> GetPaginated<T>(string sortColumn, int pageSize = 10, int currentPage = 1, OrderBy sortingDirection = OrderBy.Asc)
+        {
+            var query = new StringBuilder();
+            query.AppendFormat(@"
+WITH [Ordered] AS
+(
+    SELECT
+        a.*,
+        ROW_NUMBER() OVER (ORDER BY {0} {1}) AS RowNumber
+    FROM
+        {2} AS a
+)
+SELECT
+    *
+FROM
+    [Ordered]
+WHERE
+    RowNumber BETWEEN {3} AND {4}"
+                , sortColumn,
+                QueryHelper.GetSortDirectionSQL(_provider, sortingDirection),
+                ReflectionHelper.GetTableName(typeof(T)),
+                (pageSize * (currentPage - 1)) + 1, 
+                pageSize * currentPage);
+
+            return ConnectionBridge.Query<T>(query.ToString());
         }
 
         public IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<T> entities)
