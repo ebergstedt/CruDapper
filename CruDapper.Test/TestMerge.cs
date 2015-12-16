@@ -58,21 +58,12 @@ namespace CruDapper.Test
         [TestMethod]
         public void MergeInsert()
         {
-            DoBaseline();
-
-            var entries = new List<TestTable>();
-            for (var i = 0; i < 10; i++)
-            {
-                entries.Add(new TestTable
-                {
-                    SomeData = i.ToString()
-                });
-            }
+            var entries = BaseLineAndPutAndReturnTestTables();
 
             CrudService
                 .Merge<TestTable>(entries);
 
-            Assert.IsTrue(CrudService.GetAll<TestTable>().Count() == 10);
+            Assert.IsTrue(CrudService.GetAll<TestTable>().Count() == entries.Count());
 
             DoBaseline();
         }
@@ -80,16 +71,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void MergeUpdate()
         {
-            DoBaseline();
-
-            var entries = new List<TestTable>();
-            for (var i = 0; i < 10; i++)
-            {
-                entries.Add(new TestTable
-                {
-                    SomeData = i.ToString()
-                });
-            }
+            var entries = BaseLineAndPutAndReturnTestTables();
 
             CrudService
                 .Put<TestTable>(entries);
@@ -105,7 +87,7 @@ namespace CruDapper.Test
             CrudService
                 .Merge<TestTable>(existingTestTables);
 
-            Assert.IsTrue(CrudService.GetAll<TestTable>().Count() == 10);
+            Assert.IsTrue(CrudService.GetAll<TestTable>().Count() == entries.Count());
 
             DoBaseline();
         }

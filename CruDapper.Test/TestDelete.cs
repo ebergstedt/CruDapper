@@ -11,7 +11,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void Delete()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entry = BaseLineAndPutAndReturnTestTable();
 
             CrudService
                 .Delete<TestTable>(entry);
@@ -31,26 +31,48 @@ namespace CruDapper.Test
         }
 
         [TestMethod]
-        public void DeleteVariant()
+        public void DeleteAll()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entries = BaseLineAndPutAndReturnTestTables();
 
             CrudService
-                .Delete<TestTable>(entry.Id);
+                .Put<TestTable>(entries);            
 
-            var testTable = CrudService
-                .GetSingle<TestTable>(entry.Id);
+            CrudService
+                .DeleteAll<TestTable>();
 
-            Assert.IsNull(testTable);
+            var testTables = CrudService
+                .GetAll<TestTable>();
+
+            Assert.IsTrue(!testTables.Any());
         }
 
         [TestMethod]
-        public void DeleteByPrimaryKey()
+        public void DeleteMany()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entries = BaseLineAndPutAndReturnTestTables();
 
             CrudService
-                .DeleteByPrimaryKey<TestTable>(entry.Id);
+                .Put<TestTable>(entries);
+
+            var testTables = entries.Take(10);
+
+            CrudService
+                .DeleteMany<TestTable>(testTables.Select(s => s.Id));
+
+            var getMany = CrudService
+                .GetMany<TestTable>(testTables.Select(s => s.Id));
+
+            Assert.IsTrue(!getMany.Any());
+        }
+
+        [TestMethod]
+        public void DeleteSingle()
+        {
+            var entry = BaseLineAndPutAndReturnTestTable();
+
+            CrudService
+                .DeleteSingle<TestTable>(entry.Id);
 
             var testTable = CrudService
                 .GetSingle<TestTable>(entry.Id);
@@ -61,7 +83,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void DeleteByColumn()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entry = BaseLineAndPutAndReturnTestTable();
 
             CrudService
                 .DeleteByColumn<TestTable>("CreatedAt", entry.CreatedAt);
@@ -75,7 +97,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void DeletePermanently()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entry = BaseLineAndPutAndReturnTestTable();
 
             CrudService
                 .DeletePermanently<TestTable>(entry);
@@ -91,7 +113,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void DeletePermanentlyByColumn()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entry = BaseLineAndPutAndReturnTestTable();
 
             CrudService
                 .DeletePermanentlyByColumn<TestTable>("CreatedAt", entry.CreatedAt);
@@ -100,6 +122,49 @@ namespace CruDapper.Test
                 .GetByColumn<TestTable>("CreatedAt", entry.CreatedAt, true);
 
             Assert.IsFalse(testTables.Any());
+        }
+
+        [TestMethod]
+        public void DeleteAllPermanently()
+        {
+            BaseLineAndPutAndReturnTestTable();
+
+            CrudService
+                .DeleteAllPermanently<TestTable>();
+
+            var testTables = CrudService
+                .GetAll<TestTable>(true);
+            
+            Assert.IsTrue(!testTables.Any());
+        }
+
+        [TestMethod]
+        public void DeleteManyPermanently()
+        {
+            var entries = BaseLineAndPutAndReturnTestTables();
+
+            var ids = entries.Take(10).Select(s => s.Id);
+
+            CrudService
+                .DeleteManyPermanently<TestTable>(ids);
+
+            var testTables = CrudService.GetMany<TestTable>(ids, true);
+
+            Assert.IsTrue(!testTables.Any());
+        }
+
+        [TestMethod]
+        public void DeleteSinglePermanently()
+        {
+            var entry = BaseLineAndPutAndReturnTestTable();
+
+            CrudService
+                .DeleteSinglePermanently<TestTable>(entry.Id);
+
+            var testTable = CrudService
+                .GetSingle<TestTable>(entry.Id);
+
+            Assert.IsNull(testTable);
         }
     }
 }

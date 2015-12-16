@@ -17,7 +17,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void SelectByQuery()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entry = BaseLineAndPutAndReturnTestTable();
 
             Assert.IsNotNull(entry);
 
@@ -32,7 +32,7 @@ namespace CruDapper.Test
         [TestMethod]
         public async Task SelectByQueryAsync()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entry = BaseLineAndPutAndReturnTestTable();
 
             Assert.IsNotNull(entry);
 
@@ -47,7 +47,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void SelectByQueryDynamic()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entry = BaseLineAndPutAndReturnTestTable();
 
             Assert.IsNotNull(entry);
 
@@ -78,7 +78,7 @@ namespace CruDapper.Test
         [TestMethod]
         public async Task SelectByQueryDynamicAsync()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entry = BaseLineAndPutAndReturnTestTable();
 
             Assert.IsNotNull(entry);
 
@@ -107,7 +107,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void Execute()
         {
-            BaseLineAndPutAndReturnEntry();
+            BaseLineAndPutAndReturnTestTable();
 
             Assert.IsTrue(CrudService.GetAll<TestTable>().Any());
 
@@ -120,7 +120,7 @@ namespace CruDapper.Test
         [TestMethod]
         public async Task ExecuteAsync()
         {
-            BaseLineAndPutAndReturnEntry();
+            BaseLineAndPutAndReturnTestTable();
 
             Assert.IsTrue(CrudService.GetAll<TestTable>().Any());
 

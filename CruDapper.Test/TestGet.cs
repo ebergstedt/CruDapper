@@ -13,16 +13,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void GetAll()
         {
-            DoBaseline();
-
-            var entries = new List<TestTable>();
-            for (var i = 0; i < 1000; i++)
-            {
-                entries.Add(new TestTable
-                {
-                    SomeData = i.ToString()
-                });
-            }
+            var entries = BaseLineAndPutAndReturnTestTables();
 
             CrudService
                 .Put<TestTable>(entries);
@@ -30,16 +21,16 @@ namespace CruDapper.Test
             var testTables = CrudService
                 .GetAll<TestTable>();
 
-            Assert.IsTrue(testTables.Count() == entries.Count);
+            Assert.IsTrue(testTables.Count() == entries.Count());
             Assert.IsTrue(testTables.All(t => t.CreatedAt != null && t.CreatedAt <= DateTime.UtcNow));
 
             DoBaseline();
         }
 
         [TestMethod]
-        public void GetByPrimaryKey()
+        public void GetSingle()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entry = BaseLineAndPutAndReturnTestTable();
 
             var byPrimaryKey = CrudService
                 .GetSingle<TestTable>(entry.Id);
@@ -50,18 +41,9 @@ namespace CruDapper.Test
         }
 
         [TestMethod]
-        public void GetManyByPrimaryKeys()
+        public void GetMany()
         {
-            DoBaseline();
-
-            var entries = new List<TestTable>();
-            for (var i = 0; i < 1000; i++)
-            {
-                entries.Add(new TestTable
-                {
-                    SomeData = i.ToString()
-                });
-            }
+            var entries = BaseLineAndPutAndReturnTestTables();
 
             CrudService
                 .Put<TestTable>(entries);
@@ -76,25 +58,10 @@ namespace CruDapper.Test
         }
 
         [TestMethod]
-        public void GetById()
-        {
-            var entry = BaseLineAndPutAndReturnEntry();
-
-            Assert.IsTrue(entry.Id > 0);
-
-            var getEntry = CrudService
-                .GetSingle<TestTable>(entry.Id);
-
-            Assert.IsNotNull(getEntry);
-
-            DoBaseline();
-        }
-
-        [TestMethod]
         public void GetByColumn()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
-
+            var entry = BaseLineAndPutAndReturnTestTable();
+            
             var getByColumn = CrudService
                 .GetByColumn<TestTable>("SomeData", entry.SomeData)
                 .Single();
@@ -107,16 +74,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void GetByColumns()
         {
-            DoBaseline();
-
-            var entries = new List<TestTable>();
-            for (var i = 0; i < 1000; i++)
-            {
-                entries.Add(new TestTable
-                {
-                    SomeData = i.ToString()
-                });
-            }
+            var entries = BaseLineAndPutAndReturnTestTables();
 
             CrudService
                 .Put<TestTable>(entries);
@@ -153,16 +111,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void GetPaginated()
         {
-            DoBaseline();
-
-            var entries = new List<TestTable>();
-            for (var i = 0; i < 1000; i++)
-            {
-                entries.Add(new TestTable
-                {
-                    SomeData = i.ToString()
-                });
-            }
+            var entries = BaseLineAndPutAndReturnTestTables();
 
             CrudService
                 .Put<TestTable>(entries);

@@ -9,7 +9,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void Update()
         {
-            var originalEntry = BaseLineAndPutAndReturnEntry();
+            var originalEntry = BaseLineAndPutAndReturnTestTable();
 
             var originalData = originalEntry.SomeData;
             originalEntry.SomeData = "alteredData";

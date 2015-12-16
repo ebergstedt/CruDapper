@@ -31,16 +31,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void PutMany()
         {
-            DoBaseline();
-
-            var entries = new List<TestTable>();
-            for (var i = 0; i < 1000; i++)
-            {
-                entries.Add(new TestTable
-                {
-                    SomeData = i.ToString()
-                });
-            }
+            var entries = BaseLineAndPutAndReturnTestTables();
 
             CrudService
                 .Put<TestTable>(entries);
@@ -48,7 +39,7 @@ namespace CruDapper.Test
             var testTables = CrudService
                 .GetAll<TestTable>();
 
-            Assert.IsTrue(testTables.Count() == entries.Count);
+            Assert.IsTrue(testTables.Count() == entries.Count());
 
             DoBaseline();
         }

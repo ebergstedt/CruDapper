@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CruDapper.BackofficeTest;
 using CruDapper.Infrastructure;
 using CruDapper.Mappers;
@@ -39,7 +40,7 @@ namespace CruDapper.Test
                 .DoBaseline();
         }
 
-        protected TestTable BaseLineAndPutAndReturnEntry()
+        protected TestTable BaseLineAndPutAndReturnTestTable()
         {
             DoBaseline();
 
@@ -52,6 +53,22 @@ namespace CruDapper.Test
                 .Put<TestTable>(entry);
 
             return entry;
+        }
+
+        protected IEnumerable<TestTable> BaseLineAndPutAndReturnTestTables()
+        {
+            DoBaseline();
+
+            var entries = new List<TestTable>();
+            for (var i = 0; i < 1000; i++)
+            {
+                entries.Add(new TestTable
+                {
+                    SomeData = i.ToString()
+                });
+            }
+
+            return entries;
         }
     }
 }

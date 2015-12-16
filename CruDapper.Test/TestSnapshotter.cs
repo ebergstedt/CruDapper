@@ -16,7 +16,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void TestUpdate()
         {
-            var entry = BaseLineAndPutAndReturnEntry();
+            var entry = BaseLineAndPutAndReturnTestTable();
 
             var snapshot = Snapshotter.Start(entry);
 

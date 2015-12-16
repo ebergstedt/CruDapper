@@ -268,5 +268,13 @@ namespace CruDapper.Mappers
         {
             throw new NotImplementedException();
         }
+
+        public void DeleteAll<T>()
+        {
+            var targetTableName = ReflectionHelper.GetTableName(typeof(T));
+            var query = new StringBuilder();
+            query.AppendFormat("DELETE FROM {0}", targetTableName);
+            ConnectionBridge.Execute(query.ToString());
+        }
     }
 }

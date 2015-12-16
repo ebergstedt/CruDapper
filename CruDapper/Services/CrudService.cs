@@ -51,7 +51,7 @@ namespace CruDapper.Services
             return _dbMapper.GetAll<T>(getDeleted);
         }
 
-        public IEnumerable<T> GetMany<T>(object primaryKeyValues, bool getDeleted)
+        public IEnumerable<T> GetMany<T>(object primaryKeyValues, bool getDeleted = false)
         {
             return _dbMapper.GetMany<T>(primaryKeyValues, getDeleted);
         }
@@ -123,7 +123,7 @@ namespace CruDapper.Services
         #region DELETE
 
         /// <summary>
-        ///    Sets IsDeleted to true
+        ///    Sets IsDeleted to true and updates
         /// </summary>
         public void Delete<T>(object obj) where T : IDeletable
         {
@@ -152,17 +152,30 @@ namespace CruDapper.Services
             Update<T>(obj);
         }
 
-        public void Delete<T>(int id) where T : IDapperable, IDeletable
+        public void DeleteAll<T>() where T : IDeletable
         {
-            var item = GetSingle<T>(id);
-            item.IsDeleted = true;
-            Update<T>(item);
+            var items = GetAll<T>();
+            foreach (var item in items)
+            {
+                item.IsDeleted = true;
+            }
+            Update<T>(items);
         }
 
-        public void DeleteByPrimaryKey<T>(object id) where T : IDeletable
+        public void DeleteMany<T>(object primaryKeyValues) where T : IDeletable
         {
-            var item = GetSingle<T>(id);
-            item.IsDeleted = true;            
+            var items = GetMany<T>(primaryKeyValues);
+            foreach (var item in items)
+            {
+                item.IsDeleted = true;               
+            }            
+            Update<T>(items);
+        }
+
+        public void DeleteSingle<T>(object primaryKeyValue) where T : IDeletable
+        {
+            var item = GetSingle<T>(primaryKeyValue);
+            item.IsDeleted = true;
             Update<T>(item);
         }
 
@@ -194,6 +207,21 @@ namespace CruDapper.Services
                     (T)obj
                 });
             }
+        }
+
+        public void DeleteAllPermanently<T>()
+        {
+            _dbMapper.DeleteAll<T>();
+        }
+
+        public void DeleteManyPermanently<T>(object primaryKeyValues)
+        {
+            _dbMapper.DeleteMultiple(_dbMapper.GetMany<T>(primaryKeyValues));
+        }
+
+        public void DeleteSinglePermanently<T>(object primaryKeyValue)
+        {
+            DeletePermanently<T>(_dbMapper.GetSingle<T>(primaryKeyValue));
         }
 
         /// <param name="column">Recommended usage is nameof</param>
