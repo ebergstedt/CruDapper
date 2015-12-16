@@ -57,11 +57,11 @@ namespace CruDapper.Infrastructure
         void DeleteSingle<T>(object primaryKeyValue) where T : IDeletable;
         void DeleteByColumn<T>(string column, object value) where T : IDeletable;
 
-        void DeletePermanently<T>(object obj);
-        void DeletePermanentlyByColumn<T>(string column, object value);
+        void DeletePermanently<T>(object obj);        
         void DeleteAllPermanently<T>();
         void DeleteManyPermanently<T>(object primaryKeyValues);
         void DeleteSinglePermanently<T>(object primaryKeyValue);
+        void DeletePermanentlyByColumn<T>(string column, object value);
 
         void Merge<T>(object obj);
     }
