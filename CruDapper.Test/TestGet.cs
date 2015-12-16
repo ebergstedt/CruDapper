@@ -42,11 +42,37 @@ namespace CruDapper.Test
             var entry = BaseLineAndPutAndReturnEntry();
 
             var byPrimaryKey = CrudService
-                .GetByPrimaryKey<TestTable>(entry.Id);
+                .GetSingle<TestTable>(entry.Id);
 
             Assert.IsNotNull(byPrimaryKey);
 
             DoBaseline();
+        }
+
+        [TestMethod]
+        public void GetManyByPrimaryKeys()
+        {
+            DoBaseline();
+
+            var entries = new List<TestTable>();
+            for (var i = 0; i < 1000; i++)
+            {
+                entries.Add(new TestTable
+                {
+                    SomeData = i.ToString()
+                });
+            }
+
+            CrudService
+                .Put<TestTable>(entries);
+
+            var testTables = CrudService
+                .GetAll<TestTable>();
+
+            var getMany = CrudService
+                .GetMany<TestTable>(testTables.Select(s => s.Id));
+
+            Assert.IsTrue(getMany.Count() == testTables.Count());
         }
 
         [TestMethod]
@@ -57,7 +83,7 @@ namespace CruDapper.Test
             Assert.IsTrue(entry.Id > 0);
 
             var getEntry = CrudService
-                .Get<TestTable>(entry.Id);
+                .GetSingle<TestTable>(entry.Id);
 
             Assert.IsNotNull(getEntry);
 

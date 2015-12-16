@@ -21,7 +21,7 @@ namespace CruDapper.Test
             CrudService
                 .Put<TestTable>(entry);
 
-            var testTable = CrudService.Get<TestTable>(entry.Id);            
+            var testTable = CrudService.GetSingle<TestTable>(entry.Id);            
 
             Assert.IsNotNull(testTable);
 

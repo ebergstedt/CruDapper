@@ -14,9 +14,9 @@ namespace CruDapper.Infrastructure
         DbConnection ActiveDbConnection { get; }
 
         IEnumerable<T> GetAll<T>(bool getDeleted = false);
-        T GetByPrimaryKey<T>(object primaryKeyValue, bool getDeleted = false);
-        T Get<T>(int id, bool getDeleted = false) where T : IDapperable;
-        IEnumerable<T> Get<T>(IEnumerable<int> ids, bool getDeleted) where T : IDapperable;
+        IEnumerable<T> GetMany<T>(object primaryKeyValues, bool getDeleted = false);
+        T GetSingle<T>(object primaryKeyValue, bool getDeleted = false);
+
         IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
         IEnumerable<T> GetByColumn<T>(WhereArgument whereArgument, bool getDeleted = false);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments, bool getDeleted = false);
@@ -36,9 +36,9 @@ namespace CruDapper.Infrastructure
         DbConnection ActiveDbConnection { get; }
 
         IEnumerable<T> GetAll<T>(bool getDeleted = false);
-        T GetByPrimaryKey<T>(object id, bool getDeleted = false);
-        T Get<T>(int id, bool getDeleted = false) where T : IDapperable;
-        IEnumerable<T> Get<T>(IEnumerable<int> ids, bool getDeleted) where T : IDapperable;
+        IEnumerable<T> GetMany<T>(object primaryKeyValues, bool getDeleted = false);
+        T GetSingle<T>(object primaryKeyValue, bool getDeleted = false);
+
         IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos, bool getDeleted = false);
         IEnumerable<T> GetPaginated<T>(string sortColumn, int pageSize = 10, int currentPage = 1,

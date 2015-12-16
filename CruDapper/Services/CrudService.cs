@@ -51,22 +51,14 @@ namespace CruDapper.Services
             return _dbMapper.GetAll<T>(getDeleted);
         }
 
-        public T GetByPrimaryKey<T>(object id, bool getDeleted = false)
+        public IEnumerable<T> GetMany<T>(object primaryKeyValues, bool getDeleted)
         {
-            return _dbMapper.GetByPrimaryKey<T>(id, getDeleted);
+            return _dbMapper.GetMany<T>(primaryKeyValues, getDeleted);
         }
 
-        /// <summary>
-        ///     Get a row by Dapper Id
-        /// </summary>
-        public T Get<T>(int id, bool getDeleted = false) where T : IDapperable
+        public T GetSingle<T>(object primaryKeyValue, bool getDeleted = false)
         {
-            return _dbMapper.Get<T>(id, getDeleted);
-        }
-
-        public IEnumerable<T> Get<T>(IEnumerable<int> ids, bool getDeleted) where T : IDapperable
-        {
-            return _dbMapper.Get<T>(ids, getDeleted);
+            return _dbMapper.GetSingle<T>(primaryKeyValue, getDeleted);
         }
 
         /// <param name="column">Recommended usage is nameof</param>
@@ -162,14 +154,14 @@ namespace CruDapper.Services
 
         public void Delete<T>(int id) where T : IDapperable, IDeletable
         {
-            var item = Get<T>(id);
+            var item = GetSingle<T>(id);
             item.IsDeleted = true;
             Update<T>(item);
         }
 
         public void DeleteByPrimaryKey<T>(object id) where T : IDeletable
         {
-            var item = GetByPrimaryKey<T>(id);
+            var item = GetSingle<T>(id);
             item.IsDeleted = true;            
             Update<T>(item);
         }

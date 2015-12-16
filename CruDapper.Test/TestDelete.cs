@@ -17,7 +17,7 @@ namespace CruDapper.Test
                 .Delete<TestTable>(entry);
 
             var getDeleteFlagged = CrudService
-                .Get<TestTable>(entry.Id, true);
+                .GetSingle<TestTable>(entry.Id, true);
 
             Assert.IsNotNull(getDeleteFlagged);
             Assert.IsTrue(getDeleteFlagged.IsDeleted);
@@ -39,7 +39,7 @@ namespace CruDapper.Test
                 .Delete<TestTable>(entry.Id);
 
             var testTable = CrudService
-                .Get<TestTable>(entry.Id);
+                .GetSingle<TestTable>(entry.Id);
 
             Assert.IsNull(testTable);
         }
@@ -53,7 +53,7 @@ namespace CruDapper.Test
                 .DeleteByPrimaryKey<TestTable>(entry.Id);
 
             var testTable = CrudService
-                .Get<TestTable>(entry.Id);
+                .GetSingle<TestTable>(entry.Id);
 
             Assert.IsNull(testTable);
         }
@@ -81,7 +81,7 @@ namespace CruDapper.Test
                 .DeletePermanently<TestTable>(entry);
 
             var getForceDeleted = CrudService
-                .Get<TestTable>(entry.Id);
+                .GetSingle<TestTable>(entry.Id);
 
             Assert.IsNull(getForceDeleted);
 

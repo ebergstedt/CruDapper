@@ -18,7 +18,7 @@ namespace CruDapper.Test
                 .Update<TestTable>(originalEntry);
 
             var updatedEntry = CrudService
-                .Get<TestTable>(originalEntry.Id);
+                .GetSingle<TestTable>(originalEntry.Id);
 
             Assert.AreNotEqual(originalData, updatedEntry.SomeData);
 

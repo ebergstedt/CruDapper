@@ -31,22 +31,20 @@ namespace CruDapper.Mappers
             return ConnectionBridge.Query<T>(query.ToString());
         }
 
-        public T GetByPrimaryKey<T>(object primaryKeyValue, bool getDeleted = false)
+        public IEnumerable<T> GetMany<T>(object primaryKeyValues, bool getDeleted = false)
+        {
+            return GetByColumn<T>(new WhereArgument()
+            {
+                Key = ReflectionHelper.GetPrimaryKeyName(typeof(T)),
+                Value = primaryKeyValues,
+                Operator = Operator.In
+            });
+        }
+
+        public T GetSingle<T>(object primaryKeyValue, bool getDeleted = false)
         {
             return GetByColumn<T>(ReflectionHelper.GetPrimaryKeyName(typeof(T)), primaryKeyValue, getDeleted)
                 .FirstOrDefault();
-        }
-
-        public T Get<T>(int id, bool getDeleted = false) where T : IDapperable
-        {
-            var query = QueryHelper.GetQuery<T>(id, _provider, getDeleted);
-            return ConnectionBridge.Query<T>(query.ToString()).SingleOrDefault();
-        }
-
-        public IEnumerable<T> Get<T>(IEnumerable<int> ids, bool getDeleted) where T : IDapperable
-        {
-            var query = QueryHelper.GetQuery<T>(ids, _provider, getDeleted);
-            return ConnectionBridge.Query<T>(query.ToString());
         }
 
         public IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false)
