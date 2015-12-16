@@ -63,7 +63,12 @@ namespace CruDapper.Services
         {
             return _dbMapper.Get<T>(id, getDeleted);
         }
-                
+
+        public IEnumerable<T> Get<T>(IEnumerable<int> ids, bool getDeleted) where T : IDapperable
+        {
+            return _dbMapper.Get<T>(ids, getDeleted);
+        }
+
         /// <param name="column">Recommended usage is nameof</param>
         public IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false)
         {

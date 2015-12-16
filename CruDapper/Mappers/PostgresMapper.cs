@@ -43,6 +43,12 @@ namespace CruDapper.Mappers
             return ConnectionBridge.Query<T>(query.ToString()).SingleOrDefault();
         }
 
+        public IEnumerable<T> Get<T>(IEnumerable<int> ids, bool getDeleted) where T : IDapperable
+        {
+            var query = QueryHelper.GetQuery<T>(ids, _provider, getDeleted);
+            return ConnectionBridge.Query<T>(query.ToString());
+        }
+
         public IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false)
         {
             return GetByColumn<T>(new WhereArgument

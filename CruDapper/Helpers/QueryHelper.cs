@@ -53,6 +53,26 @@ namespace CruDapper.Helpers
             return query;
         }
 
+        public static StringBuilder GetQuery<T>(IEnumerable<int> id, Provider provider, bool getDeleted = false) where T : IDapperable
+        {
+            var tableName = ReflectionHelper.GetTableName(typeof(T));
+            var query = new StringBuilder();
+            query.AppendFormat(@"
+                SELECT
+                    *
+                FROM
+                    {0} 
+                WHERE Id IN {1}
+            ", tableName, id);
+
+            if (!getDeleted)
+            {
+                query.AppendFormat(" AND {0} ", QueryHelper.GetIsDeletedSQL(provider));
+            }
+
+            return query;
+        }
+
         public static string GetIsDeletedSQL(Provider provider)
         {
             switch (provider)
