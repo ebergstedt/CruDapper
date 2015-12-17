@@ -56,7 +56,7 @@ namespace CruDapper.Test
                 {
                     SomeData = i.ToString() + 1
                 });
-            }
+            }            
 
             var identifiableTables = CrudService
                 .PutIdentifiable<TestIdentifiableTable>(entries);
