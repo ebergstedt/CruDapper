@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CruDapper.Code;
+using CruDapper.Helpers;
 using CruDapper.Infrastructure;
 using Dapper;
 
@@ -121,113 +122,103 @@ namespace CruDapper.Services
         #endregion
 
         #region DELETE
-
-        /// <summary>
-        ///    Sets IsDeleted to true and updates
-        /// </summary>
-        public void Delete<T>(object obj) where T : IDeletable
+        
+        public void Delete<T>(object obj, bool permanently = true)
         {
-            var enumerable = obj as IEnumerable<T>;
-
-            if (enumerable != null)
+            if (permanently)
             {
-                foreach (var o in enumerable)
-                {
-                    var deletableItem = o as IDeletable;
-                    if (deletableItem != null)
+                var enumerable = obj as IEnumerable<T>;
+                    if (enumerable != null)
                     {
-                        deletableItem.IsDeleted = true;
+                        _dbMapper.DeleteMultiple<T>(enumerable);
+                    }
+                    else
+                    {
+                        _dbMapper.DeleteMultiple<T>(new List<T>()
+                    {
+                        (T)obj
+                    });
+                }
+            }
+            else if (InterfaceHelper.VerifyIDeletable<T>())
+            {
+                var enumerable = obj as IEnumerable<T>;
+
+                if (enumerable != null)
+                {
+                    foreach (var o in enumerable)
+                    {
+                        var deletableItem = o as IDeletable;
+                        if (deletableItem != null)
+                        {
+                            deletableItem.IsDeleted = true;
+                        }
                     }
                 }
-            }
-            else
-            {
-                var deletable = obj as IDeletable;
-                if (deletable != null)
+                else
                 {
-                    deletable.IsDeleted = true;
+                    var deletable = obj as IDeletable;
+                    if (deletable != null)
+                    {
+                        deletable.IsDeleted = true;
+                    }
                 }
+
+                Update<T>(obj);
             }
-
-            Update<T>(obj);
         }
 
-        public void DeleteAll<T>() where T : IDeletable
+        public void DeleteAll<T>(bool permanently = true)
         {
-            var items = GetAll<T>();
-            foreach (var item in items)
+            if (permanently)
             {
-                item.IsDeleted = true;
+                _dbMapper.DeleteAll<T>();
             }
-            Update<T>(items);
-        }
-
-        public void DeleteMany<T>(object primaryKeyValues) where T : IDeletable
-        {
-            var items = GetMany<T>(primaryKeyValues);
-            foreach (var item in items)
+            else if (InterfaceHelper.VerifyIDeletable<T>())
             {
-                item.IsDeleted = true;               
-            }            
-            Update<T>(items);
+                var items = GetAll<T>();
+                Delete<T>(items, false);
+            }
         }
 
-        public void DeleteSingle<T>(object primaryKeyValue) where T : IDeletable
+        public void DeleteMany<T>(object primaryKeyValues, bool permanently = true)
         {
-            var item = GetSingle<T>(primaryKeyValue);
-            item.IsDeleted = true;
-            Update<T>(item);
+            if (permanently)
+            {                
+                Delete<T>(GetMany<T>(primaryKeyValues));
+            }
+            else if (InterfaceHelper.VerifyIDeletable<T>())
+            {
+                var items = GetMany<T>(primaryKeyValues);
+                Delete<T>(items, false);
+            }
+        }
+
+        public void DeleteSingle<T>(object primaryKeyValue, bool permanently = true)
+        {
+            if (permanently)
+            {                
+                Delete<T>(GetSingle<T>(primaryKeyValue));
+            }
+            else if (InterfaceHelper.VerifyIDeletable<T>())
+            {
+                var item = GetSingle<T>(primaryKeyValue);
+                Delete<T>(item, false);
+            }                        
         }
 
         /// <param name="column">Recommended usage is nameof</param>
-        public void DeleteByColumn<T>(string column, object value) where T : IDeletable
+        public void DeleteByColumn<T>(string column, object value, bool permanently = false)
         {
-            var byColumn = GetByColumn<T>(column, value);
-            foreach (T item in byColumn)
-            {
-                item.IsDeleted = true;
+            if (permanently)
+            {                
+                Delete<T>(GetByColumn<T>(column, value));
             }
-            Update<T>(byColumn);
-        }
-
-        /// <summary>
-        ///     Deletes row by Id
-        /// </summary>
-        public void DeletePermanently<T>(object obj)
-        {
-            var enumerable = obj as IEnumerable<T>;
-            if (enumerable != null)
+            else if (InterfaceHelper.VerifyIDeletable<T>())
             {
-                _dbMapper.DeleteMultiple(enumerable);
+                var byColumn = GetByColumn<T>(column, value);
+                Delete<T>(byColumn, false);
             }
-            else
-            {
-                _dbMapper.DeleteMultiple(new List<T>()
-                {
-                    (T)obj
-                });
-            }
-        }
-
-        public void DeleteAllPermanently<T>()
-        {
-            _dbMapper.DeleteAll<T>();
-        }
-
-        public void DeleteManyPermanently<T>(object primaryKeyValues)
-        {
-            _dbMapper.DeleteMultiple(_dbMapper.GetMany<T>(primaryKeyValues));
-        }
-
-        public void DeleteSinglePermanently<T>(object primaryKeyValue)
-        {
-            DeletePermanently<T>(_dbMapper.GetSingle<T>(primaryKeyValue));
-        }
-
-        /// <param name="column">Recommended usage is nameof</param>
-        public void DeletePermanentlyByColumn<T>(string column, object value)
-        {
-            DeletePermanently<T>(GetByColumn<T>(column, value));
         }
 
         public void Merge<T>(object obj)

@@ -16,10 +16,10 @@ namespace CruDapper.BackofficeTest
         public void DoBaseline()
         {            
             var testTables = GetAll<TestTable>(true);
-            DeletePermanently<TestTable>(testTables);
+            Delete<TestTable>(testTables);
 
             var testIdentifiableTables = GetAll<TestIdentifiableTable>(true);
-            DeletePermanently<TestIdentifiableTable>(testIdentifiableTables);
+            Delete<TestIdentifiableTable>(testIdentifiableTables);
         }
     }
 }

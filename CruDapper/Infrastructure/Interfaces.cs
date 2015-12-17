@@ -16,7 +16,6 @@ namespace CruDapper.Infrastructure
         IEnumerable<T> GetAll<T>(bool getDeleted = false);
         IEnumerable<T> GetMany<T>(object primaryKeyValues, bool getDeleted = false);
         T GetSingle<T>(object primaryKeyValue, bool getDeleted = false);
-
         IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
         IEnumerable<T> GetByColumn<T>(WhereArgument whereArgument, bool getDeleted = false);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArguments, bool getDeleted = false);
@@ -40,7 +39,6 @@ namespace CruDapper.Infrastructure
         IEnumerable<T> GetAll<T>(bool getDeleted = false);
         IEnumerable<T> GetMany<T>(object primaryKeyValues, bool getDeleted = false);
         T GetSingle<T>(object primaryKeyValue, bool getDeleted = false);
-
         IEnumerable<T> GetByColumn<T>(string column, object value, bool getDeleted = false);
         IEnumerable<T> GetByColumns<T>(List<WhereArgument> whereArgumentDtos, bool getDeleted = false);
         IEnumerable<T> GetPaginated<T>(string sortColumn, int pageSize = 10, int currentPage = 1,
@@ -51,17 +49,11 @@ namespace CruDapper.Infrastructure
 
         void Update<T>(object obj);
 
-        void Delete<T>(object obj) where T : IDeletable;
-        void DeleteAll<T>() where T : IDeletable;
-        void DeleteMany<T>(object primaryKeyValues) where T : IDeletable;
-        void DeleteSingle<T>(object primaryKeyValue) where T : IDeletable;
-        void DeleteByColumn<T>(string column, object value) where T : IDeletable;
-
-        void DeletePermanently<T>(object obj);        
-        void DeleteAllPermanently<T>();
-        void DeleteManyPermanently<T>(object primaryKeyValues);
-        void DeleteSinglePermanently<T>(object primaryKeyValue);
-        void DeletePermanentlyByColumn<T>(string column, object value);
+        void Delete<T>(object obj, bool permanently = true);
+        void DeleteAll<T>(bool permanently = true);
+        void DeleteMany<T>(object primaryKeyValues, bool permanently = true);
+        void DeleteSingle<T>(object primaryKeyValue, bool permanently = true);
+        void DeleteByColumn<T>(string column, object value, bool permanently = true);
 
         void Merge<T>(object obj);
     }
