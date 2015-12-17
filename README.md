@@ -112,7 +112,7 @@ Merge will perform a merge command, performing update on the entries that alread
 ```c#
 _crudService
     .Merge<TestTable>(entries);
-
+```
 # Sample service usage pattern
 CruDapper.Services.CrudService can be used as base for specific services, if you want to write SQL directly for more advanced queries. By using the CruDapper overrides (outlined below) **you do not have to worry about disposing your connection** - CruDapper will take care of it. This will hopefully reduce the amount of boilerplate code you need to write.
 
