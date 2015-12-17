@@ -347,7 +347,8 @@ WHERE
                 query.AppendFormat("SourceTable.{0}, ", editableField.Name);
             }
             query.Length -= 2;
-            query.Append(");");            
+            query.Append(")");
+            query.Append(";");
 
             ConnectionBridge.Execute(query.ToString(), entities);
         }
