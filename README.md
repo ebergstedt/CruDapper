@@ -144,7 +144,7 @@ public class MyService : CrudService
         ");
     }
     
-    public IEnumerable<MyTable> MyMethodUsingDapperExtensions()
+    public IEnumerable<MyTable> MyMethodUsingStandardDapperExtensions()
     {
         using (DbConnection connection = ActiveDbConnection)
         {
@@ -191,10 +191,8 @@ Apply the TestBaslines/TestPostgresBaseLine.sql or TestBaslines/TestSqlServerBas
 * Async
 * User can specify more Dapper specific parameters such as transactions and timeouts
 * New methods to map dynamic query result to Dictionary<string, object> and object[] 
-* Pagination / Skip
-* Lazy loading if desired
-* Get single item by composite primary key
-* Merge result into an existing object by comparing field name and type
+* Hold off db execution for lazy loading if specified
+* Get stuff by composite primary keys
 * Templating
 * More functionality?
 
