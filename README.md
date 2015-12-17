@@ -182,6 +182,15 @@ void DeleteSingle<T>(object primaryKeyValue, bool permanently = true);
 void DeleteByColumn<T>(string column, object value, bool permanently = true);
 
 void Merge<T>(object obj);
+
+IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
+Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
+IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null);
+Task<IEnumerable<dynamic>> QueryDynamicAsync(string sqlQuery, object parameters = null,int? commandTimeout = null);
+SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null);
+Task<SqlMapper.GridReader> QueryMultipleAsync(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null);
+void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null);
+Task<int> ExecuteAsync(string sqlQuery, object parameters = null, int? commandTimeout = null);
 ```
 
 # Testing setup
