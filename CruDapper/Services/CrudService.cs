@@ -170,55 +170,27 @@ namespace CruDapper.Services
 
         public void DeleteAll<T>(bool permanently = true)
         {
-            if (permanently)
-            {
-                _dbMapper.DeleteAll<T>();
-            }
-            else if (InterfaceHelper.VerifyIDeletable<T>())
-            {
-                var items = GetAll<T>();
-                Delete<T>(items, false);
-            }
+            var items = GetAll<T>();
+            Delete<T>(items, permanently);
         }
 
         public void DeleteMany<T>(object primaryKeyValues, bool permanently = true)
         {
-            if (permanently)
-            {                
-                Delete<T>(GetMany<T>(primaryKeyValues));
-            }
-            else if (InterfaceHelper.VerifyIDeletable<T>())
-            {
-                var items = GetMany<T>(primaryKeyValues);
-                Delete<T>(items, false);
-            }
+            var items = GetMany<T>(primaryKeyValues);
+            Delete<T>(items, permanently);
         }
 
         public void DeleteSingle<T>(object primaryKeyValue, bool permanently = true)
         {
-            if (permanently)
-            {                
-                Delete<T>(GetSingle<T>(primaryKeyValue));
-            }
-            else if (InterfaceHelper.VerifyIDeletable<T>())
-            {
-                var item = GetSingle<T>(primaryKeyValue);
-                Delete<T>(item, false);
-            }                        
+            var item = GetSingle<T>(primaryKeyValue);
+            Delete<T>(item, permanently);
         }
 
         /// <param name="column">Recommended usage is nameof</param>
         public void DeleteByColumn<T>(string column, object value, bool permanently = false)
         {
-            if (permanently)
-            {                
-                Delete<T>(GetByColumn<T>(column, value));
-            }
-            else if (InterfaceHelper.VerifyIDeletable<T>())
-            {
-                var byColumn = GetByColumn<T>(column, value);
-                Delete<T>(byColumn, false);
-            }
+            var byColumn = GetByColumn<T>(column, value);
+            Delete<T>(byColumn, permanently);
         }
 
         public void Merge<T>(object obj)
