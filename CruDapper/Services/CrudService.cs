@@ -43,7 +43,6 @@ namespace CruDapper.Services
         #endregion
 
         #region GET
-
         /// <summary>
         ///     Gets all rows in a table
         /// </summary>

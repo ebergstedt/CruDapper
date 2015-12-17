@@ -348,7 +348,6 @@ WHERE
             }
             query.Length -= 2;
             query.Append(");");            
-
             ConnectionBridge.Execute(query.ToString(), entities);
         }
 
