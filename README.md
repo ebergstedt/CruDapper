@@ -9,6 +9,8 @@ Currently supports **MS Sql Server** and **Postgres** (work in progress - some m
 
 CruDapper uses SQL autogeneration and parameterized queries, together with reflection to provide CRUD functionality to the fast and excellent .NET ORM Dapper. **All basic CRUD methods support both single and multiple object execution and reading**. 
 
+**Unlike most other Dapper CRUD extensions**, GET methods by primary key takes whatever object you have as primary key.
+
 GET methods also support easy filtering rows that have been flagged as deleted (provided the table implements IDeletable). 
 ```c#
 IEnumerable<T> GetAll<T>(bool getDeleted = false);
