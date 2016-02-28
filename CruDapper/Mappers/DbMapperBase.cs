@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using CruDapper.Infrastructure;
 using Dapper;
+using Polly;
+using System.Data.SqlClient;
 
 namespace CruDapper.Mappers
 {
@@ -58,44 +60,44 @@ namespace CruDapper.Mappers
             get { return ConnectionBridge.GetDbConnection(); }            
         }
 
-        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
-        {            
-            return ConnectionBridge.Query<T>(sqlQuery, parameters, commandTimeout);
+        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
+        {
+            return ConnectionBridge.Query<T>(sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return ConnectionBridge.QueryAsync<T>(sqlQuery, parameters, commandTimeout);
+            return ConnectionBridge.QueryAsync<T>(sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return ConnectionBridge.QueryDynamic(sqlQuery, parameters, commandTimeout);
+            return ConnectionBridge.QueryDynamic(sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public Task<IEnumerable<dynamic>> QueryDynamicAsync(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public Task<IEnumerable<dynamic>> QueryDynamicAsync(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return ConnectionBridge.QueryDynamicAsync(sqlQuery, parameters, commandTimeout);
+            return ConnectionBridge.QueryDynamicAsync(sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return ConnectionBridge.QueryMultiple(connection, sqlQuery, parameters, commandTimeout);
+            return ConnectionBridge.QueryMultiple(connection, sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public Task<SqlMapper.GridReader> QueryMultipleAsync(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public Task<SqlMapper.GridReader> QueryMultipleAsync(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return ConnectionBridge.QueryMultipleAsync(connection, sqlQuery, parameters, commandTimeout);
+            return ConnectionBridge.QueryMultipleAsync(connection, sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            ConnectionBridge.Execute(sqlQuery, parameters, commandTimeout);
+            ConnectionBridge.Execute(sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public Task<int> ExecuteAsync(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public Task<int> ExecuteAsync(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return ConnectionBridge.ExecuteAsync(sqlQuery, parameters, commandTimeout);
+            return ConnectionBridge.ExecuteAsync(sqlQuery, parameters, commandTimeout, retryCount);
         }
     }
 }

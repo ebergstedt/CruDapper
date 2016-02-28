@@ -212,44 +212,44 @@ namespace CruDapper.Services
 
         #region Dapper specific
 
-        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return _dbMapper.Query<T>(sqlQuery, parameters, commandTimeout);
+            return _dbMapper.Query<T>(sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return _dbMapper.QueryAsync<T>(sqlQuery, parameters, commandTimeout);
+            return _dbMapper.QueryAsync<T>(sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return _dbMapper.QueryDynamic(sqlQuery, parameters, commandTimeout);
+            return _dbMapper.QueryDynamic(sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public Task<IEnumerable<dynamic>> QueryDynamicAsync(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public Task<IEnumerable<dynamic>> QueryDynamicAsync(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return _dbMapper.QueryDynamicAsync(sqlQuery, parameters, commandTimeout);
+            return _dbMapper.QueryDynamicAsync(sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {            
-            return _dbMapper.QueryMultiple(connection, sqlQuery, parameters, commandTimeout);
+            return _dbMapper.QueryMultiple(connection, sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public Task<SqlMapper.GridReader> QueryMultipleAsync(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public Task<SqlMapper.GridReader> QueryMultipleAsync(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return _dbMapper.QueryMultipleAsync(connection, sqlQuery, parameters, commandTimeout);
+            return _dbMapper.QueryMultipleAsync(connection, sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public void Execute(string sqlQuery, object parameters, int? commandTimeout = null)
+        public void Execute(string sqlQuery, object parameters, int? commandTimeout = null, int retryCount = 0)
         {            
-            _dbMapper.Execute(sqlQuery, parameters, commandTimeout);
+            _dbMapper.Execute(sqlQuery, parameters, commandTimeout, retryCount);
         }
 
-        public Task<int> ExecuteAsync(string sqlQuery, object parameters = null, int? commandTimeout = null)
+        public Task<int> ExecuteAsync(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return _dbMapper.ExecuteAsync(sqlQuery, parameters, commandTimeout);
+            return _dbMapper.ExecuteAsync(sqlQuery, parameters, commandTimeout, retryCount);
         }
 
         #endregion
