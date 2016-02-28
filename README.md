@@ -155,7 +155,7 @@ public class MyService : CrudService
     {
         using (DbConnection connection = ActiveDbConnection)
         {
-            // calls the original Dapper DbConnection extension methods making you able to use Dappers full functionality 
+            // calls the original Dapper DbConnection extension methods making you able to use Dappers full functionality, if you want to bypass CruDapper.
             connection.Open();
             return connection.Query(@"
                 DELETE
