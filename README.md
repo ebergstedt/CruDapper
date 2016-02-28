@@ -212,11 +212,8 @@ Apply the TestBaslines/TestPostgresBaseLine.sql or TestBaslines/TestSqlServerBas
 
 # TODO
 
-* Async
-* User can specify more Dapper specific parameters such as transactions and timeouts
 * New methods to map dynamic query result to Dictionary<string, object> and object[] 
 * Hold off db execution for lazy loading if specified
-* Get stuff by composite primary keys
 * Templating
 * More functionality?
 
