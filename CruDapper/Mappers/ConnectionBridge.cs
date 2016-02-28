@@ -32,7 +32,15 @@ namespace CruDapper.Mappers
              .Execute(action);
         }
 
-        private T RetryExecuteAndCapture<T>(Func<T> action, int retryCount = 0)
+        private async Task RetryExecuteAsync(Func<Task> action, int retryCount = 0)
+        {
+            await Policy
+             .Handle<Exception>()
+             .Retry(retryCount)
+             .ExecuteAsync(action);
+        }
+
+        private T Retry<T>(Func<T> action, int retryCount = 0)
         {
             PolicyResult<T> policyResult = Policy
              .Handle<Exception>()
@@ -51,7 +59,7 @@ namespace CruDapper.Mappers
         {
             PolicyResult<T> policyResult = await Policy
              .Handle<Exception>()
-             .Retry(retryCount)
+             .RetryAsync(retryCount)
              .ExecuteAndCaptureAsync<T>(action);
 
             if (policyResult.Outcome == OutcomeType.Failure)
@@ -64,7 +72,7 @@ namespace CruDapper.Mappers
 
         public IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return RetryExecuteAndCapture(() => _Query<T>(sqlQuery, parameters, commandTimeout), retryCount);
+            return Retry(() => _Query<T>(sqlQuery, parameters, commandTimeout), retryCount);
         }
 
         private IEnumerable<T> _Query<T>(string sqlQuery, object parameters, int? commandTimeout)
@@ -83,6 +91,11 @@ namespace CruDapper.Mappers
 
         public async Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
+            return await RetryAsync(() => _QueryAsync<T>(sqlQuery, parameters, commandTimeout), retryCount);            
+        }
+
+        private async Task<IEnumerable<T>> _QueryAsync<T>(string sqlQuery, object parameters, int? commandTimeout)
+        {
             IEnumerable<T> result;
             using (var connection = GetDbConnection())
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -97,7 +110,7 @@ namespace CruDapper.Mappers
 
         public IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return RetryExecuteAndCapture(() => _QueryDynamic(sqlQuery, parameters, commandTimeout), retryCount);
+            return Retry(() => _QueryDynamic(sqlQuery, parameters, commandTimeout), retryCount);
         }
 
         private IEnumerable<dynamic> _QueryDynamic(string sqlQuery, object parameters, int? commandTimeout)
@@ -116,6 +129,11 @@ namespace CruDapper.Mappers
 
         public async Task<IEnumerable<dynamic>> QueryDynamicAsync(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
+            return await RetryAsync(() => _QueryDynamicAsync(sqlQuery, parameters, commandTimeout), retryCount);
+        }
+
+        private async Task<IEnumerable<dynamic>> _QueryDynamicAsync(string sqlQuery, object parameters, int? commandTimeout)
+        {
             IEnumerable<dynamic> result;
             using (var connection = GetDbConnection())
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -124,12 +142,13 @@ namespace CruDapper.Mappers
                 result = await connection.QueryAsync<dynamic>(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
                 scope.Complete();
             }
+
             return result;
         }
 
         public SqlMapper.GridReader QueryMultiple(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
-            return RetryExecuteAndCapture(() => _QueryMultiple(connection, sqlQuery, parameters, commandTimeout), retryCount);            
+            return Retry(() => _QueryMultiple(connection, sqlQuery, parameters, commandTimeout), retryCount);            
         }
 
         private SqlMapper.GridReader _QueryMultiple(DbConnection connection, string sqlQuery, object parameters, int? commandTimeout)
@@ -146,12 +165,18 @@ namespace CruDapper.Mappers
 
         public async Task<SqlMapper.GridReader> QueryMultipleAsync(DbConnection connection, string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
         {
+            return await RetryAsync(() => _QueryMultipleAsync(connection, sqlQuery, parameters, commandTimeout), retryCount);
+        }
+
+        private async Task<SqlMapper.GridReader> _QueryMultipleAsync(DbConnection connection, string sqlQuery, object parameters, int? commandTimeout)
+        {
             SqlMapper.GridReader result;
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 result = await connection.QueryMultipleAsync(sqlQuery, parameters, commandTimeout: GlobalCommandTimeout ?? commandTimeout);
                 scope.Complete();
             }
+
             return result;
         }
 
@@ -172,6 +197,11 @@ namespace CruDapper.Mappers
         }
 
         public async Task<int> ExecuteAsync(string sqlQuery, object parameters = null, int? commandTimeout = null, int retryCount = 0)
+        {
+            return await RetryAsync(() => _ExecuteAsync(sqlQuery, parameters, commandTimeout), retryCount);
+        }
+
+        private async Task<int> _ExecuteAsync(string sqlQuery, object parameters, int? commandTimeout)
         {
             int result;
             using (var connection = GetDbConnection())

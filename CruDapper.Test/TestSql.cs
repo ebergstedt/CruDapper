@@ -21,7 +21,7 @@ namespace CruDapper.Test
 
             Assert.IsNotNull(entry);
 
-            var testTablesByQuery = CrudService.Query<TestTable>("SELECT * FROM CruDapperSchema.TestTable", retryCount: 3);
+            var testTablesByQuery = CrudService.Query<TestTable>("SELECT * FROM CruDapperSchema.TestTable");
 
             Assert.IsTrue(testTablesByQuery.Any());
 
@@ -123,7 +123,8 @@ namespace CruDapper.Test
 
             Assert.IsTrue(CrudService.GetAll<TestTable>().Any());
 
-            await CrudService.ExecuteAsync("DELETE FROM CruDapperSchema.TestTable");
+            await CrudService
+                .ExecuteAsync("DELETE FROM CruDapperSchema.TestTable");
 
             Assert.IsFalse(CrudService.GetAll<TestTable>().Any());
         }
