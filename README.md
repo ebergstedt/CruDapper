@@ -45,7 +45,7 @@ First initialize your database mapper with your connectionstring in App.config. 
 IServiceFactory _serviceFactory;
 ICrudService _crudService;
 
-_serviceFactory = new ServiceFactory(new MsSqlServerMapper("ConnectionStringName"));
+_serviceFactory = new ServiceFactory(new MsSqlServerMapper("ConnectionStringName"), new ValueMapper());
 _crudService = serviceFactory.Get<CrudService>();
 ```
 
