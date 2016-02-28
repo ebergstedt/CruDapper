@@ -10,7 +10,7 @@ namespace CruDapper.Infrastructure
 {
     public interface IValueMapper
     {
-        void AssignInterfaceData<T>(ref IEnumerable<T> entities);
+        void AssignValues<T>(ref IEnumerable<T> entities);
     }
 
     public interface IDbMapper : IDapperConnectable

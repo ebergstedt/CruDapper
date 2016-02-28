@@ -125,7 +125,7 @@ WHERE
             if (!entities.Any())
                 return null;
 
-            _valueMapper.AssignInterfaceData(ref entities);
+            _valueMapper.AssignValues(ref entities);
             ValidationHelper.ValidateList(ref entities);
 
             var guidList = new List<Guid>();
@@ -179,7 +179,7 @@ WHERE
             if (!entities.Any())
                 return;
 
-            _valueMapper.AssignInterfaceData(ref entities);
+            _valueMapper.AssignValues(ref entities);
             ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));
@@ -228,7 +228,7 @@ WHERE
             if (!entities.Any())
                 return;
 
-            _valueMapper.AssignInterfaceData(ref entities);
+            _valueMapper.AssignValues(ref entities);
             ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));
@@ -263,7 +263,7 @@ WHERE
             if (!entities.Any())
                 return;
 
-            _valueMapper.AssignInterfaceData(ref entities);
+            _valueMapper.AssignValues(ref entities);
             ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));
@@ -289,7 +289,7 @@ WHERE
 
         public void MergeMultiple<T>(IEnumerable<T> entities)
         {
-            _valueMapper.AssignInterfaceData(ref entities);
+            _valueMapper.AssignValues(ref entities);
             ValidationHelper.ValidateList(ref entities);
 
             var targetTableName = ReflectionHelper.GetTableName(typeof(T));

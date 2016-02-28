@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaselineService.cs" />
-    <Compile Include="InterfaceHelper.cs" />
+    <Compile Include="ValueMapper.cs" />
     <Compile Include="TestIdentifiableTable.cs" />
     <Compile Include="TestTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

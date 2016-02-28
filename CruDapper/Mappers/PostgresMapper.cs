@@ -106,7 +106,7 @@ namespace CruDapper.Mappers
             if (!entities.Any())
                 return null;
 
-            _valueMapper.AssignInterfaceData(ref entities);
+            _valueMapper.AssignValues(ref entities);
             ValidationHelper.ValidateList(ref entities);
 
             var guidList = new List<Guid>();
@@ -162,7 +162,7 @@ namespace CruDapper.Mappers
             if (!entities.Any())
                 return;
 
-            _valueMapper.AssignInterfaceData(ref entities);
+            _valueMapper.AssignValues(ref entities);
             ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));
@@ -207,7 +207,7 @@ namespace CruDapper.Mappers
             if (!entities.Any())
                 return;
 
-            _valueMapper.AssignInterfaceData(ref entities);
+            _valueMapper.AssignValues(ref entities);
             ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));
@@ -242,7 +242,7 @@ namespace CruDapper.Mappers
             if (!entities.Any())
                 return;
 
-            _valueMapper.AssignInterfaceData(ref entities);
+            _valueMapper.AssignValues(ref entities);
             ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));

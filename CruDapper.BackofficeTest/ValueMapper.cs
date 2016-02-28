@@ -6,7 +6,7 @@ namespace CruDapper.BackofficeTest
 {
     public class ValueMapper : IValueMapper
     {
-        public void AssignInterfaceData<T>(ref IEnumerable<T> entities)
+        public void AssignValues<T>(ref IEnumerable<T> entities)
         {
             foreach (var entity in entities)
             {
