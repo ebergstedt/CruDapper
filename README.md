@@ -11,7 +11,7 @@ Use **CruDapper** if you are tired of writing boilerplate for Dapper, and you ar
 
 * CruDapper uses SQL autogeneration and parameterized queries, together with reflection to provide CRUD functionality to the fast and excellent .NET ORM Dapper. **All basic CRUD methods support both single and multiple object execution and reading**. 
 
-* **Unlike most other Dapper CRUD extensions**, GET methods by primary key takes whatever object you have as primary key.
+* Unlike most other Dapper CRUD extensions, **GET methods by primary key takes whatever object you have as primary key: you are not limited to integers.**.
 
 GET methods also support easy filtering rows that have been flagged as deleted (provided the table implements IDeletable). 
 ```c#
