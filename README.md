@@ -7,11 +7,11 @@ Use **CruDapper** if you are tired of writing boilerplate for Dapper, and you ar
 
 # Features
 
-Currently supports **MS Sql Server** and **Postgres** (work in progress - some methods are missing). You can create extensions for other databases.
+* Currently supports **MS Sql Server** and **Postgres** (work in progress - some methods are missing). You can create extensions for other databases.
 
-CruDapper uses SQL autogeneration and parameterized queries, together with reflection to provide CRUD functionality to the fast and excellent .NET ORM Dapper. **All basic CRUD methods support both single and multiple object execution and reading**. 
+* CruDapper uses SQL autogeneration and parameterized queries, together with reflection to provide CRUD functionality to the fast and excellent .NET ORM Dapper. **All basic CRUD methods support both single and multiple object execution and reading**. 
 
-**Unlike most other Dapper CRUD extensions**, GET methods by primary key takes whatever object you have as primary key.
+* **Unlike most other Dapper CRUD extensions**, GET methods by primary key takes whatever object you have as primary key.
 
 GET methods also support easy filtering rows that have been flagged as deleted (provided the table implements IDeletable). 
 ```c#
@@ -23,19 +23,19 @@ It is similarly easy to both flag rows as deleted, or just delete them outright
 void DeleteAll<T>(bool permanently = true);
 ```
 
-CruDapper features **automatic value assignment of interfaces upon any CRUD execution**, such as setting UpdatedAt to the current date when using Update. Check InterfaceHelper.cs if you wish to implement or change the behavior.
+* CruDapper features **automatic value assignment of interfaces upon any CRUD execution**, such as setting UpdatedAt to the current date when using Update. Check ValueMapper.cs if you wish to implement or change the behavior.
 
-CruDapper **caches reflection results for improved performance**, just like Dapper.
+* CruDapper **caches reflection results for improved performance**, just like Dapper.
 
-CruDapper **provides an easy interface for data queries, without using statements for your database connection and transaction scope**. This will remove a lot of boilerplate code clutter from your database services. The below example automatically enlists both transactionscope and your connectionstring.
+* CruDapper **provides an easy interface for data queries, without using statements for your database connection and transaction scope**. This will remove a lot of boilerplate code clutter from your database services. The below example automatically enlists both transactionscope and your connectionstring.
 
-    var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable");
 
-CruDapper can **retry failed connections** as many times as you want, thanks to internal Polly integration.
+        var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable");
 
-    var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable", retryCount: 3);
-    
-CruDapper can **automatically assign default values** to your inserts and updates. For example, on every insert or update, a datetime CreatedAt can set if it's null, and a datetime UpdatedAt can always be set to the current date. Refer to the **InterfaceHelper.cs** class for implementation.
+* CruDapper can **retry failed connections** as many times as you want, thanks to internal Polly integration.
+
+
+        var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable", retryCount: 3);
 
 Please refer to the provided Test project for detailed examples and syntax.
 
