@@ -130,13 +130,6 @@ _crudService
 # Sample service usage pattern
 CruDapper.Services.CrudService can be used as base for specific services, if you want to write SQL directly for more advanced queries. By using the CruDapper overrides (outlined below) **you do not have to worry about disposing your connection** - CruDapper will take care of it. This will hopefully reduce the amount of boilerplate code you need to write.
 
-```c#
-IEnumerable<T> Query<T>(string sqlQuery, object parameters = null, int? commandTimeout = null);
-IEnumerable<dynamic> QueryDynamic(string sqlQuery, object parameters = null, int? commandTimeout = null);
-SqlMapper.GridReader QueryMultiple(string sqlQuery, object parameters = null, int? commandTimeout = null);
-void Execute(string sqlQuery, object parameters = null, int? commandTimeout = null);
-```
-
 By using the ActiveDbConnection CruDapper will provide you with a usable DbConnection, if you want to use the original Dapper DbConnection extension methods.
 ```c#
 
