@@ -28,7 +28,7 @@ void DeleteAll<T>(bool permanently = true);
 * CruDapper **caches reflection results for improved performance**, just like Dapper.
 
 * CruDapper **provides an easy interface for data queries, without using statements for your database connection and transaction scope**. This will remove a lot of boilerplate code clutter from your database services. The below example automatically enlists both transactionscope and your connectionstring.
-* 
+
 ```c#
 var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable");
 ```
