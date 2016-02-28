@@ -143,7 +143,7 @@ public class MyService : CrudService
     public IEnumerable<MyTable> MyMethodUsingCruDapper()
     {
         //CruDapper automatically manages disposing the connection
-        return connection.Query<MyTable>(@"
+        return Query<MyTable>(@"
             SELECT * 
             FROM MyTable AS mt 
             INNER JOIN AnotherTable AS at 
