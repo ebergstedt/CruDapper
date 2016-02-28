@@ -3,7 +3,7 @@ Dapper extension with CRUD functionality (and some more).
 
 Based on **Dapper** https://github.com/StackExchange/dapper-dot-net
 
-Use **CruDapper** if you are tired of writing boilerplate for Dapper, and you are missing some key features from the other existing CRUD libraries for Dapper, such as async, retries, composite primary keys, multiple object inserts and updates. Read below to find out more.
+Use **CruDapper** if you are tired of writing boilerplate for Dapper, and you are missing some key features from the other existing CRUD libraries for Dapper, such as async, retries, composite primary keys, multiple object inserts and updates, automatic field value assignment. Read below to find out more.
 
 # Features
 
@@ -34,6 +34,8 @@ CruDapper **provides an easy interface for data queries, without using statement
 CruDapper can **retry failed connections** as many times as you want, thanks to internal Polly integration.
 
     var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable", retryCount: 3);
+    
+CruDapper can **automatically assign default values** to your inserts and updates. For example, on every insert or update, a datetime CreatedAt can set if it's null, and a datetime UpdatedAt can always be set to the current date. Refer to the **InterfaceHelper.cs** class for implementation.
 
 Please refer to the provided Test project for detailed examples and syntax.
 
