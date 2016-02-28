@@ -33,7 +33,7 @@ void DeleteAll<T>(bool permanently = true);
 var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable");
 ```
 
-* CruDapper can **retry failed connections** as many times as you want, thanks to internal Polly integration.
+* CruDapper can **retry failed connections** as many times as you want, thanks to internal [Polly](/https://github.com/App-vNext/Polly) integration.
 
 ```c#
 var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable", retryCount: 3);
