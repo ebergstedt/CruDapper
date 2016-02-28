@@ -204,6 +204,8 @@ public string SomeData {
 
 # Complete method list
 
+Check the .Test project for a more in-depth description of the usage of the provided functionality below.
+
 ```c#
 IEnumerable<T> GetAll<T>(bool getDeleted = false);
 
