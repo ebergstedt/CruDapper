@@ -33,9 +33,6 @@ namespace CruDapper.Test
         {
             var entries = BaseLineAndPutAndReturnTestTables();
 
-            CrudService
-                .Put<TestTable>(entries);
-
             var testTables = CrudService
                 .GetAll<TestTable>();
 

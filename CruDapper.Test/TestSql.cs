@@ -119,12 +119,14 @@ namespace CruDapper.Test
         [TestMethod]
         public async Task ExecuteAsync()
         {
-            BaseLineAndPutAndReturnTestTable();
+            var tables = BaseLineAndPutAndReturnTestTables();
 
             Assert.IsTrue(CrudService.GetAll<TestTable>().Any());
 
             await CrudService
                 .ExecuteAsync("DELETE FROM CruDapperSchema.TestTable");
+
+            var test = CrudService.GetAll<TestTable>().Any();
 
             Assert.IsFalse(CrudService.GetAll<TestTable>().Any());
         }

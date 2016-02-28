@@ -36,9 +36,6 @@ namespace CruDapper.Test
             var entries = BaseLineAndPutAndReturnTestTables();
 
             CrudService
-                .Put<TestTable>(entries);            
-
-            CrudService
                 .DeleteAll<TestTable>(false);
 
             var testTables = CrudService
@@ -51,9 +48,6 @@ namespace CruDapper.Test
         public void DeleteManyIDeletable()
         {
             var entries = BaseLineAndPutAndReturnTestTables();
-
-            CrudService
-                .Put<TestTable>(entries);
 
             var testTables = entries.Take(10);
 

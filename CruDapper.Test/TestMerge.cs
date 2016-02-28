@@ -62,8 +62,8 @@ namespace CruDapper.Test
 
             CrudService
                 .Merge<TestTable>(entries);
-
-            Assert.IsTrue(CrudService.GetAll<TestTable>().Count() == entries.Count());
+            
+            Assert.IsTrue(CrudService.GetAll<TestTable>().Count() == entries.Count() * 2);
 
             DoBaseline();
         }
@@ -72,9 +72,6 @@ namespace CruDapper.Test
         public void MergeUpdate()
         {
             var entries = BaseLineAndPutAndReturnTestTables();
-
-            CrudService
-                .Put<TestTable>(entries);
 
             var existingTestTables = CrudService
                 .GetAll<TestTable>();

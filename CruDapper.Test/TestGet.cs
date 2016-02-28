@@ -13,10 +13,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void GetAll()
         {
-            var entries = BaseLineAndPutAndReturnTestTables();
-
-            CrudService
-                .Put<TestTable>(entries);
+            var entries = BaseLineAndPutAndReturnTestTables();            
 
             var testTables = CrudService
                 .GetAll<TestTable>();
@@ -45,9 +42,6 @@ namespace CruDapper.Test
         {
             var entries = BaseLineAndPutAndReturnTestTables();
 
-            CrudService
-                .Put<TestTable>(entries);
-
             var testTables = CrudService
                 .GetAll<TestTable>();
 
@@ -75,9 +69,6 @@ namespace CruDapper.Test
         public void GetByColumns()
         {
             var entries = BaseLineAndPutAndReturnTestTables();
-
-            CrudService
-                .Put<TestTable>(entries);
 
             var result = CrudService
                 .GetByColumns<TestTable>(new List<WhereArgument>
@@ -112,9 +103,6 @@ namespace CruDapper.Test
         public void GetPaginated()
         {
             var entries = BaseLineAndPutAndReturnTestTables();
-
-            CrudService
-                .Put<TestTable>(entries);
 
             var pages = CrudService
                 .GetPaginated<TestTable>("Id", pageSize: 100);

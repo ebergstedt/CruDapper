@@ -120,6 +120,7 @@ WHERE
             return ConnectionBridge.Query<T>(query.ToString());
         }
 
+        //todo http://stackoverflow.com/questions/95988/how-to-insert-multiple-records-and-get-the-identity-value
         public IEnumerable<T> InsertMultipleIdentifiable<T>(IEnumerable<T> entities)
         {
             if (!entities.Any())

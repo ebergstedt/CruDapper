@@ -68,6 +68,9 @@ namespace CruDapper.Test
                 });
             }
 
+            CrudService
+                .Put<TestTable>(entries);
+
             return entries;
         }
     }
