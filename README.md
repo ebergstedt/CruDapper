@@ -203,7 +203,7 @@ public string SomeData {
 ```
 
 # Complete method list
-Will update this with more details. Until then, you may check the provided Test project in the repo.
+
 ```c#
 IEnumerable<T> GetAll<T>(bool getDeleted = false);
 
