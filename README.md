@@ -31,8 +31,6 @@ CruDapper **provides an easy interface for data queries, without using statement
 
     var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable");
 
-CruDapper **automatically enlists transactions** - you will not need to worry about partial data corruption if your queries throws an exception midway.
-
 CruDapper can **retry failed connections** as many times as you want, thanks to internal Polly integration.
 
     var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable", retryCount: 3);
