@@ -3,7 +3,7 @@ Dapper extension with CRUD functionality (and some more).
 
 Based on **[Dapper](/https://github.com/StackExchange/dapper-dot-net)** 
 
-Use **CruDapper** if you are tired of writing boilerplate for Dapper, and you are missing some key features from the other existing CRUD libraries for Dapper, such as async, retries, composite primary keys, multiple object inserts and updates, automatic field value assignment. Read below to find out more.
+Use **CruDapper** if you are tired of writing boilerplate for Dapper, and you are missing some key features from the other existing CRUD libraries for Dapper, such as async, retries, composite primary keys, multiple object inserts and updates, automatic field value assignment, merges, null validation, ignored fields, temporary and permanent row deletion. Read below to find out more.
 
 # Features
 
