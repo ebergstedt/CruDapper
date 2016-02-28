@@ -28,14 +28,16 @@ void DeleteAll<T>(bool permanently = true);
 * CruDapper **caches reflection results for improved performance**, just like Dapper.
 
 * CruDapper **provides an easy interface for data queries, without using statements for your database connection and transaction scope**. This will remove a lot of boilerplate code clutter from your database services. The below example automatically enlists both transactionscope and your connectionstring.
-
-
-        var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable");
+* 
+```c#
+var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable");
+```
 
 * CruDapper can **retry failed connections** as many times as you want, thanks to internal Polly integration.
 
-
-        var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable", retryCount: 3);
+```c#
+var myQueryResult = _crudService.Query<TestTable>("SELECT * FROM TestTable", retryCount: 3);
+```
 
 Please refer to the provided Test project for detailed examples and syntax.
 
@@ -168,6 +170,42 @@ public class MyService : CrudService
             ");
         }
     }
+}
+```
+
+# Attributes
+
+CruDapper needs attributes on your DTO's to function.
+
+**[Key]** is your database key. There can be multiple keys, making a composite key.
+```c#
+[Key]
+public int Id { get; set; }
+    
+[Key]
+public string AnotherId { get; set; }
+```
+    
+**[AutoIncrement]** must be set on keys that are autoincrement.
+```c#
+[Key]
+[AutoIncrement]
+public int Id { get; set; }
+```
+
+**[Required]** will be evaluated to be not null.
+
+```c#
+ [Required]
+ public DateTime CreatedAt { get; set; }
+```
+
+**[NotMapped]** will be ignored by CruDapper. This is useful as you will not need to use another intermediary object and will reduce clutter.     
+
+```c#
+[NotMapped]        
+public string SomeData {
+    get { return Id + " that is not mapped."; } 
 }
 ```
 
