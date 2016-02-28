@@ -21,10 +21,10 @@ namespace CruDapper.Test
             switch (Provider)
             {
                 case Provider.MsSql:
-                    DbMapper = new MsSqlServerMapper("DefaultConnection");
+                    DbMapper = new MsSqlServerMapper("DefaultConnection", new ValueMapper());
                     break;
                 case Provider.Postgres:
-                    DbMapper = new PostgresMapper("Postgres");
+                    DbMapper = new PostgresMapper("Postgres", new ValueMapper());
                     break;
                 default:
                     throw new NotImplementedException();

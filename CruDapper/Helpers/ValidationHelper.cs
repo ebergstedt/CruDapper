@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using CruDapper.Infrastructure;
 
 namespace CruDapper.Helpers
 {
@@ -17,6 +18,21 @@ namespace CruDapper.Helpers
             {
                 throw new Exception("Model is invalid: " +
                                     string.Join(", ", results.Select(s => s.ErrorMessage).ToArray()));
+            }
+        }
+        
+        public static bool VerifyIDeletable<T>()
+        {
+            if (!typeof(IDeletable).IsAssignableFrom(typeof(T)))
+                return false;
+            return true;
+        }
+
+        public static void ValidateList<T>(ref IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+            {
+                ValidationHelper.ValidateModel(entity);
             }
         }
     }

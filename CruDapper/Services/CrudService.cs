@@ -139,7 +139,7 @@ namespace CruDapper.Services
                     });
                 }
             }
-            else if (InterfaceHelper.VerifyIDeletable<T>())
+            else if (ValidationHelper.VerifyIDeletable<T>())
             {
                 var enumerable = obj as IEnumerable<T>;
 

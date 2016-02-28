@@ -14,9 +14,11 @@ namespace CruDapper.Mappers
     public class PostgresMapper : DbMapperBase, IDbMapper
     {
         private readonly Provider _provider = Provider.Postgres;
+        private readonly IValueMapper _valueMapper;
 
-        public PostgresMapper(string connectionName, int? globalCommandTimeout = null) : base(connectionName, Provider.Postgres, globalCommandTimeout)
+        public PostgresMapper(string connectionName, IValueMapper valueMapper, int? globalCommandTimeout = null) : base(connectionName, Provider.Postgres, globalCommandTimeout)
         {
+            _valueMapper = valueMapper;
         }
 
         public IEnumerable<T> GetAll<T>(bool getDeleted = false)
@@ -24,7 +26,7 @@ namespace CruDapper.Mappers
             var tableName = ReflectionHelper.GetTableName(typeof (T));
             StringBuilder query = new StringBuilder();
             query.AppendFormat("SELECT * FROM {0}", tableName);
-            if (!getDeleted && InterfaceHelper.VerifyIDeletable<T>())
+            if (!getDeleted && ValidationHelper.VerifyIDeletable<T>())
             {
                 query.AppendFormat(" WHERE {0} ", QueryHelper.GetIsDeletedSQL(_provider));
             }
@@ -104,8 +106,8 @@ namespace CruDapper.Mappers
             if (!entities.Any())
                 return null;
 
-            InterfaceHelper.AssignInterfaceData(ref entities);
-            InterfaceHelper.ValidateList(ref entities);
+            _valueMapper.AssignInterfaceData(ref entities);
+            ValidationHelper.ValidateList(ref entities);
 
             var guidList = new List<Guid>();
             foreach (var entity in entities)
@@ -160,8 +162,8 @@ namespace CruDapper.Mappers
             if (!entities.Any())
                 return;
 
-            InterfaceHelper.AssignInterfaceData(ref entities);
-            InterfaceHelper.ValidateList(ref entities);
+            _valueMapper.AssignInterfaceData(ref entities);
+            ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));
             var keys = ReflectionHelper.GetKeyFields(typeof(T));
@@ -205,8 +207,8 @@ namespace CruDapper.Mappers
             if (!entities.Any())
                 return;
 
-            InterfaceHelper.AssignInterfaceData(ref entities);
-            InterfaceHelper.ValidateList(ref entities);
+            _valueMapper.AssignInterfaceData(ref entities);
+            ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));
             var keys = ReflectionHelper.GetKeyFields(typeof(T));
@@ -240,8 +242,8 @@ namespace CruDapper.Mappers
             if (!entities.Any())
                 return;
 
-            InterfaceHelper.AssignInterfaceData(ref entities);
-            InterfaceHelper.ValidateList(ref entities);
+            _valueMapper.AssignInterfaceData(ref entities);
+            ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));
             var keys = ReflectionHelper.GetKeyFields(typeof(T));

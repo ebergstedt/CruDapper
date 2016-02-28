@@ -21,8 +21,7 @@ namespace CruDapper.Test
 
             Assert.IsNotNull(entry);
 
-            var testTablesByQuery = CrudService
-                .Query<TestTable>("SELECT * FROM CruDapperSchema.TestTable");
+            var testTablesByQuery = CrudService.Query<TestTable>("SELECT * FROM CruDapperSchema.TestTable", retryCount: 3);
 
             Assert.IsTrue(testTablesByQuery.Any());
 

@@ -14,9 +14,11 @@ namespace CruDapper.Mappers
     public class MsSqlServerMapper : DbMapperBase, IDbMapper
     {
         private readonly Provider _provider = Provider.MsSql;
+        private readonly IValueMapper _valueMapper;
 
-        public MsSqlServerMapper(string connectionName, int? globalCommandTimeout = null) : base(connectionName, Provider.MsSql, globalCommandTimeout)
+        public MsSqlServerMapper(string connectionName, IValueMapper valueMapper, int? globalCommandTimeout = null) : base(connectionName, Provider.MsSql, globalCommandTimeout)
         {
+            _valueMapper = valueMapper;
         }
 
         public IEnumerable<T> GetAll<T>(bool getDeleted = false)
@@ -24,7 +26,7 @@ namespace CruDapper.Mappers
             var tableName = ReflectionHelper.GetTableName(typeof(T));
             StringBuilder query = new StringBuilder();
             query.AppendFormat("SELECT * FROM {0}", tableName);
-            if (!getDeleted && InterfaceHelper.VerifyIDeletable<T>())
+            if (!getDeleted && ValidationHelper.VerifyIDeletable<T>())
             {
                 query.AppendFormat(" WHERE {0} ", QueryHelper.GetIsDeletedSQL(_provider));
             }
@@ -81,7 +83,7 @@ namespace CruDapper.Mappers
                     1 = 1
             ", tableName);
 
-            if (!getDeleted && InterfaceHelper.VerifyIDeletable<T>())
+            if (!getDeleted && ValidationHelper.VerifyIDeletable<T>())
             {
                 query.AppendFormat(" AND {0} ", QueryHelper.GetIsDeletedSQL(_provider));
             }
@@ -123,8 +125,8 @@ WHERE
             if (!entities.Any())
                 return null;
 
-            InterfaceHelper.AssignInterfaceData(ref entities);
-            InterfaceHelper.ValidateList(ref entities);
+            _valueMapper.AssignInterfaceData(ref entities);
+            ValidationHelper.ValidateList(ref entities);
 
             var guidList = new List<Guid>();
             foreach (var entity in entities)
@@ -175,10 +177,10 @@ WHERE
         public void InsertMultiple<T>(IEnumerable<T> entities)
         {
             if (!entities.Any())
-                return;            
+                return;
 
-            InterfaceHelper.AssignInterfaceData(ref entities);
-            InterfaceHelper.ValidateList(ref entities);
+            _valueMapper.AssignInterfaceData(ref entities);
+            ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));
             var keys = ReflectionHelper.GetKeyFields(typeof(T));
@@ -226,8 +228,8 @@ WHERE
             if (!entities.Any())
                 return;
 
-            InterfaceHelper.AssignInterfaceData(ref entities);
-            InterfaceHelper.ValidateList(ref entities);
+            _valueMapper.AssignInterfaceData(ref entities);
+            ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));
             var keys = ReflectionHelper.GetKeyFields(typeof(T));
@@ -261,8 +263,8 @@ WHERE
             if (!entities.Any())
                 return;
 
-            InterfaceHelper.AssignInterfaceData(ref entities);
-            InterfaceHelper.ValidateList(ref entities);
+            _valueMapper.AssignInterfaceData(ref entities);
+            ValidationHelper.ValidateList(ref entities);
 
             var tableName = ReflectionHelper.GetTableName(typeof(T));
             var keys = ReflectionHelper.GetKeyFields(typeof(T));
@@ -287,8 +289,8 @@ WHERE
 
         public void MergeMultiple<T>(IEnumerable<T> entities)
         {
-            InterfaceHelper.AssignInterfaceData(ref entities);
-            InterfaceHelper.ValidateList(ref entities);
+            _valueMapper.AssignInterfaceData(ref entities);
+            ValidationHelper.ValidateList(ref entities);
 
             var targetTableName = ReflectionHelper.GetTableName(typeof(T));
             var tempTableName  = ReflectionHelper.GetConcurrentConnectionSafeTempTableName<T>();

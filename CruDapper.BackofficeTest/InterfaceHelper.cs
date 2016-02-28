@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using CruDapper.Infrastructure;
 
-namespace CruDapper.Helpers
+namespace CruDapper.BackofficeTest
 {
-    public static class InterfaceHelper
+    public class ValueMapper : IValueMapper
     {
-        public static void AssignInterfaceData<T>(ref IEnumerable<T> entities)
+        public void AssignInterfaceData<T>(ref IEnumerable<T> entities)
         {
             foreach (var entity in entities)
             {
@@ -23,21 +23,6 @@ namespace CruDapper.Helpers
                 {
                     identifiable.RowGuid = Guid.NewGuid();
                 }
-            }
-        }
-
-        public static bool VerifyIDeletable<T>()
-        {
-            if (!typeof (IDeletable).IsAssignableFrom(typeof(T)))
-                return false;
-            return true;
-        }
-
-        public static void ValidateList<T>(ref IEnumerable<T> entities)
-        {
-            foreach (var entity in entities)
-            {
-                ValidationHelper.ValidateModel(entity);
             }
         }
     }

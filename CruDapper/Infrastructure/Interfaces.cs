@@ -8,6 +8,11 @@ using Dapper;
 
 namespace CruDapper.Infrastructure
 {
+    public interface IValueMapper
+    {
+        void AssignInterfaceData<T>(ref IEnumerable<T> entities);
+    }
+
     public interface IDbMapper : IDapperConnectable
     {
         string ActiveConnectionName { get; set; }

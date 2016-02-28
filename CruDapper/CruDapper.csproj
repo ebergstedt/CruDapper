@@ -65,7 +65,6 @@
     <Compile Include="Infrastructure\Attributes.cs" />
     <Compile Include="Infrastructure\Containers.cs" />
     <Compile Include="Mappers\DbMapperBase.cs" />
-    <Compile Include="Helpers\InterfaceHelper.cs" />
     <Compile Include="Mappers\MsSqlServerMapper.cs" />
     <Compile Include="Infrastructure\Enums.cs" />
     <Compile Include="Mappers\PostgresMapper.cs" />
