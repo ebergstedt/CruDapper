@@ -325,6 +325,7 @@ Apply the TestBaslines/TestPostgresBaseLine.sql or TestBaslines/TestSqlServerBas
 
 # TODO
 
+* Column name attribute
 * New methods to map dynamic query result to Dictionary<string, object> and object[] 
 * Hold off db execution for lazy loading if specified
 * Templating
