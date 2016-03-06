@@ -171,6 +171,13 @@ public class MyService : CrudService
 
 CruDapper needs attributes on your DTO's to function.
 
+**[Table("Schema.TableName")]** is your schema and table name. This must be set at your class declaration. Your class name does not need to correspond to the attribute parameter, but the attribute parameter must be the same name as the schema+table in your database.
+
+```C#
+ [Table("MySchema.MyTable")]
+ public class MyTable (...)
+```
+
 **[Key]** is your database key. There can be multiple keys, making a composite key.
 ```c#
 [Key]
