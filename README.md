@@ -334,6 +334,21 @@ Apply the TestBaslines/TestPostgresBaseLine.sql or TestBaslines/TestSqlServerBas
 * Hold off db execution for lazy loading if specified
 * Templating
 * More functionality?
+* 
+
+# Contributors
+
+[ebergstedt](https://github.com/ebergstedt)
+
+# Contributing
+
+**Getting started with Git and GitHub**
+
+* **[Setting up Git for Windows and connecting to GitHub](https://help.github.com/articles/set-up-git/)**
+* **[Forking a GitHub repository](https://help.github.com/articles/fork-a-repo/)**
+* **[The simple guide to GIT guide](http://rogerdudler.github.io/git-guide/)**
+* **[Open an issue](https://github.com/ebergstedt/ProtoBuffer/issues)** if you encounter a bug or have a suggestion for improvements/features
+Once you're familiar with Git and GitHub, clone the repository and start contributing.
 
 # License
 
