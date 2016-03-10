@@ -182,7 +182,7 @@ CruDapper needs attributes on your DTO's to function.
  public class MyTable (...)
 ```
 
-**[Key]** is your database key. There can be multiple keys, making a composite key.
+**[Key]** must be set if your table has a key. There can be multiple keys on a single class, effectively making a composite key.
 ```c#
 [Key]
 public int Id { get; set; }
@@ -198,7 +198,7 @@ public string AnotherId { get; set; }
 public int Id { get; set; }
 ```
 
-**[Required]** will be evaluated to be not null.
+**[Required]** will be evaluated by CruDapper to be not null, else an Exception is thrown.
 
 ```c#
  [Required]
