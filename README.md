@@ -47,12 +47,9 @@ Please refer to the provided Test project for detailed examples and syntax.
 
 # Example usage
 First initialize your database mapper with your connectionstring in App.config. Afterwards you can initialize the provided CrudService.
+This is preferably done with [dependency injection](http://autofac.org/).
 ```c#
-IServiceFactory _serviceFactory;
-ICrudService _crudService;
-
-_serviceFactory = new ServiceFactory(new MsSqlServerMapper("ConnectionStringName"), new DefaultValueMapper());
-_crudService = serviceFactory.Get<CrudService>();
+ICrudService _crudService = new CrudService(new MsSqlServerMapper("DefaultConnection", new DefaultValueMapper()));
 ```
 
 With the crudService we can call some nifty methods.

@@ -29,8 +29,8 @@ namespace CruDapper.Test
                 default:
                     throw new NotImplementedException();
             }            
-            ServiceFactory = new ServiceFactory(DbMapper);
-            CrudService = ServiceFactory.Get<CrudService>();
+
+            CrudService = new CrudService(DbMapper);
         }
 
         public void DoBaseline()
