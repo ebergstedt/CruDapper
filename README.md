@@ -179,13 +179,10 @@ CruDapper needs attributes on your DTO's to function.
  public class MyTable (...)
 ```
 
-**[Key]** must be set if your table has a key. There can be multiple keys on a single class, effectively making a composite key.
+**[Key]** must be set if your table has a key. Currently composite keys are not supported.
 ```c#
 [Key]
 public int Id { get; set; }
-    
-[Key]
-public string AnotherId { get; set; }
 ```
     
 **[AutoIncrement]** must be set on keys that are autoincrement.
@@ -219,7 +216,7 @@ Check the .Test project for a more in-depth description of the usage of the prov
 IEnumerable<T> GetAll<T>(bool getDeleted = false);
 
 IEnumerable<T> GetMany<T>(
-						  object primaryKeyValues, 
+						  object primaryKeyValue, 
 						  bool getDeleted = false);
 
 T GetSingle<T>(

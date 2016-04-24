@@ -33,12 +33,12 @@ namespace CruDapper.Mappers
             return ConnectionBridge.Query<T>(query.ToString());
         }
 
-        public IEnumerable<T> GetMany<T>(object primaryKeyValues, bool getDeleted = false)
+        public IEnumerable<T> GetMany<T>(object primaryKeyValue, bool getDeleted = false)
         {
             return GetByColumn<T>(new WhereArgument()
             {
                 Key = ReflectionHelper.GetPrimaryKeyName(typeof(T)),
-                Value = primaryKeyValues,
+                Value = primaryKeyValue,
                 Operator = Operator.In
             });
         }

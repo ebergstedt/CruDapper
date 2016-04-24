@@ -20,7 +20,7 @@ namespace CruDapper.Infrastructure
 
         IEnumerable<T> GetAll<T>(bool getDeleted = false);
         IEnumerable<T> GetMany<T>(
-                                  object primaryKeyValues, 
+                                  object primaryKeyValue, 
                                   bool getDeleted = false);
         T GetSingle<T>(
                        object primaryKeyValue, 
