@@ -27,7 +27,7 @@ It is similarly easy to both flag rows as deleted, or just delete them outright
 void DeleteAll<T>(bool permanently = true);
 ```
 
-* CruDapper features **automatic value assignment of interfaces upon any CRUD execution**, such as setting UpdatedAt to the current date when using Update. Check **ValueMapper.cs** if you wish to implement or change the behavior.
+* CruDapper features **automatic value assignment of interfaces upon any CRUD execution**, such as setting UpdatedAt to the current date when using Update. Check **DefaultValueMapper.cs** if you wish to implement or change the behavior.
 
 * CruDapper **caches reflection results for improved performance**, just like Dapper.
 
@@ -51,7 +51,7 @@ First initialize your database mapper with your connectionstring in App.config. 
 IServiceFactory _serviceFactory;
 ICrudService _crudService;
 
-_serviceFactory = new ServiceFactory(new MsSqlServerMapper("ConnectionStringName"), new ValueMapper());
+_serviceFactory = new ServiceFactory(new MsSqlServerMapper("ConnectionStringName"), new DefaultValueMapper());
 _crudService = serviceFactory.Get<CrudService>();
 ```
 

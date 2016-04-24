@@ -4,7 +4,7 @@ using CruDapper.Infrastructure;
 
 namespace CruDapper.BackofficeTest
 {
-    public class ValueMapper : IValueMapper
+    public class DefaultValueMapper : IValueMapper
     {
         public void AssignValues<T>(ref IEnumerable<T> entities)
         {

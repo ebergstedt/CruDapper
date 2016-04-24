@@ -95,7 +95,10 @@ namespace CruDapper.Helpers
             {
                 var tableAttribute = type
                     .GetCustomAttributes(true)
-                    .SingleOrDefault(x => x.GetType().Name == "TableAttribute") as TableAttribute;                                
+                    .SingleOrDefault(x => x.GetType().Name == "TableAttribute") as TableAttribute;      
+                
+                if(tableAttribute == null)                          
+                    throw new ArgumentException($"Table[(\"Schema.TableName\")] must be set on {nameof(type)}");
 
                 result = tableAttribute != null ? tableAttribute.Name : null;
                 tableNameMap[type] = result;

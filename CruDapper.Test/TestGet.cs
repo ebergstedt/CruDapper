@@ -13,7 +13,7 @@ namespace CruDapper.Test
         [TestMethod]
         public void GetAll()
         {
-            var entries = BaseLineAndPutAndReturnTestTables();            
+            var entries = BaseLineAndPutAndReturnTestTables();
 
             var testTables = CrudService
                 .GetAll<TestTable>();
