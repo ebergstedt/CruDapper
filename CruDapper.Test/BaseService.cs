@@ -14,6 +14,8 @@ namespace CruDapper.Test
         protected IDbMapper DbMapper;
         protected Provider Provider;
 
+        protected BaselineService BaselineService;
+
         public BaseService()
         {
             Provider = Provider.MsSql; //for test methods
@@ -31,13 +33,13 @@ namespace CruDapper.Test
             }            
 
             CrudService = new CrudService(DbMapper);
+            BaselineService = new BaselineService(DbMapper);
         }
 
         public void DoBaseline()
         {
-            ServiceFactory
-                .Get<BaselineService>()
-                .DoBaseline();
+            BaselineService
+                   .DoBaseline();
         }
 
         protected TestTable BaseLineAndPutAndReturnTestTable()
